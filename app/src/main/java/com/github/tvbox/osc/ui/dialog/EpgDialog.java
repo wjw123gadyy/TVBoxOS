@@ -1,5 +1,6 @@
 package com.github.tvbox.osc.ui.dialog;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
@@ -36,38 +37,38 @@ import me.jessyan.autosize.utils.AutoSizeUtils;
  * @author pj567
  * @since 2020/12/27
  */
-public class ApiDialog extends BaseDialog {
+public class EpgDialog extends BaseDialog {
     private ImageView ivQRCode;
     private TextView tvAddress;
     private EditText inputApi;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refresh(RefreshEvent event) {
-        if (event.type == RefreshEvent.TYPE_API_URL_CHANGE) {
+        if (event.type == RefreshEvent.TYPE_EPG_URL_CHANGE) {
             inputApi.setText((String) event.obj);
         }
     }
 
-    public ApiDialog(@NonNull @NotNull Context context) {
+    public EpgDialog(@NonNull @NotNull Context context) {
         super(context);
         setContentView(R.layout.dialog_api);
         setCanceledOnTouchOutside(false);
         ivQRCode = findViewById(R.id.ivQRCode);
         tvAddress = findViewById(R.id.tvAddress);
         inputApi = findViewById(R.id.input);
-        //内置网络接口在此处添加
-        inputApi.setText(Hawk.get(HawkConfig.API_URL, ""));
+
+        inputApi.setText(Hawk.get(HawkConfig.EPG_URL, ""));
         findViewById(R.id.inputSubmit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String newApi = inputApi.getText().toString().trim();
                 if (!newApi.isEmpty()) {
-                    ArrayList<String> history = Hawk.get(HawkConfig.API_HISTORY, new ArrayList<String>());
+                    ArrayList<String> history = Hawk.get(HawkConfig.EPG_HISTORY, new ArrayList<String>());
                     if (!history.contains(newApi))
                         history.add(0, newApi);
-                    if (history.size() > 30)
-                        history.remove(30);
-                    Hawk.put(HawkConfig.API_HISTORY, history);
+                    if (history.size() > 10)
+                        history.remove(10);
+                    Hawk.put(HawkConfig.EPG_HISTORY, history);
                     listener.onchange(newApi);
                     dismiss();
                 }
@@ -76,10 +77,10 @@ public class ApiDialog extends BaseDialog {
         findViewById(R.id.apiHistory).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> history = Hawk.get(HawkConfig.API_HISTORY, new ArrayList<String>());
+                ArrayList<String> history = Hawk.get(HawkConfig.EPG_HISTORY, new ArrayList<String>());
                 if (history.isEmpty())
                     return;
-                String current = Hawk.get(HawkConfig.API_URL, "");
+                String current = Hawk.get(HawkConfig.EPG_URL, "");
                 int idx = 0;
                 if (history.contains(current))
                     idx = history.indexOf(current);
@@ -95,7 +96,7 @@ public class ApiDialog extends BaseDialog {
 
                     @Override
                     public void del(String value, ArrayList<String> data) {
-                        Hawk.put(HawkConfig.API_HISTORY, data);
+                        Hawk.put(HawkConfig.EPG_HISTORY, data);
                     }
                 }, history, idx);
                 dialog.show();

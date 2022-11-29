@@ -297,8 +297,19 @@ public class DetailActivity extends BaseActivity {
                 //获取剪切板管理器
                 ClipboardManager cm = (ClipboardManager)getSystemService(mContext.CLIPBOARD_SERVICE);
                 //设置内容到剪切板
-                cm.setPrimaryClip(ClipData.newPlainText(null, tvPlayUrl.getText().toString().replace("播放地址：","")));
+                cm.setPrimaryClip(ClipData.newPlainText(null, tvPlayUrl.getText().toString().replace("视频信息: ","")));
                 Toast.makeText(DetailActivity.this, "已复制", Toast.LENGTH_SHORT).show();
+            }
+        });
+        tvPlayUrl.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipboardManager cm = (ClipboardManager)getSystemService(mContext.CLIPBOARD_SERVICE);
+                String text = tvPlayUrl.getText().toString();
+                text = DefaultConfig.getHttpUrl(text);
+                cm.setPrimaryClip(ClipData.newPlainText(null, text));
+                Toast.makeText(DetailActivity.this, "已复制链接", Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
         mGridView.setOnItemListener(new TvRecyclerView.OnItemListener() {

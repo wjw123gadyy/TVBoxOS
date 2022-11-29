@@ -119,7 +119,12 @@ public class HomeActivity extends BaseActivity {
             Bundle bundle = intent.getExtras();
             useCacheConfig = bundle.getBoolean("useCache", false);
         }
-        initData();
+        DefaultConfig.getAliToken(new Runnable() {
+            @Override
+            public void run() {
+                initData();
+            }
+        });
     }
 
     private void initView() {

@@ -12,7 +12,7 @@ import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.server.ControlManager;
 import com.github.tvbox.osc.ui.tv.QRCodeGen;
-
+import com.github.tvbox.osc.util.DefaultConfig;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,6 +46,7 @@ public class PushActivity extends BaseActivity {
                         if (manager.hasPrimaryClip() && manager.getPrimaryClip() != null && manager.getPrimaryClip().getItemCount() > 0) {
                             ClipData.Item addedText = manager.getPrimaryClip().getItemAt(0);
                             String clipText = addedText.getText().toString().trim();
+                            clipText = DefaultConfig.getHttpUrl(clipText);
                             Intent newIntent = new Intent(mContext, DetailActivity.class);
                             newIntent.putExtra("id", clipText);
                             newIntent.putExtra("sourceKey", "push_agent");

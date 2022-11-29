@@ -10,7 +10,7 @@ import com.github.tvbox.osc.event.RefreshEvent;
 import com.github.tvbox.osc.receiver.SearchReceiver;
 import com.github.tvbox.osc.util.HawkConfig;
 import com.orhanobut.hawk.Hawk;
-
+import com.github.tvbox.osc.util.DefaultConfig;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
@@ -80,6 +80,7 @@ public class ControlManager {
 
                 @Override
                 public void onPushReceived(String url) {
+                    String finalUrl = DefaultConfig.getHttpUrl(url);
                     EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_PUSH_URL, url));
                 }
             });

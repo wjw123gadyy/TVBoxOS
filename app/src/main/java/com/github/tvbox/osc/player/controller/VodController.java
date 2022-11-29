@@ -489,7 +489,7 @@ public class VodController extends BaseController {
             }
         });
         //片头片尾 预设
-        mPlayerTimeStartBtn.setOnLongClickListener(new OnLongClickListener() {
+        mPlayerTimeStartEndText.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 myHandle.removeCallbacks(myRunnable);

@@ -86,7 +86,6 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         }else {
             tvHotList1.setVisibility(View.GONE);
             tvHotList2.setVisibility(View.VISIBLE);
-            tvHotList2.setPadding(tvHotList2.getPaddingLeft(), 40, tvHotList2.getPaddingRight(), tvHotList2.getPaddingBottom());
         }
         super.onFragmentResume();
         if (Hawk.get(HawkConfig.HOME_REC, 0) == 2) {

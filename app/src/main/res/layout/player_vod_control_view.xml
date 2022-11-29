@@ -252,6 +252,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
                 android:layout_marginRight="@dimen/vs_5"
+                android:focusable="true"
                 android:padding="@dimen/vs_10"
                 android:text="片头片尾"
                 android:textColor="@color/color_FFFFFF"

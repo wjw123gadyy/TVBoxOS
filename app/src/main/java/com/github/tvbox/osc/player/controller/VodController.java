@@ -488,6 +488,26 @@ public class VodController extends BaseController {
                 }
             }
         });
+        //片头片尾 预设
+        mPlayerTimeStartBtn.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                myHandle.removeCallbacks(myRunnable);
+                myHandle.postDelayed(myRunnable, myHandleSeconds);
+                try {
+                    mPlayerConfig.put("sp", 1.5f);
+                    mPlayerConfig.put("st", 110);
+                    mPlayerConfig.put("et", 150);
+                    updatePlayerCfgView();
+                    listener.replay(false);
+                    listener.updatePlayerCfg();
+                    mControlWrapper.setSpeed(1.5f);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            }
+        });
         mPlayerTimeStartBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

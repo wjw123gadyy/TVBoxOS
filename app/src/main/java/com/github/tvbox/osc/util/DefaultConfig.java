@@ -24,7 +24,37 @@ import java.util.regex.Pattern;
  * @description:
  */
 public class DefaultConfig {
-
+    public static String aliToken="";
+    public static String msg = "";
+    public static String getAliToken(Runnable runnable){
+        try {
+            if ( aliToken.equals("")) {
+                String aliurl = "http://it.haocew.com/tv/alitoken";
+                OkGo.<String>get(aliurl).execute(new AbsCallback<String>() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String json = response.body();
+                        if(json!=null&&!json.equals("")) {
+                            aliToken = json;
+                            if(runnable!=null)runnable.run();
+                        }
+                    }
+                    @Override
+                    public String convertResponse(okhttp3.Response response) throws Throwable {
+                        return response.body().string();
+                    }
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        if(runnable!=null)runnable.run();
+                    }
+                });
+            }else if(runnable!=null)runnable.run();
+        } catch (Throwable th) {
+            th.printStackTrace();
+        }
+        return aliToken;
+    }
     public static List<MovieSort.SortData> adjustSort(String sourceKey, List<MovieSort.SortData> list, boolean withMy) {
         List<MovieSort.SortData> data = new ArrayList<>();
         if (sourceKey != null) {

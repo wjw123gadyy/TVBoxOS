@@ -86,6 +86,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         }else {
             tvHotList1.setVisibility(View.GONE);
             tvHotList2.setVisibility(View.VISIBLE);
+            tvHotList2.setPaddingTop(40);
         }
         super.onFragmentResume();
         if (Hawk.get(HawkConfig.HOME_REC, 0) == 2) {
@@ -98,7 +99,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
                 vod.name = vodInfo.name;
                 vod.pic = vodInfo.pic;
                 if (vodInfo.playNote != null && !vodInfo.playNote.isEmpty())
-                    vod.note = "上次看到" + vodInfo.playNote;
+                    vod.note = "最近：" + vodInfo.playNote;
                 vodList.add(vod);
             }
             homeHotVodAdapter.setNewData(vodList);

@@ -156,7 +156,16 @@ public class HistoryActivity extends BaseActivity {
         List<VodInfo> allVodRecord = RoomDataManger.getAllVodRecord(100);
         List<VodInfo> vodInfoList = new ArrayList<>();
         for (VodInfo vodInfo : allVodRecord) {
-            if (vodInfo.playNote != null && !vodInfo.playNote.isEmpty())vodInfo.note = "上次看到" + vodInfo.playNote;
+            String sourceKey = vodInfo.sourceKey;
+            if (sourceKey != null) {
+                String name = ApiConfig.get().getSource(sourceKey).getName();
+                if (name.contains("易搜")) {
+                    vodInfo.pic = "https://f.haocew.com/image/tv/yiso.jpg";
+                }else if (name.contains("阿里")||vodInfo.id.contains("aliyundrive")) {
+                    vodInfo.pic = "http://image.xinjun58.com/sp/pic/bg/ali.jpg";
+                }
+            }
+            if (vodInfo.playNote != null && !vodInfo.playNote.isEmpty())vodInfo.note = "最近：" + vodInfo.playNote;
             vodInfoList.add(vodInfo);
         }
         historyAdapter.setNewData(vodInfoList);

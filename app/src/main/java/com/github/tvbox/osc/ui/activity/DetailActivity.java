@@ -467,7 +467,7 @@ public class DetailActivity extends BaseActivity {
         if (vodInfo != null && vodInfo.seriesMap.get(vodInfo.playFlag).size() > 0) {
             preFlag = vodInfo.playFlag;
             //更新播放地址
-            setTextShow(tvPlayUrl, "播放地址：", vodInfo.seriesMap.get(vodInfo.playFlag).get(vodInfo.playIndex).url);
+            //setTextShow(tvPlayUrl, "播放地址：", vodInfo.seriesMap.get(vodInfo.playFlag).get(vodInfo.playIndex).url);
             Bundle bundle = new Bundle();
             //保存历史
             insertVod(sourceKey, vodInfo);
@@ -674,8 +674,17 @@ public class DetailActivity extends BaseActivity {
                             } else
                                 flag.selected = false;
                         }
+                        String bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
+                        if (vodInfo.id != null) {
+                            String[] idInfo = vodInfo.id.split("\\$\\$\\$");
+                            String _bfurl = idInfo[0];
+                            if(_bfurl.contains("aliyundrive")){
+                                _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
+                                bfurl = vodInfo.name+" "+_bfurl;
+                            }
+                        }
                         //设置播放地址
-                        setTextShow(tvPlayUrl, "播放地址：", vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url);
+                        setTextShow(tvPlayUrl, "视频信息: ", bfurl);
                         seriesFlagAdapter.setNewData(vodInfo.seriesFlags);
                         mGridViewFlag.scrollToPosition(flagScrollTo);
 

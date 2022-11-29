@@ -327,7 +327,7 @@ public class ApiConfig {
                     sb.setQuickSearch(DefaultConfig.safeJsonInt(obj, "quickSearch", 1));
                     sb.setFilterable(DefaultConfig.safeJsonInt(obj, "filterable", 1));
                     sb.setPlayerUrl(DefaultConfig.safeJsonString(obj, "playUrl", ""));
-                    if(siteKey.contains("ali_")){
+                    if(siteKey.contains("ali_")||siteKey.contains("push_agent")){
                         sb.setExt(aliToken);
                     }else if(obj.has("ext") && (obj.get("ext").isJsonObject() || obj.get("ext").isJsonArray())){
                         sb.setExt(obj.get("ext").toString());

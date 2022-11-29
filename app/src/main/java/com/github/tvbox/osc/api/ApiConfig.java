@@ -311,6 +311,7 @@ public class ApiConfig {
                 wallpaper = DefaultConfig.safeJsonString(infoJson, "wallpaper", "");
                 // 远端站点源
                 SourceBean firstSite = null;
+                String aliToken = DefaultConfig.aliToken;
                 for (JsonElement opt : infoJson.get("sites").getAsJsonArray()) {
                     JsonObject obj = (JsonObject) opt;
                     SourceBean sb = new SourceBean();

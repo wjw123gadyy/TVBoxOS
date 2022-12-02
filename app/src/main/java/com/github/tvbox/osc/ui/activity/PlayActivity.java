@@ -772,7 +772,9 @@ public class PlayActivity extends BaseActivity {
                 mVodInfo.playIndex=0;
                 Toast.makeText(this, "已经是最后一集了!,即将跳到第一集继续播放", Toast.LENGTH_SHORT).show();
             }else {
-                Toast.makeText(this, "已经是最后一集了!", Toast.LENGTH_SHORT).show();
+                if(!mVodInfo.reverseSort) {
+                    Toast.makeText(this, "已经是最后一集了!", Toast.LENGTH_SHORT).show();
+                }else Toast.makeText(this, "已经是第一集了!", Toast.LENGTH_SHORT).show();
                 return;
             }
         }else {
@@ -789,7 +791,9 @@ public class PlayActivity extends BaseActivity {
             hasPre = mVodInfo.playIndex - 1 >= 0;
         }
         if (!hasPre) {
-            Toast.makeText(this, "已经是第一集了!", Toast.LENGTH_SHORT).show();
+            if(!mVodInfo.reverseSort){
+                Toast.makeText(this, "已经是第一集了!", Toast.LENGTH_SHORT).show();
+            }else Toast.makeText(this, "已经是最后一集了!", Toast.LENGTH_SHORT).show();
             return;
         }
         mVodInfo.playIndex--;

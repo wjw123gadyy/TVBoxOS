@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.github.tvbox.osc.cache.RoomDataManger;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -662,6 +663,13 @@ public class PlayActivity extends BaseActivity {
             mVodInfo = App.getInstance().getVodInfo();
             sourceKey = bundle.getString("sourceKey");
             sourceBean = ApiConfig.get().getSource(sourceKey);
+
+            VodInfo vodInfoRecord = RoomDataManger.getVodInfo(sourceKey, mVodInfo.id);
+            // 读取历史记录
+            if (vodInfoRecord != null) {
+                mVodInfo.playIndex = Math.max(vodInfoRecord.playIndex, 0);
+                mVodInfo.reverseSort = vodInfoRecord.reverseSort;
+            }
             initPlayerCfg();
             play(false);
         }

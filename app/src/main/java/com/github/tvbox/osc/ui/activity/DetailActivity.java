@@ -222,7 +222,7 @@ public class DetailActivity extends BaseActivity {
                     isReverse = !isReverse;
                     vodInfo.reverse();
                     vodInfo.playIndex=(vodInfo.seriesMap.get(vodInfo.playFlag).size()-1)-vodInfo.playIndex;
-//                    insertVod(sourceKey, vodInfo);
+                    insertVod(sourceKey, vodInfo);
                     firstReverse = true;
                     setSeriesGroupOptions();
                     seriesAdapter.notifyDataSetChanged();

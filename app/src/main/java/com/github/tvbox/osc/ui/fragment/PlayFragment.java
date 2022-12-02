@@ -786,6 +786,7 @@ public class PlayFragment extends BaseLazyFragment {
         } else {
             hasNext = mVodInfo.playIndex + 1 < mVodInfo.seriesMap.get(mVodInfo.playFlag).size();
         }
+        Toast.makeText(this, "PlayFragment playNext reverseSort:"+mVodInfo.reverseSort+" playIndex:"+mVodInfo.playIndex, Toast.LENGTH_SHORT).show();
         if (!hasNext) {
             Toast.makeText(requireContext(), "已经是最后一集了!", Toast.LENGTH_SHORT).show();
             return;
@@ -802,6 +803,7 @@ public class PlayFragment extends BaseLazyFragment {
         } else {
             hasPre = mVodInfo.playIndex - 1 >= 0;
         }
+        Toast.makeText(this, "PlayFragment playPrevious reverseSort:"+mVodInfo.reverseSort+" playIndex:"+mVodInfo.playIndex, Toast.LENGTH_SHORT).show();
         if (!hasPre) {
             Toast.makeText(requireContext(), "已经是第一集了!", Toast.LENGTH_SHORT).show();
             return;

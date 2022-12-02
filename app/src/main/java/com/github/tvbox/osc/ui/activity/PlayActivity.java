@@ -776,7 +776,7 @@ public class PlayActivity extends BaseActivity {
                 hasNext = mVodInfo.playIndex - 1 >= 0;
             }
         }
-        Toast.makeText(this, "playNext reverseSort:"+reverseSor+" playIndex:"+playIndex, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "playNext reverseSort:"+reverseSort+" playIndex:"+playIndex, Toast.LENGTH_SHORT).show();
         if (!hasNext) {
             if(isProgress && mVodInfo!=null){
                 mVodInfo.playIndex=0;
@@ -804,7 +804,7 @@ public class PlayActivity extends BaseActivity {
             }else
             hasPre = mVodInfo.playIndex - 1 >= 0;
         }
-        Toast.makeText(this, "playPrevious reverseSort:"+reverseSor+" playIndex:"+playIndex, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "playPrevious reverseSort:"+reverseSort+" playIndex:"+playIndex, Toast.LENGTH_SHORT).show();
         if (!hasPre) {
             if(!reverseSort){
                 Toast.makeText(this, "已经是第一集了!", Toast.LENGTH_SHORT).show();

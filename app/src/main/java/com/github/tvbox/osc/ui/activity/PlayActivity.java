@@ -655,6 +655,10 @@ public class PlayActivity extends BaseActivity {
         });
     }
 
+    private VodInfo getVodInfo(VodInfo v){
+        VodInfo vodInfoRecord = RoomDataManger.getVodInfo(v.sourceKey, v.id);
+        return vodInfoRecord;
+    }
     private void initData() {
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {
@@ -761,11 +765,13 @@ public class PlayActivity extends BaseActivity {
     private SourceBean sourceBean;
 
     private void playNext(boolean isProgress) {
+        VodInfo vi = getVodInfo(mVodInfo);
+        boolean reverseSort = vi.reverseSort;
         boolean hasNext = true;
         if (mVodInfo == null || mVodInfo.seriesMap.get(mVodInfo.playFlag) == null) {
             hasNext = false;
         } else {
-            if (!mVodInfo.reverseSort) {
+            if (!reverseSort) {
                 hasNext = mVodInfo.playIndex + 1 < mVodInfo.seriesMap.get(mVodInfo.playFlag).size();
             }else {
                 hasNext = mVodInfo.playIndex - 1 >= 0;
@@ -776,13 +782,13 @@ public class PlayActivity extends BaseActivity {
                 mVodInfo.playIndex=0;
                 Toast.makeText(this, "已经是最后一集了!,即将跳到第一集继续播放", Toast.LENGTH_SHORT).show();
             }else {
-                if(!mVodInfo.reverseSort) {
+                if(!reverseSort) {
                     Toast.makeText(this, "已经是最后一集了!", Toast.LENGTH_SHORT).show();
                 }else Toast.makeText(this, "已经是第一集了!", Toast.LENGTH_SHORT).show();
                 return;
             }
         }else {
-            if (!mVodInfo.reverseSort) mVodInfo.playIndex++;
+            if (!reverseSort) mVodInfo.playIndex++;
             else mVodInfo.playIndex--;
         }
         play(false);
@@ -790,21 +796,23 @@ public class PlayActivity extends BaseActivity {
 
     private void playPrevious() {
         boolean hasPre = true;
+        VodInfo vi = getVodInfo(mVodInfo);
+        boolean reverseSort = vi.reverseSort;
         if (mVodInfo == null || mVodInfo.seriesMap.get(mVodInfo.playFlag) == null) {
             hasPre = false;
         } else {
-            if (mVodInfo.reverseSort) {
+            if (reverseSort) {
                 hasPre = mVodInfo.playIndex + 1 < mVodInfo.seriesMap.get(mVodInfo.playFlag).size();
             }else
             hasPre = mVodInfo.playIndex - 1 >= 0;
         }
         if (!hasPre) {
-            if(!mVodInfo.reverseSort){
+            if(!reverseSort){
                 Toast.makeText(this, "已经是第一集了!", Toast.LENGTH_SHORT).show();
             }else Toast.makeText(this, "已经是最后一集了!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (mVodInfo.reverseSort) mVodInfo.playIndex++;
+        if (reverseSort) mVodInfo.playIndex++;
         else mVodInfo.playIndex--;
         play(false);
     }

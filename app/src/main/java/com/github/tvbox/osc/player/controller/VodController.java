@@ -43,7 +43,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.github.tvbox.osc.bean.VodInfo;
 import java.util.Date;
 
 import xyz.doikki.videoplayer.player.VideoView;

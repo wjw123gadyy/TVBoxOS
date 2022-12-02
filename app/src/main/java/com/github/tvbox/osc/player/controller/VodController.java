@@ -13,8 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.github.tvbox.osc.base.App;
-import com.github.tvbox.osc.cache.RoomDataManger;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
@@ -120,7 +119,6 @@ public class VodController extends BaseController {
     TextView mPlayerIJKBtn;
     TextView mPlayerRetry;
     TextView mPlayrefresh;
-    public VodInfo mVodInfo;
     public TextView mPlayerTimeStartEndText;
     public TextView mPlayerTimeStartBtn;
     public TextView mPlayerTimeSkipBtn;
@@ -138,7 +136,6 @@ public class VodController extends BaseController {
     int myHandleSeconds = 10000;//闲置多少毫秒秒关闭底栏  默认6秒
 
     int videoPlayState = 0;
-    String sourceKey = "";
 
     private Runnable myRunnable2 = new Runnable() {
         @Override
@@ -197,11 +194,8 @@ public class VodController extends BaseController {
         mZimuBtn = findViewById(R.id.zimu_select);
         mAudioTrackBtn = findViewById(R.id.audio_track_select);
         mLandscapePortraitBtn = findViewById(R.id.landscape_portrait);
-        initSubtitleInfo();
 
-        VodInfo vodInfoRecord = App.getInstance().getVodInfo();
-        sourceKey = vodInfoRecord.sourceKey;
-        mVodInfo = RoomDataManger.getVodInfo(sourceKey, vodInfoRecord.id);
+        initSubtitleInfo();
 
         myHandle = new Handler();
         myRunnable = new Runnable() {
@@ -287,18 +281,14 @@ public class VodController extends BaseController {
         mNextBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mVodInfo.reverseSort){
-                    listener.playNext(false);
-                }else listener.playPre();
+                listener.playNext(false);
                 hideBottom();
             }
         });
         mPreBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mVodInfo.reverseSort){
-                    listener.playNext(false);
-                }else listener.playPre();
+                listener.playPre();
                 hideBottom();
             }
         });
@@ -499,7 +489,7 @@ public class VodController extends BaseController {
             }
         });
         //片头片尾 预设
-        mPlayerTimeStartEndText.setOnLongClickListener(new OnLongClickListener() {
+        mPlayerTimeStartBtn.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 myHandle.removeCallbacks(myRunnable);

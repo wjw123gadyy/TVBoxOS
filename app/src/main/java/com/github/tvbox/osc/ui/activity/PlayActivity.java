@@ -116,7 +116,7 @@ public class PlayActivity extends BaseActivity {
     private VodController mController;
     private SourceViewModel sourceViewModel;
     private Handler mHandler;
-
+    private boolean reverseSort = false;
     private long videoDuration = -1;
 
     @Override
@@ -673,6 +673,7 @@ public class PlayActivity extends BaseActivity {
             if (vodInfoRecord != null) {
                 mVodInfo.playIndex = Math.max(vodInfoRecord.playIndex, 0);
                 mVodInfo.reverseSort = vodInfoRecord.reverseSort;
+                this.reverseSort = mVodInfo.reverseSort;
             }
             initPlayerCfg();
             play(false);
@@ -765,8 +766,6 @@ public class PlayActivity extends BaseActivity {
     private SourceBean sourceBean;
 
     private void playNext(boolean isProgress) {
-        VodInfo vi = getVodInfo(mVodInfo);
-        boolean reverseSort = vi.reverseSort;
         boolean hasNext = true;
         if (mVodInfo == null || mVodInfo.seriesMap.get(mVodInfo.playFlag) == null) {
             hasNext = false;
@@ -796,8 +795,6 @@ public class PlayActivity extends BaseActivity {
 
     private void playPrevious() {
         boolean hasPre = true;
-        VodInfo vi = getVodInfo(mVodInfo);
-        boolean reverseSort = vi.reverseSort;
         if (mVodInfo == null || mVodInfo.seriesMap.get(mVodInfo.playFlag) == null) {
             hasPre = false;
         } else {

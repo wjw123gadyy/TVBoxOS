@@ -51,7 +51,7 @@ public class App extends MultiDexApplication {
                 .setSupportSubunits(Subunits.MM);
         PlayerHelper.init();
         JSEngine.getInstance().create();
-        FileUtils.cleanPlayerCache();
+        //FileUtils.cleanPlayerCache();
     }
 
     private void initParams() {

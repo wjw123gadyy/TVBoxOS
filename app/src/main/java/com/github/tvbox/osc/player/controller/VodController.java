@@ -902,8 +902,26 @@ public class VodController extends BaseController {
         if (videoPlayState!=VideoView.STATE_PAUSED) {
             fromLongPress = true;
             try {
-                speed_old = (float) mPlayerConfig.getDouble("sp");
-                float speed = 3.0f;
+                float speed2 = (float) mPlayerConfig.getDouble("sp");
+                if (speed2 != 3.0f) {
+                    speed_old = speed2;
+                    float speed = 3.0f;
+                    mPlayerConfig.put("sp", speed);
+                    updatePlayerCfgView();
+                    listener.updatePlayerCfg();
+                    mControlWrapper.setSpeed(speed);
+                }
+            } catch (JSONException f) {
+                f.printStackTrace();
+            }
+        }
+    }
+
+    public void hf(){
+        if (fromLongPress) {
+            fromLongPress =false;
+            try {
+                float speed = speed_old;
                 mPlayerConfig.put("sp", speed);
                 updatePlayerCfgView();
                 listener.updatePlayerCfg();
@@ -921,21 +939,6 @@ public class VodController extends BaseController {
             hf();
         }
         return super.onTouchEvent(e);
-    }
-
-    public void hf(){
-        if (fromLongPress) {
-            fromLongPress =false;
-            try {
-                float speed = speed_old;
-                mPlayerConfig.put("sp", speed);
-                updatePlayerCfgView();
-                listener.updatePlayerCfg();
-                mControlWrapper.setSpeed(speed);
-            } catch (JSONException f) {
-                f.printStackTrace();
-            }
-        }
     }
 
     @Override

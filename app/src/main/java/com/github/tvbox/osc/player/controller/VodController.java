@@ -134,8 +134,9 @@ public class VodController extends BaseController {
     Handler myHandle;
     Runnable myRunnable;
     int myHandleSeconds = 10000;//闲置多少毫秒秒关闭底栏  默认6秒
-
     int videoPlayState = 0;
+    private boolean fromLongPress;
+    private float speed_old = 1.0f;
 
     private Runnable myRunnable2 = new Runnable() {
         @Override
@@ -866,13 +867,15 @@ public class VodController extends BaseController {
                     togglePlay();
                     return true;
                 }
-//            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {  return true;// 闲置开启计时关闭透明底栏
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode== KeyEvent.KEYCODE_MENU) {
                 if (!isBottomVisible()) {
                     showBottom();
                     myHandle.postDelayed(myRunnable, myHandleSeconds);
                     return true;
                 }
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                can();
+                return true;
             }
         } else if (action == KeyEvent.ACTION_UP) {//UP 松开按键事件
             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
@@ -880,16 +883,22 @@ public class VodController extends BaseController {
                     tvSlideStop();
                     return true;
                 }
+            }else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                hf();
+                return true;
             }
         }
         return super.dispatchKeyEvent(event);
     }
 
 
-    private boolean fromLongPress;
-    private float speed_old = 1.0f;
+
     @Override
     public void onLongPress(MotionEvent e) {
+        can();
+    }
+
+    public void can(){
         if (videoPlayState!=VideoView.STATE_PAUSED) {
             fromLongPress = true;
             try {
@@ -909,20 +918,24 @@ public class VodController extends BaseController {
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         if (e.getAction() == MotionEvent.ACTION_UP) {
-            if (fromLongPress) {
-                fromLongPress =false;
-                try {
-                    float speed = speed_old;
-                    mPlayerConfig.put("sp", speed);
-                    updatePlayerCfgView();
-                    listener.updatePlayerCfg();
-                    mControlWrapper.setSpeed(speed);
-                } catch (JSONException f) {
-                    f.printStackTrace();
-                }
-            }
+            hf();
         }
         return super.onTouchEvent(e);
+    }
+
+    public void hf(){
+        if (fromLongPress) {
+            fromLongPress =false;
+            try {
+                float speed = speed_old;
+                mPlayerConfig.put("sp", speed);
+                updatePlayerCfgView();
+                listener.updatePlayerCfg();
+                mControlWrapper.setSpeed(speed);
+            } catch (JSONException f) {
+                f.printStackTrace();
+            }
+        }
     }
 
     @Override

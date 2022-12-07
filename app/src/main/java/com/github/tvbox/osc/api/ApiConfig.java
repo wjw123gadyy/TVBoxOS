@@ -531,7 +531,8 @@ public class ApiConfig {
                         ijkCodes.get(0).selected(true);
                     }
                 }
-        });
+            }
+        })
     }
 
     public void loadLives(JsonArray livesArray) {

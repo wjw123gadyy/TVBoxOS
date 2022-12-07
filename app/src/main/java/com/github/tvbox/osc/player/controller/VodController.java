@@ -490,9 +490,9 @@ public class VodController extends BaseController {
             }
         });
         //片头片尾 预设
-        mPlayerTimeStartBtn.setOnLongClickListener(new OnLongClickListener() {
+        mPlayerTimeStartEndText.setOnClickListener(new OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 myHandle.removeCallbacks(myRunnable);
                 myHandle.postDelayed(myRunnable, myHandleSeconds);
                 try {
@@ -506,7 +506,6 @@ public class VodController extends BaseController {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                return true;
             }
         });
         mPlayerTimeStartBtn.setOnClickListener(new OnClickListener() {

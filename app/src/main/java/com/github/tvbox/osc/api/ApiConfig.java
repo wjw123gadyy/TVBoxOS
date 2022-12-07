@@ -532,7 +532,7 @@ public class ApiConfig {
                     }
                 }
             }
-        })
+        });
     }
 
     public void loadLives(JsonArray livesArray) {

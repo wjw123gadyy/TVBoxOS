@@ -335,13 +335,13 @@ public class SourceViewModel extends ViewModel {
     }
 //    homeVideoContent
     void getHomeRecList(SourceBean sourceBean, ArrayList<String> ids, HomeRecCallback callback) {
-        SourceBean sourceBean1 = null;
         int hi = Hawk.get(HawkConfig.HOME_REC, 0);
         int type = sourceBean.getType();
         if (type == 3) {
             Runnable waitResponse = new Runnable() {
                 @Override
                 public void run() {
+                    SourceBean sourceBean1 = null;
                     ExecutorService executor = Executors.newSingleThreadExecutor();
                     Future<String> future = executor.submit(new Callable<String>() {
                         @Override

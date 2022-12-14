@@ -337,9 +337,6 @@ public class SourceViewModel extends ViewModel {
     void getHomeRecList(SourceBean sourceBean, ArrayList<String> ids, HomeRecCallback callback) {
         SourceBean sourceBean1 = null;
         int hi = Hawk.get(HawkConfig.HOME_REC, 0);
-        if (hi == 3) {
-            sourceBean1 = ApiConfig.get().getSourceQQ();
-        }else sourceBean1 = sourceBean;
         int type = sourceBean.getType();
         if (type == 3) {
             Runnable waitResponse = new Runnable() {
@@ -349,6 +346,9 @@ public class SourceViewModel extends ViewModel {
                     Future<String> future = executor.submit(new Callable<String>() {
                         @Override
                         public String call() throws Exception {
+                            if (hi == 3) {
+                                sourceBean1 = ApiConfig.get().getSourceQQ();
+                            }else sourceBean1 = sourceBean;
                             Spider sp = ApiConfig.get().getCSP(sourceBean1);
                             return sp.homeVideoContent();
                         }
@@ -363,6 +363,9 @@ public class SourceViewModel extends ViewModel {
                         e.printStackTrace();
                     } finally {
                         if (sortJson != null) {
+                            if (hi == 3) {
+                                sourceBean1 = ApiConfig.get().getSourceQQ();
+                            }else sourceBean1 = sourceBean;
                             AbsXml absXml = json(null, sortJson, sourceBean1.getKey());
                             if (absXml != null && absXml.movie != null && absXml.movie.videoList != null) {
                                 callback.done(absXml.movie.videoList);

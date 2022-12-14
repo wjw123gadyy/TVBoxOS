@@ -345,7 +345,7 @@ public class SourceViewModel extends ViewModel {
                     Future<String> future = executor.submit(new Callable<String>() {
                         @Override
                         public String call() throws Exception {
-                            SourceBean sourceBean = null;
+                            SourceBean sourceBean1 = null;
                             if (hi == 3) {
                                 sourceBean1 = ApiConfig.get().getSourceQQ();
                             }else sourceBean1 = sourceBean;
@@ -363,7 +363,7 @@ public class SourceViewModel extends ViewModel {
                         e.printStackTrace();
                     } finally {
                         if (sortJson != null) {
-                            SourceBean sourceBean = null;
+                            SourceBean sourceBean1 = null;
                             if (hi == 3) {
                                 sourceBean1 = ApiConfig.get().getSourceQQ();
                             }else sourceBean1 = sourceBean;

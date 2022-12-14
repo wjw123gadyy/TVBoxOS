@@ -334,13 +334,7 @@ public class SourceViewModel extends ViewModel {
         void done(List<Movie.Video> videos);
     }
 //    homeVideoContent
-    void getHomeRecList(SourceBean sourceBean1, ArrayList<String> ids, HomeRecCallback callback) {
-        SourceBean sourceBean = null;
-        int hi = Hawk.get(HawkConfig.HOME_REC, 0);
-        if (hi == 3) {
-            sourceBean = ApiConfig.get().getSourceQQ();
-        }else sourceBean = sourceBean1;
-        int type = sourceBean.getType();
+    void getHomeRecList(SourceBean sourceBean, ArrayList<String> ids, HomeRecCallback callback) {
         if (type == 3) {
             Runnable waitResponse = new Runnable() {
                 @Override

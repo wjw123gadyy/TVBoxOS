@@ -18,7 +18,6 @@ import android.view.animation.BounceInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
@@ -263,7 +262,7 @@ public class HomeActivity extends BaseActivity {
             tvName.setText(home.getName());
         if (dataInitOk && jarInitOk) {
             showLoading();
-            sourceViewModel.getSort(ApiConfig.get().getHomeSourceBean().getKey());
+            sourceViewModel.getSort(home.getKey());
             if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 LOG.e("有");
             } else {
@@ -402,7 +401,8 @@ public class HomeActivity extends BaseActivity {
         if (sortAdapter.getData().size() > 0) {
             for (MovieSort.SortData data : sortAdapter.getData()) {
                 if (data.id.equals("my0")) {
-                    if (Hawk.get(HawkConfig.HOME_REC, 0) == 1 && absXml != null && absXml.videoList != null && absXml.videoList.size() > 0) {
+                    int hi = Hawk.get(HawkConfig.HOME_REC, 0);
+                    if ((hi == 1||hi == 3) && absXml != null && absXml.videoList != null && absXml.videoList.size() > 0) {
                         fragments.add(UserFragment.newInstance(absXml.videoList));
                     } else {
                         fragments.add(UserFragment.newInstance(null));

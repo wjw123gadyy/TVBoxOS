@@ -220,7 +220,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
                 adapter.setNewData(homeSourceRec);
             }
             return;
-        } else if (Hawk.get(HawkConfig.HOME_REC, 0) == 2) {
+        } else if (Hawk.get(HawkConfig.HOME_REC, 0) == 2||Hawk.get(HawkConfig.HOME_REC, 0) == 3) {
             return;
         }
         try {

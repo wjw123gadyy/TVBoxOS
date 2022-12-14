@@ -80,6 +80,7 @@ public class SourceViewModel extends ViewModel {
             return;
         }
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
+        SourceBean sourceBeanQQ = ApiConfig.get().getSourceQQ();
         int type = sourceBean.getType();
         if (type == 3) {
             Runnable waitResponse = new Runnable() {
@@ -89,7 +90,11 @@ public class SourceViewModel extends ViewModel {
                     Future<String> future = executor.submit(new Callable<String>() {
                         @Override
                         public String call() throws Exception {
-                            Spider sp = ApiConfig.get().getCSP(sourceBean);
+                            Spider sp = null;
+                            int hi = Hawk.get(HawkConfig.HOME_REC, 0);
+                            if (hi == 3) {
+                                sp = ApiConfig.get().getCSP(sourceBeanQQ);
+                            }else sp = ApiConfig.get().getCSP(sourceBean);
                             return sp.homeContent(true);
                         }
                     });

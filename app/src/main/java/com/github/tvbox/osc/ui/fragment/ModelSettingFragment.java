@@ -472,6 +472,7 @@ public class ModelSettingFragment extends BaseLazyFragment {
                 types.add(0);
                 types.add(1);
                 types.add(2);
+                types.add(3);
                 SelectDialog<Integer> dialog = new SelectDialog<>(mActivity);
                 dialog.setTip("请选择首页列表数据");
                 dialog.setAdapter(new SelectDialogAdapter.SelectDialogInterface<Integer>() {
@@ -701,8 +702,10 @@ public class ModelSettingFragment extends BaseLazyFragment {
             return "站点推荐";
         } else if (type == 2) {
             return "观看历史";
-        } else {
-            return "豆瓣热播";
+        } else if (type == 3) {
+            return "QQ推荐";
+        }else {
+           return "豆瓣热播";
         }
     }
 

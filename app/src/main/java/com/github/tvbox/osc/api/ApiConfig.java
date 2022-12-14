@@ -615,6 +615,10 @@ public class ApiConfig {
         void fail(int code, String msg);
     }
 
+    public SourceBean getSourceQQ() {
+        return getSource("push_agentqq");
+    }
+
     public SourceBean getSource(String key) {
         if (!sourceBeanList.containsKey(key))
             return null;

@@ -335,6 +335,12 @@ public class SourceViewModel extends ViewModel {
     }
 //    homeVideoContent
     void getHomeRecList(SourceBean sourceBean, ArrayList<String> ids, HomeRecCallback callback) {
+        SourceBean sourceBean1 = null;
+        int hi = Hawk.get(HawkConfig.HOME_REC, 0);
+        if (hi == 3) {
+            sourceBean1 = ApiConfig.get().getSourceQQ();
+        }else sourceBean1 = sourceBean;
+        int type = sourceBean.getType();
         if (type == 3) {
             Runnable waitResponse = new Runnable() {
                 @Override
@@ -343,7 +349,7 @@ public class SourceViewModel extends ViewModel {
                     Future<String> future = executor.submit(new Callable<String>() {
                         @Override
                         public String call() throws Exception {
-                            Spider sp = ApiConfig.get().getCSP(sourceBean);
+                            Spider sp = ApiConfig.get().getCSP(sourceBean1);
                             return sp.homeVideoContent();
                         }
                     });
@@ -357,7 +363,7 @@ public class SourceViewModel extends ViewModel {
                         e.printStackTrace();
                     } finally {
                         if (sortJson != null) {
-                            AbsXml absXml = json(null, sortJson, sourceBean.getKey());
+                            AbsXml absXml = json(null, sortJson, sourceBean1.getKey());
                             if (absXml != null && absXml.movie != null && absXml.movie.videoList != null) {
                                 callback.done(absXml.movie.videoList);
                             } else {
@@ -376,7 +382,7 @@ public class SourceViewModel extends ViewModel {
             };
             spThreadPool.execute(waitResponse);
         } else if (type == 0 || type == 1) {
-            OkGo.<String>get(sourceBean.getApi())
+            OkGo.<String>get(sourceBean1.getApi())
                     .tag("detail")
                     .params("ac", sourceBean.getType() == 0 ? "videolist" : "detail")
                     .params("ids", TextUtils.join(",", ids))
@@ -394,12 +400,12 @@ public class SourceViewModel extends ViewModel {
                         @Override
                         public void onSuccess(Response<String> response) {
                             AbsXml absXml;
-                            if (sourceBean.getType() == 0) {
+                            if (sourceBean1.getType() == 0) {
                                 String xml = response.body();
-                                absXml = xml(null, xml, sourceBean.getKey());
+                                absXml = xml(null, xml, sourceBean1.getKey());
                             } else {
                                 String json = response.body();
-                                absXml = json(null, json, sourceBean.getKey());
+                                absXml = json(null, json, sourceBean1.getKey());
                             }
                             if (absXml != null && absXml.movie != null && absXml.movie.videoList != null) {
                                 callback.done(absXml.movie.videoList);

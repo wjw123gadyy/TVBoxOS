@@ -341,11 +341,11 @@ public class SourceViewModel extends ViewModel {
             Runnable waitResponse = new Runnable() {
                 @Override
                 public void run() {
-                    SourceBean sourceBean1 = null;
                     ExecutorService executor = Executors.newSingleThreadExecutor();
                     Future<String> future = executor.submit(new Callable<String>() {
                         @Override
                         public String call() throws Exception {
+                            SourceBean sourceBean = null;
                             if (hi == 3) {
                                 sourceBean1 = ApiConfig.get().getSourceQQ();
                             }else sourceBean1 = sourceBean;
@@ -363,6 +363,7 @@ public class SourceViewModel extends ViewModel {
                         e.printStackTrace();
                     } finally {
                         if (sortJson != null) {
+                            SourceBean sourceBean = null;
                             if (hi == 3) {
                                 sourceBean1 = ApiConfig.get().getSourceQQ();
                             }else sourceBean1 = sourceBean;
@@ -385,15 +386,12 @@ public class SourceViewModel extends ViewModel {
             };
             spThreadPool.execute(waitResponse);
         } else if (type == 0 || type == 1) {
-            SourceBean sourceBean1 = null;
-            if (hi == 3) {
-                sourceBean1 = ApiConfig.get().getSourceQQ();
-            }else sourceBean1 = sourceBean;
-            OkGo.<String>get(sourceBean1.getApi())
+            OkGo.<String>get(sourceBean.getApi())
                     .tag("detail")
-                    .params("ac", sourceBean1.getType() == 0 ? "videolist" : "detail")
+                    .params("ac", sourceBean.getType() == 0 ? "videolist" : "detail")
                     .params("ids", TextUtils.join(",", ids))
                     .execute(new AbsCallback<String>() {
+
                         @Override
                         public String convertResponse(okhttp3.Response response) throws Throwable {
                             if (response.body() != null) {
@@ -406,12 +404,12 @@ public class SourceViewModel extends ViewModel {
                         @Override
                         public void onSuccess(Response<String> response) {
                             AbsXml absXml;
-                            if (sourceBean1.getType() == 0) {
+                            if (sourceBean.getType() == 0) {
                                 String xml = response.body();
-                                absXml = xml(null, xml, sourceBean1.getKey());
+                                absXml = xml(null, xml, sourceBean.getKey());
                             } else {
                                 String json = response.body();
-                                absXml = json(null, json, sourceBean1.getKey());
+                                absXml = json(null, json, sourceBean.getKey());
                             }
                             if (absXml != null && absXml.movie != null && absXml.movie.videoList != null) {
                                 callback.done(absXml.movie.videoList);

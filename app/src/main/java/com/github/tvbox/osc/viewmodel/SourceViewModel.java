@@ -391,7 +391,7 @@ public class SourceViewModel extends ViewModel {
             }else sourceBean1 = sourceBean;
             OkGo.<String>get(sourceBean1.getApi())
                     .tag("detail")
-                    .params("ac", sourceBean.getType() == 0 ? "videolist" : "detail")
+                    .params("ac", sourceBean1.getType() == 0 ? "videolist" : "detail")
                     .params("ids", TextUtils.join(",", ids))
                     .execute(new AbsCallback<String>() {
                         @Override

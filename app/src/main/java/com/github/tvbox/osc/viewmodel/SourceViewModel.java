@@ -385,12 +385,15 @@ public class SourceViewModel extends ViewModel {
             };
             spThreadPool.execute(waitResponse);
         } else if (type == 0 || type == 1) {
+            SourceBean sourceBean1 = null;
+            if (hi == 3) {
+                sourceBean1 = ApiConfig.get().getSourceQQ();
+            }else sourceBean1 = sourceBean;
             OkGo.<String>get(sourceBean1.getApi())
                     .tag("detail")
                     .params("ac", sourceBean.getType() == 0 ? "videolist" : "detail")
                     .params("ids", TextUtils.join(",", ids))
                     .execute(new AbsCallback<String>() {
-
                         @Override
                         public String convertResponse(okhttp3.Response response) throws Throwable {
                             if (response.body() != null) {

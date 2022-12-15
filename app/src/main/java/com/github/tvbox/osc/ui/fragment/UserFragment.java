@@ -62,6 +62,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
     private List<Movie.Video> homeSourceRec;
     TvRecyclerView tvHotList1;
     TvRecyclerView tvHotList2;
+    private int rid = 0;
 
     public static UserFragment newInstance() {
         return new UserFragment();
@@ -133,6 +134,32 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvCollect.setOnFocusChangeListener(focusChangeListener);
         tvHotList1 = findViewById(R.id.tvHotList1);
         tvHotList2 = findViewById(R.id.tvHotList2);
+
+        tvSetting.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                try {
+                    int hi = Hawk.get(HawkConfig.HOME_REC, 0);
+                    if(hi==3)
+                    Hawk.put(HawkConfig.HOME_REC, 0);
+                    else Hawk.put(HawkConfig.HOME_REC, 3);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            }
+        });
+        tvHistory.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                try {
+                    Hawk.put(HawkConfig.IJK_CACHE_PLAY, true);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            }
+        });
         homeHotVodAdapter = new HomeHotVodAdapter();
         homeHotVodAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -215,12 +242,13 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
     }
 
     private void initHomeHotVod(HomeHotVodAdapter adapter) {
-        if (Hawk.get(HawkConfig.HOME_REC, 0) == 1||Hawk.get(HawkConfig.HOME_REC, 0) == 3) {
+        int hi = Hawk.get(HawkConfig.HOME_REC, 0);
+        if (hi == 1||hi == 3) {
             if (homeSourceRec != null) {
                 adapter.setNewData(homeSourceRec);
             }
             return;
-        } else if (Hawk.get(HawkConfig.HOME_REC, 0) == 2) {
+        } else if (hi == 2) {
             return;
         }
         try {

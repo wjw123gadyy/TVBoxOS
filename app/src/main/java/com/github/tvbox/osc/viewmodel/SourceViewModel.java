@@ -76,12 +76,14 @@ public class SourceViewModel extends ViewModel {
 
     public void setAbsSortXmlQQ(){
         SourceBean sourceBeanQQ =  ApiConfig.get().getSourceQQ();
-        getHomeRecList(sourceBeanQQ, null, new HomeRecCallback() {
-            @Override
-            public void done(List<Movie.Video> videos) {
-                mv = videos;
-            }
-        });
+        if (getSourceQQ != null) {
+            getHomeRecList(sourceBeanQQ, null, new HomeRecCallback() {
+                @Override
+                public void done(List<Movie.Video> videos) {
+                    mv = videos;
+                }
+            });
+        }
     }
 
     public List<Movie.Video> getAbsSortXmlQQ(){
@@ -95,7 +97,8 @@ public class SourceViewModel extends ViewModel {
             return;
         }
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
-        if (!sourceBean.getKey().equals("push_agentqq")) {
+        int hi = Hawk.get(HawkConfig.HOME_REC, 0);
+        if (hi == 3) {
             setAbsSortXmlQQ();
         }
         int type = sourceBean.getType();

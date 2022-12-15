@@ -61,6 +61,7 @@ public class SourceViewModel extends ViewModel {
     public MutableLiveData<AbsXml> quickSearchResult;
     public MutableLiveData<AbsXml> detailResult;
     public MutableLiveData<JSONObject> playResult;
+    public List<Movie.Video> mv=null;
 
     public SourceViewModel() {
         sortResult = new MutableLiveData<>();
@@ -73,16 +74,18 @@ public class SourceViewModel extends ViewModel {
 
     public static final ExecutorService spThreadPool = Executors.newSingleThreadExecutor();
 
-    public List<Movie.Video> getAbsSortXmlQQ(){
-        List<Movie.Video> li = null;
+    public void setAbsSortXmlQQ(){
         SourceBean sourceBeanQQ =  ApiConfig.get().getSourceQQ();
         getHomeRecList(sourceBeanQQ, null, new HomeRecCallback() {
             @Override
             public void done(List<Movie.Video> videos) {
-                li = videos;
+                mv = videos;
             }
         });
-        return li;
+    }
+
+    public List<Movie.Video> getAbsSortXmlQQ(){
+        return mv;
     }
 
     // homeContent
@@ -92,6 +95,9 @@ public class SourceViewModel extends ViewModel {
             return;
         }
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
+        if (!sourceBean.getKey().equals("push_agentqq")) {
+            setAbsSortXmlQQ();
+        }
         int type = sourceBean.getType();
         if (type == 3) {
             Runnable waitResponse = new Runnable() {

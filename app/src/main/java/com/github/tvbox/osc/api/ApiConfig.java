@@ -248,45 +248,45 @@ public class ApiConfig {
                 .headers("Accept", requestAccept)
                 .execute(new AbsCallback<File>() {
 
-            @Override
-            public File convertResponse(okhttp3.Response response) throws Throwable {
-                File cacheDir = cache.getParentFile();
-                if (!cacheDir.exists())
-                    cacheDir.mkdirs();
-                if (cache.exists())
-                    cache.delete();
-                FileOutputStream fos = new FileOutputStream(cache);
-                if(isJarInImg) {
-                    String respData = response.body().string();
-                    byte[] imgJar = getImgJar(respData);
-                    fos.write(imgJar);
-                } else {
-                    fos.write(response.body().bytes());
-                }
-                fos.flush();
-                fos.close();
-                return cache;
-            }
+                    @Override
+                    public File convertResponse(okhttp3.Response response) throws Throwable {
+                        File cacheDir = cache.getParentFile();
+                        if (!cacheDir.exists())
+                            cacheDir.mkdirs();
+                        if (cache.exists())
+                            cache.delete();
+                        FileOutputStream fos = new FileOutputStream(cache);
+                        if(isJarInImg) {
+                            String respData = response.body().string();
+                            byte[] imgJar = getImgJar(respData);
+                            fos.write(imgJar);
+                        } else {
+                            fos.write(response.body().bytes());
+                        }
+                        fos.flush();
+                        fos.close();
+                        return cache;
+                    }
 
-            @Override
-            public void onSuccess(Response<File> response) {
-                if (response.body().exists()) {
-                    if (jarLoader.load(response.body().getAbsolutePath())) {
-                        callback.success();
-                    } else {
+                    @Override
+                    public void onSuccess(Response<File> response) {
+                        if (response.body().exists()) {
+                            if (jarLoader.load(response.body().getAbsolutePath())) {
+                                callback.success();
+                            } else {
+                                callback.error("");
+                            }
+                        } else {
+                            callback.error("");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<File> response) {
+                        super.onError(response);
                         callback.error("");
                     }
-                } else {
-                    callback.error("");
-                }
-            }
-
-            @Override
-            public void onError(Response<File> response) {
-                super.onError(response);
-                callback.error("");
-            }
-        });
+                });
     }
 
     private void parseJson(String apiUrl, File f) throws Throwable {

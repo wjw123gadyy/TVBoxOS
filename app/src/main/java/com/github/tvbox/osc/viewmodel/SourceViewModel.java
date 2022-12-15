@@ -106,7 +106,7 @@ public class SourceViewModel extends ViewModel {
                             AbsSortXml sortXml = sortJson(sortResult, sortJson);
                             int hi = Hawk.get(HawkConfig.HOME_REC, 0);
                             if (sortXml != null && (hi == 1||hi == 3)) {
-                                if (hi == 3) {
+                                if (hi == 3&&!sourceBean.getKey().equals("push_agentqq")) {
                                     SourceBean sourceBeanQQ =  ApiConfig.get().getSourceQQ();
                                     getHomeRecList(sourceBeanQQ, null, new HomeRecCallback() {
                                         @Override

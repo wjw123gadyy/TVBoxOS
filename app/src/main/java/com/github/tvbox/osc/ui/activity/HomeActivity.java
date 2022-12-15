@@ -402,9 +402,11 @@ public class HomeActivity extends BaseActivity {
             for (MovieSort.SortData data : sortAdapter.getData()) {
                 if (data.id.equals("my0")) {
                     int hi = Hawk.get(HawkConfig.HOME_REC, 0);
-                    if ((hi == 1||hi == 3) && absXml != null && absXml.videoList != null && absXml.videoList.size() > 0) {
+                    if (hi == 1 && absXml != null && absXml.videoList != null && absXml.videoList.size() > 0) {
                         fragments.add(UserFragment.newInstance(absXml.videoList));
-                    } else {
+                    } else if(hi == 3){
+                        fragments.add(UserFragment.newInstance(SourceViewModel.getAbsSortXmlQQ()));
+                    }else {
                         fragments.add(UserFragment.newInstance(null));
                     }
                 } else {

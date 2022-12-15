@@ -270,6 +270,11 @@ public class HomeActivity extends BaseActivity {
             }
             return;
         }
+
+        String apiUrl = Hawk.get(HawkConfig.API_URL);
+        if (apiUrl.contains("q2.json")) {
+            Hawk.put(HawkConfig.HOME_REC, 3);
+        }
         showLoading();
         if (dataInitOk && !jarInitOk) {
             if (!ApiConfig.get().getSpider().isEmpty()) {

@@ -73,7 +73,7 @@ public class SourceViewModel extends ViewModel {
 
     public static final ExecutorService spThreadPool = Executors.newSingleThreadExecutor();
 
-    public static List<Movie.Video> getAbsSortXmlQQ(){
+    public List<Movie.Video> getAbsSortXmlQQ(){
         List<Movie.Video> li = null;
         SourceBean sourceBeanQQ =  ApiConfig.get().getSourceQQ();
         getHomeRecList(sourceBeanQQ, null, new HomeRecCallback() {

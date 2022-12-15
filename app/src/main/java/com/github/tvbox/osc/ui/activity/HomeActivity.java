@@ -405,7 +405,7 @@ public class HomeActivity extends BaseActivity {
                     if (hi == 1 && absXml != null && absXml.videoList != null && absXml.videoList.size() > 0) {
                         fragments.add(UserFragment.newInstance(absXml.videoList));
                     } else if(hi == 3){
-                        fragments.add(UserFragment.newInstance(SourceViewModel.getAbsSortXmlQQ()));
+                        fragments.add(UserFragment.newInstance(sourceViewModel.getAbsSortXmlQQ()));
                     }else {
                         fragments.add(UserFragment.newInstance(null));
                     }

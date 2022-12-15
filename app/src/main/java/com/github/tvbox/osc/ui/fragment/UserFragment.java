@@ -62,7 +62,6 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
     private List<Movie.Video> homeSourceRec;
     TvRecyclerView tvHotList1;
     TvRecyclerView tvHotList2;
-    private int rid = 0;
 
     public static UserFragment newInstance() {
         return new UserFragment();
@@ -138,25 +137,16 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvSetting.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                try {
-                    int hi = Hawk.get(HawkConfig.HOME_REC, 0);
-                    if(hi==3)
-                    Hawk.put(HawkConfig.HOME_REC, 0);
-                    else Hawk.put(HawkConfig.HOME_REC, 3);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                int hi = Hawk.get(HawkConfig.HOME_REC, 0);
+                if(hi==3) Hawk.put(HawkConfig.HOME_REC, 0);
+                else Hawk.put(HawkConfig.HOME_REC, 3);
                 return true;
             }
         });
         tvHistory.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                try {
-                    Hawk.put(HawkConfig.IJK_CACHE_PLAY, true);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Hawk.put(HawkConfig.IJK_CACHE_PLAY, true);
                 return true;
             }
         });

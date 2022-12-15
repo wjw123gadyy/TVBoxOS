@@ -79,7 +79,7 @@ public class SourceViewModel extends ViewModel {
         getHomeRecList(sourceBeanQQ, null, new HomeRecCallback() {
             @Override
             public void done(List<Movie.Video> videos) {
-                li =  = videos;
+                li = videos;
             }
         });
         return li;

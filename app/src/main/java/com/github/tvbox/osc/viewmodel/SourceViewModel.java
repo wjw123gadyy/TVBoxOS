@@ -104,8 +104,8 @@ public class SourceViewModel extends ViewModel {
                     } finally {
                         if (sortJson != null) {
                             AbsSortXml sortXml = sortJson(sortResult, sortJson);
-                            if (sortXml != null && Hawk.get(HawkConfig.HOME_REC, 0) == 1) {
-                                int hi = Hawk.get(HawkConfig.HOME_REC, 0);
+                            int hi = Hawk.get(HawkConfig.HOME_REC, 0);
+                            if (sortXml != null && (hi == 1||hi == 3)) {
                                 if (hi == 3) {
                                     SourceBean sourceBeanQQ =  ApiConfig.get().getSourceQQ();
                                     getHomeRecList(sourceBeanQQ, null, new HomeRecCallback() {

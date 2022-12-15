@@ -24,7 +24,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.viewpager.widget.ViewPager;
-import com.github.tvbox.osc.bean.Movie;
+
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.BaseActivity;
@@ -262,13 +262,6 @@ public class HomeActivity extends BaseActivity {
             tvName.setText(home.getName());
         if (dataInitOk && jarInitOk) {
             showLoading();
-            SourceBean sourceBeanQQ = ApiConfig.get().getSourceQQ();
-            int hi = Hawk.get(HawkConfig.HOME_REC, 0);
-            if (hi == 3) {
-                if (!sourceBeanQQ.getKey().equals(home.getKey())) {
-                    sourceViewModel.getSort(sourceBeanQQ.getKey());
-                }
-            }
             sourceViewModel.getSort(home.getKey());
             if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 LOG.e("有");
@@ -410,12 +403,6 @@ public class HomeActivity extends BaseActivity {
                 if (data.id.equals("my0")) {
                     int hi = Hawk.get(HawkConfig.HOME_REC, 0);
                     if ((hi == 1||hi == 3) && absXml != null && absXml.videoList != null && absXml.videoList.size() > 0) {
-                        if (hi == 3) {
-                            Movie.Video v = absXml.videoList.get(0);
-                            if (v.sourceKey.equals("push_agentqq")) {
-                                fragments.add(UserFragment.newInstance(absXml.videoList));
-                            }
-                        }else
                         fragments.add(UserFragment.newInstance(absXml.videoList));
                     } else {
                         fragments.add(UserFragment.newInstance(null));

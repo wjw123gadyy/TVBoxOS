@@ -340,11 +340,16 @@ public class SourceViewModel extends ViewModel {
             Runnable waitResponse = new Runnable() {
                 @Override
                 public void run() {
+                    SourceBean sourceBeanQQ = sourceBean;
+                    int hi = Hawk.get(HawkConfig.HOME_REC, 0);
+                    if (hi == 3) {
+                        sourceBeanQQ = ApiConfig.get().getSourceQQ();
+                    }
                     ExecutorService executor = Executors.newSingleThreadExecutor();
                     Future<String> future = executor.submit(new Callable<String>() {
                         @Override
                         public String call() throws Exception {
-                            Spider sp = ApiConfig.get().getCSP(sourceBean);
+                            Spider sp = ApiConfig.get().getCSP(sourceBeanQQ);
                             return sp.homeVideoContent();
                         }
                     });
@@ -358,7 +363,7 @@ public class SourceViewModel extends ViewModel {
                         e.printStackTrace();
                     } finally {
                         if (sortJson != null) {
-                            AbsXml absXml = json(null, sortJson, sourceBean.getKey());
+                            AbsXml absXml = json(null, sortJson, sourceBeanQQ.getKey());
                             if (absXml != null && absXml.movie != null && absXml.movie.videoList != null) {
                                 callback.done(absXml.movie.videoList);
                             } else {

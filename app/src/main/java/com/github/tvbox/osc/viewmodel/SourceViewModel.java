@@ -349,7 +349,11 @@ public class SourceViewModel extends ViewModel {
                     Future<String> future = executor.submit(new Callable<String>() {
                         @Override
                         public String call() throws Exception {
-                            Spider sp = ApiConfig.get().getCSP(sourceBeanQQ);
+                            SourceBean qq = sourceBean;
+                            if (hi == 3) {
+                                qq = ApiConfig.get().getSourceQQ();
+                            }
+                            Spider sp = ApiConfig.get().getCSP(qq);
                             return sp.homeVideoContent();
                         }
                     });

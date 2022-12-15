@@ -262,10 +262,6 @@ public class HomeActivity extends BaseActivity {
             tvName.setText(home.getName());
         if (dataInitOk && jarInitOk) {
             showLoading();
-            String apiUrl = Hawk.get(HawkConfig.API_URL);
-            if (apiUrl!=null&&apiUrl.contains("q2.json")) {
-                Hawk.put(HawkConfig.HOME_REC, 3);
-            }
             sourceViewModel.getSort(home.getKey());
             if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 LOG.e("有");

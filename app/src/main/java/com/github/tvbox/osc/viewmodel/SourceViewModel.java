@@ -76,7 +76,7 @@ public class SourceViewModel extends ViewModel {
 
     public void setAbsSortXmlQQ(){
         SourceBean sourceBeanQQ =  ApiConfig.get().getSourceQQ();
-        if (getSourceQQ != null) {
+        if (sourceBeanQQ != null) {
             getHomeRecList(sourceBeanQQ, null, new HomeRecCallback() {
                 @Override
                 public void done(List<Movie.Video> videos) {

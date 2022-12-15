@@ -215,12 +215,12 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
     }
 
     private void initHomeHotVod(HomeHotVodAdapter adapter) {
-        if (Hawk.get(HawkConfig.HOME_REC, 0) == 1) {
+        if (Hawk.get(HawkConfig.HOME_REC, 0) == 1||Hawk.get(HawkConfig.HOME_REC, 0) == 3) {
             if (homeSourceRec != null) {
                 adapter.setNewData(homeSourceRec);
             }
             return;
-        } else if (Hawk.get(HawkConfig.HOME_REC, 0) == 2||Hawk.get(HawkConfig.HOME_REC, 0) == 3) {
+        } else if (Hawk.get(HawkConfig.HOME_REC, 0) == 2) {
             return;
         }
         try {

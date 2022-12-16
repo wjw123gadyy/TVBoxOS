@@ -301,7 +301,7 @@ public class DetailActivity extends BaseActivity {
                     JSONObject jj = new JSONObject();
                     jj.put("pwd", pwd);
                     jj.put("key", text);
-                    OkGo.post(aliurl).upjson(jj).execute(new AbsCallback<String>() {
+                    OkGo.<String>post(aliurl).tag(this).upJson(jj).execute(new AbsCallback<String>() {
                         @Override
                         public void onSuccess(Response<String> response) {
                             String json = response.body();

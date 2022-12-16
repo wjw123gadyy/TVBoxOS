@@ -295,6 +295,7 @@ public class DetailActivity extends BaseActivity {
             @Override
             public boolean onLongClick(View v) {
                 String text = tvPlayUrl.getText().toString();
+                text = text.replace("视频信息: ","");
                 String aliurl = "http://qyh.haocew.com/qy/demand/vd";
                 String pwd = Hawk.get(HawkConfig.MY_PWD,"");
                 if (!pwd.isEmpty()) {
@@ -326,7 +327,6 @@ public class DetailActivity extends BaseActivity {
                             }
                         });
                     } catch (Exception e) {
-
                     }
                 }else {
                     Toast.makeText(DetailActivity.this, "无权限", Toast.LENGTH_SHORT).show();

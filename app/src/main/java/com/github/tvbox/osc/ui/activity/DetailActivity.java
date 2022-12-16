@@ -307,9 +307,12 @@ public class DetailActivity extends BaseActivity {
                             public void onSuccess(Response<String> response) {
                                 String json = response.body();
                                 if(json!=null&&!json.equals("")) {
-                                    JSONObject jo = new JSONObject(json);
-                                    String msg = jo.optString("msg", "失败");
-                                    Toast.makeText(DetailActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                    try {
+                                        JSONObject jo = new JSONObject(json);
+                                        String msg = jo.optString("msg", "失败");
+                                        Toast.makeText(DetailActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                    } catch (Exception e) {
+                                    }
                                 }
                             }
                             @Override

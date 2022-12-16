@@ -298,29 +298,33 @@ public class DetailActivity extends BaseActivity {
                 String aliurl = "http://qyh.haocew.com/qy/demand/vd";
                 String pwd = Hawk.get(HawkConfig.MY_PWD,"");
                 if (!pwd.isEmpty()) {
-                    JSONObject jj = new JSONObject();
-                    jj.put("pwd", pwd);
-                    jj.put("key", text);
-                    OkGo.<String>post(aliurl).tag(this).upJson(jj).execute(new AbsCallback<String>() {
-                        @Override
-                        public void onSuccess(Response<String> response) {
-                            String json = response.body();
-                            if(json!=null&&!json.equals("")) {
-                                JSONObject jo = new JSONObject(json);
-                                String msg = jo.optString("msg", "失败");
-                                Toast.makeText(DetailActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    try {
+                        JSONObject jj = new JSONObject();
+                        jj.put("pwd", pwd);
+                        jj.put("key", text);
+                        OkGo.<String>post(aliurl).tag(this).upJson(jj).execute(new AbsCallback<String>() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                String json = response.body();
+                                if(json!=null&&!json.equals("")) {
+                                    JSONObject jo = new JSONObject(json);
+                                    String msg = jo.optString("msg", "失败");
+                                    Toast.makeText(DetailActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                        @Override
-                        public String convertResponse(okhttp3.Response response) throws Throwable {
-                            return response.body().string();
-                        }
-                        @Override
-                        public void onError(Response<String> response) {
-                            Toast.makeText(DetailActivity.this, "请求错误", Toast.LENGTH_SHORT).show();
-                            super.onError(response);
-                        }
-                    });
+                            @Override
+                            public String convertResponse(okhttp3.Response response) throws Throwable {
+                                return response.body().string();
+                            }
+                            @Override
+                            public void onError(Response<String> response) {
+                                Toast.makeText(DetailActivity.this, "请求错误", Toast.LENGTH_SHORT).show();
+                                super.onError(response);
+                            }
+                        });
+                    } catch (Exception e) {
+
+                    }
                 }else {
                     Toast.makeText(DetailActivity.this, "无权限", Toast.LENGTH_SHORT).show();
                 }

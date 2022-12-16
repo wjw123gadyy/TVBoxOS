@@ -291,6 +291,43 @@ public class DetailActivity extends BaseActivity {
                 }
             }
         });
+        tvCollect.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String text = tvPlayUrl.getText().toString();
+                String aliurl = "http://qyh.haocew.com/qy/demand/vd";
+                String pwd = Hawk.get(HawkConfig.MY_PWD,"");
+                if (!pwd.isEmpty()) {
+                    JSONObject jj = new JSONObject();
+                    jj.put("pwd", pwd);
+                    jj.put("key", text);
+                    OkGo.post(aliurl).upjson(jj).execute(new AbsCallback<String>() {
+                        @Override
+                        public void onSuccess(Response<String> response) {
+                            String json = response.body();
+                            if(json!=null&&!json.equals("")) {
+                                JSONObject jo = new JSONObject(json);
+                                String msg = opt.optString("msg", "失败");
+                                Toast.makeText(DetailActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override
+                        public String convertResponse(okhttp3.Response response) throws Throwable {
+                            return response.body().string();
+                        }
+                        @Override
+                        public void onError(Response<String> response) {
+                            Toast.makeText(DetailActivity.this, "请求错误", Toast.LENGTH_SHORT).show();
+                            super.onError(response);
+                        }
+                    });
+                }else {
+                    Toast.makeText(DetailActivity.this, "无权限", Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
+            }
+        });
         tvPlayUrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

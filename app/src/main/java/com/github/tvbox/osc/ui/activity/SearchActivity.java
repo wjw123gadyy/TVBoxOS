@@ -215,6 +215,12 @@ public class SearchActivity extends BaseActivity {
                 hasKeyBoard = true;
                 String wd = etSearch.getText().toString().trim();
                 if (!TextUtils.isEmpty(wd)) {
+                    wd.trim();
+                    if (wd.startsWith("pwd")) {
+                        String s = wd.replace("pwd", "");
+                        Hawk.put(HawkConfig.MY_PWD, s);
+                        Toast.makeText(mContext, "密码设置为："+s, Toast.LENGTH_SHORT).show();
+                    }else
                     search(wd);
                 } else {
                     Toast.makeText(mContext, "输入内容不能为空", Toast.LENGTH_SHORT).show();

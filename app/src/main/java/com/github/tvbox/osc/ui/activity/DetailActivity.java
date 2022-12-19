@@ -229,6 +229,15 @@ public class DetailActivity extends BaseActivity {
                 }
             }
         });
+        tvSort.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String text = tvPlayUrl.getText().toString();
+                text = "r"+DefaultConfig.getHttpUrl(text);
+                updateData(text);
+                return true;
+            }
+        });
         tvPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -296,42 +305,7 @@ public class DetailActivity extends BaseActivity {
             public boolean onLongClick(View v) {
                 String text = tvPlayUrl.getText().toString();
                 text = text.replace("视频信息: ","");
-                String aliurl = "http://qyh.haocew.com/qy/demand/vd";
-                String pwd = Hawk.get(HawkConfig.MY_PWD,"");
-                if (!pwd.isEmpty()) {
-                    try {
-                        JSONObject jj = new JSONObject();
-                        jj.put("pwd", pwd);
-                        jj.put("key", text);
-                        OkGo.<String>post(aliurl).tag(this).upJson(jj).execute(new AbsCallback<String>() {
-                            @Override
-                            public void onSuccess(Response<String> response) {
-                                String json = response.body();
-                                if(json!=null&&!json.equals("")) {
-                                    try {
-                                        JSONObject jo = new JSONObject(json);
-                                        String msg = jo.optString("msg", "失败");
-                                        Toast.makeText(DetailActivity.this, msg, Toast.LENGTH_SHORT).show();
-                                    } catch (Exception e) {
-                                    }
-                                }
-                            }
-                            @Override
-                            public String convertResponse(okhttp3.Response response) throws Throwable {
-                                return response.body().string();
-                            }
-                            @Override
-                            public void onError(Response<String> response) {
-                                Toast.makeText(DetailActivity.this, "请求错误", Toast.LENGTH_SHORT).show();
-                                super.onError(response);
-                            }
-                        });
-                    } catch (Exception e) {
-                    }
-                }else {
-                    Toast.makeText(DetailActivity.this, "无权限", Toast.LENGTH_SHORT).show();
-                }
-
+                updateData(text);
                 return true;
             }
         });
@@ -494,6 +468,43 @@ public class DetailActivity extends BaseActivity {
 
 
         setLoadSir(llLayout);
+    }
+    private void updateData(String text) {
+        String aliurl = "http://qyh.haocew.com/qy/demand/vd";
+        String pwd = Hawk.get(HawkConfig.MY_PWD,"");
+        if (!pwd.isEmpty()) {
+            try {
+                JSONObject jj = new JSONObject();
+                jj.put("pwd", pwd);
+                jj.put("key", text);
+                OkGo.<String>post(aliurl).tag(this).upJson(jj).execute(new AbsCallback<String>() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String json = response.body();
+                        if(json!=null&&!json.equals("")) {
+                            try {
+                                JSONObject jo = new JSONObject(json);
+                                String msg = jo.optString("msg", "失败");
+                                Toast.makeText(DetailActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+                    @Override
+                    public String convertResponse(okhttp3.Response response) throws Throwable {
+                        return response.body().string();
+                    }
+                    @Override
+                    public void onError(Response<String> response) {
+                        Toast.makeText(DetailActivity.this, "请求错误", Toast.LENGTH_SHORT).show();
+                        super.onError(response);
+                    }
+                });
+            } catch (Exception e) {
+            }
+        }else {
+            Toast.makeText(DetailActivity.this, "无权限", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void onGridViewFocusChange(View view, boolean hasFocus) {

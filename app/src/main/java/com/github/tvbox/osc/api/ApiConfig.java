@@ -327,7 +327,6 @@ public class ApiConfig {
                     sb.setKey(siteKey);
                     sb.setName(name);
                     sb.setType(obj.get("type").getAsInt());
-                    sb.setApi(api);
                     sb.setSearchable(DefaultConfig.safeJsonInt(obj, "searchable", 1));
                     sb.setQuickSearch(DefaultConfig.safeJsonInt(obj, "quickSearch", 1));
                     sb.setFilterable(DefaultConfig.safeJsonInt(obj, "filterable", 1));
@@ -340,9 +339,11 @@ public class ApiConfig {
                         sb.setExt(DefaultConfig.safeJsonString(obj, "ext", ""));
                     }
                     String jar = DefaultConfig.safeJsonString(obj, "jar", "");
-                    if (apiUrl!=null&&!apiUrl.contains("xinjun58.com")&&name.contains("推送")) {
-                        jar = "http://f.haocew.com/TVBox/1/jar/qq0111p.jar";
+                    if (apiUrl==null||(!apiUrl.contains("xinjun58.com")&&siteKey.contains("push_agent"))) {
+                        api = "csp_PushAgent";
+                        jar = "http://f.haocew.com/TVBox/1/jar/qq0111p.jar;md5;8B6D0426E427ED6179E59886E9E72E19";
                     }
+                    sb.setApi(api);
                     sb.setJar(jar);
                     sb.setPlayerType(DefaultConfig.safeJsonInt(obj, "playerType", -1));
                     sb.setCategories(DefaultConfig.safeJsonStringList(obj, "categories"));

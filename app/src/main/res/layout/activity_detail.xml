@@ -195,6 +195,26 @@
                         android:textSize="@dimen/vs_20" />
 
                     <TextView
+                        android:id="@+id/tvCollect"
+                        android:layout_width="@dimen/vs_120"
+                        android:layout_height="@dimen/vs_40"
+                        android:background="@drawable/button_detail_collect"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:text="加入收藏"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/vs_20" />
+                    <TextView
+                        android:id="@+id/myPush"
+                        android:layout_width="@dimen/vs_120"
+                        android:layout_height="@dimen/vs_40"
+                        android:background="@drawable/button_detail_mypush"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:text="自推"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/vs_20" />
+                    <TextView
                         android:id="@+id/tvSort"
                         android:layout_width="@dimen/vs_120"
                         android:layout_height="@dimen/vs_40"
@@ -204,17 +224,6 @@
                         android:focusable="true"
                         android:gravity="center"
                         android:text="倒序"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/vs_20" />
-
-                    <TextView
-                        android:id="@+id/tvCollect"
-                        android:layout_width="@dimen/vs_120"
-                        android:layout_height="@dimen/vs_40"
-                        android:background="@drawable/button_detail_collect"
-                        android:focusable="true"
-                        android:gravity="center"
-                        android:text="加入收藏"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/vs_20" />
                 </LinearLayout>

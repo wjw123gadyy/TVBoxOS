@@ -114,6 +114,7 @@ public class DetailActivity extends BaseActivity {
     private TextView tvSort;
     private TextView tvQuickSearch;
     private TextView tvCollect;
+    private TextView myPush;
     private TvRecyclerView mGridViewFlag;
     private TvRecyclerView mGridView;
     private TvRecyclerView mSeriesGroupView;
@@ -171,6 +172,7 @@ public class DetailActivity extends BaseActivity {
         tvPlay = findViewById(R.id.tvPlay);
         tvSort = findViewById(R.id.tvSort);
         tvCollect = findViewById(R.id.tvCollect);
+        myPush = findViewById(R.id.myPush);
         tvQuickSearch = findViewById(R.id.tvQuickSearch);
         mEmptyPlayList = findViewById(R.id.mEmptyPlaylist);
         mGridView = findViewById(R.id.mGridView);
@@ -306,6 +308,30 @@ public class DetailActivity extends BaseActivity {
                 String text = tvPlayUrl.getText().toString();
                 text = text.replace("视频信息: ","");
                 updateData(text);
+                return true;
+            }
+        });
+
+        myPush.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = tvPlayUrl.getText().toString();
+                text = DefaultConfig.getHttpUrl(text);
+                Intent newIntent = new Intent(mContext, DetailActivity.class);
+                newIntent.putExtra("id", text);
+                newIntent.putExtra("sourceKey", "push_agent");
+                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                PushActivity.this.startActivity(newIntent);
+            }
+        });
+        myPush.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                //获取剪切板管理器
+                ClipboardManager cm = (ClipboardManager)getSystemService(mContext.CLIPBOARD_SERVICE);
+                //设置内容到剪切板
+                cm.setPrimaryClip(ClipData.newPlainText(null, DefaultConfig.siteJson));
+                Toast.makeText(DetailActivity.this, "已复制站点信息", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });

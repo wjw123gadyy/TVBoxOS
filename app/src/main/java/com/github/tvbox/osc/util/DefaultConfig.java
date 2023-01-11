@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 public class DefaultConfig {
     public static String aliToken="";
     public static String msg = "";
+    public static String siteJson = null;
     public static String getAliToken(Runnable runnable){
         try {
             if ( aliToken.equals("")) {

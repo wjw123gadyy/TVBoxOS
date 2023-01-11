@@ -305,6 +305,7 @@ public class ApiConfig {
     }
 
     private void parseJson(String apiUrl, String jsonStr) {
+        DefaultConfig.siteJson = jsonStr;
         DefaultConfig.getAliToken(new Runnable() {
             @Override
             public void run() {
@@ -340,12 +341,6 @@ public class ApiConfig {
                     }
                     String jar = DefaultConfig.safeJsonString(obj, "jar", "");
                     sb.setJar(jar);
-                    if (name.contains("找资源")) {
-                        if (jar.equals("")) {
-                            jar = spider;
-                        }
-                        DefaultConfig.msg = jar;
-                    }
                     sb.setPlayerType(DefaultConfig.safeJsonInt(obj, "playerType", -1));
                     sb.setCategories(DefaultConfig.safeJsonStringList(obj, "categories"));
                     sb.setClickSelector(DefaultConfig.safeJsonString(obj, "click", ""));

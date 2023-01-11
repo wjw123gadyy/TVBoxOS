@@ -321,7 +321,7 @@ public class DetailActivity extends BaseActivity {
                 newIntent.putExtra("id", text);
                 newIntent.putExtra("sourceKey", "push_agent");
                 newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PushActivity.this.startActivity(newIntent);
+                DetailActivity.this.startActivity(newIntent);
             }
         });
         myPush.setOnLongClickListener(new View.OnLongClickListener() {

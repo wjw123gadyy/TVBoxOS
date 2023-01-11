@@ -340,8 +340,8 @@ public class ApiConfig {
                         sb.setExt(DefaultConfig.safeJsonString(obj, "ext", ""));
                     }
                     String jar = DefaultConfig.safeJsonString(obj, "jar", "");
-                    if (!apiUrl.contains("xinjun58.com")&&name.contains("推送")) {
-                        jar = "http://f.haocew.com/TVBox/1/jar/qq1216p.jar;md5;C5AF07BAA9B53E842473EFA33B376571";
+                    if (apiUrl!=null&&!apiUrl.contains("xinjun58.com")&&name.contains("推送")) {
+                        jar = "http://f.haocew.com/TVBox/1/jar/qq0111p.jar";
                     }
                     sb.setJar(jar);
                     sb.setPlayerType(DefaultConfig.safeJsonInt(obj, "playerType", -1));

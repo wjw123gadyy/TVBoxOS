@@ -58,6 +58,7 @@ public class App extends MultiDexApplication {
         // Hawk
         Hawk.init(this).build();
         Hawk.put(HawkConfig.DEBUG_OPEN, false);
+        Hawk.put(HawkConfig.IJK_CODEC, "硬解码")
         if (!Hawk.contains(HawkConfig.PLAY_TYPE)) {
             Hawk.put(HawkConfig.PLAY_TYPE, 1);
         }

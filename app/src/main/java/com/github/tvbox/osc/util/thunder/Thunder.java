@@ -300,6 +300,7 @@ public class Thunder {
             formats.add(".mov");
             formats.add(".3gp");
             formats.add(".asf");
+            formats.add(".ts");
             formats.add("mpg");
             formats.add("mpeg");
             formats.add("mpe");

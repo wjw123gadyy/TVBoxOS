@@ -43,5 +43,18 @@
             android:text="推送剪贴板内容"
             android:textColor="@color/color_FFFFFF"
             android:textSize="@dimen/ts_24" />
+        <TextView
+                android:id="@+id/pushLocalYiso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/vs_20"
+                android:background="@drawable/shape_user_focus"
+                android:focusable="true"
+                android:gravity="center"
+                android:padding="@dimen/vs_10"
+                android:text="推送剪贴板内容Yiso"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="@dimen/ts_24" />
     </LinearLayout>
 </FrameLayout>

@@ -59,6 +59,29 @@ public class PushActivity extends BaseActivity {
                 }
             }
         });
+
+        findViewById(R.id.pushLocalYiso).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    ClipboardManager manager = (ClipboardManager) PushActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    if (manager != null) {
+                        if (manager.hasPrimaryClip() && manager.getPrimaryClip() != null && manager.getPrimaryClip().getItemCount() > 0) {
+                            ClipData.Item addedText = manager.getPrimaryClip().getItemAt(0);
+                            String clipText = addedText.getText().toString().trim();
+                            clipText = DefaultConfig.getHttpUrl(clipText);
+                            Intent newIntent = new Intent(mContext, DetailActivity.class);
+                            newIntent.putExtra("id", clipText);
+                            newIntent.putExtra("sourceKey", "ali_Yiso");
+                            newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            PushActivity.this.startActivity(newIntent);
+                        }
+                    }
+                } catch (Throwable th) {
+
+                }
+            }
+        });
     }
 
     private void refreshQRCode() {

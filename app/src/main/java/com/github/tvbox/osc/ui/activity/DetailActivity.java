@@ -330,7 +330,7 @@ public class DetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ApiConfig.get().setSourceBean(cuHome);
-                Intent intent = new Intent(mContext(), HomeActivity.class);
+                Intent intent = new Intent(mContext, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("useCache", true);

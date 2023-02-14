@@ -142,8 +142,8 @@ public class VodController extends BaseController {
     private Runnable myRunnable2 = new Runnable() {
         @Override
         public void run() {
-            String ctime = mCurrentTime.getText().toString();
-            String etime = mTotalTime.getText().toString();
+            String ctime = PlayerUtils.stringForTime(mCurrentTime.getCurrentPosition());
+            String etime = PlayerUtils.stringForTime(mCurrentTime.getDuration());
             tvTime.setText(ctime+"/"+etime);
             Date date = new Date();
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");

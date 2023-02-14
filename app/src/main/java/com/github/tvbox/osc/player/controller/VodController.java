@@ -123,6 +123,7 @@ public class VodController extends BaseController {
     public TextView mPlayerTimeStartBtn;
     public TextView mPlayerTimeSkipBtn;
     public TextView mPlayerTimeResetBtn;
+    TextView tvTime;
     TextView mPlayPauseTime;
     TextView mPlayLoadNetSpeed;
     TextView mVideoSize;
@@ -141,6 +142,9 @@ public class VodController extends BaseController {
     private Runnable myRunnable2 = new Runnable() {
         @Override
         public void run() {
+            String ctime = mCurrentTime.getText();
+            String etime = mTotalTime.getText();
+            tvTime.setText(ctime+"/"+etime);
             Date date = new Date();
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
             mPlayPauseTime.setText(timeFormat.format(date));
@@ -150,7 +154,6 @@ public class VodController extends BaseController {
             String width = Integer.toString(mControlWrapper.getVideoSize()[0]);
             String height = Integer.toString(mControlWrapper.getVideoSize()[1]);
             mVideoSize.setText("[ " + width + " X " + height +" ]");
-
             mHandler.postDelayed(this, 1000);
         }
     };
@@ -185,6 +188,7 @@ public class VodController extends BaseController {
         mPlayerTimeSkipBtn = findViewById(R.id.play_time_end);
         mPlayerTimeResetBtn = findViewById(R.id.play_time_reset);
         mPlayPauseTime = findViewById(R.id.tv_sys_time);
+        tvTime = findViewById(R.id.tvTime);
         mPlayLoadNetSpeed = findViewById(R.id.tv_play_load_net_speed);
         mVideoSize = findViewById(R.id.tv_videosize);
         mSubtitleView = findViewById(R.id.subtitle_view);

@@ -1323,7 +1323,7 @@ public class PlayFragment extends BaseLazyFragment {
             if (sourceBean.getType() == 3) {
                 Spider sp = ApiConfig.get().getCSP(sourceBean);
                 if (sp != null && sp.manualVideoCheck()){
-                    return sp.isVideoFormat(url);
+                    return DefaultConfig.isVideoFormat(url);
                 }
             }
             return VideoParseRuler.checkIsVideoForParse(webUrl, url);

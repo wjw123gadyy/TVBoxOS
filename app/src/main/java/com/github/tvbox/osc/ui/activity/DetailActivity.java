@@ -137,6 +137,7 @@ public class DetailActivity extends BaseActivity {
     private final ArrayList<String> seriesGroupOptions = new ArrayList<>();
     private View currentSeriesGroupView;
     private int GroupCount;
+    private SourceBean cuHome;
 
     @Override
     protected int getLayoutResID() {
@@ -324,7 +325,21 @@ public class DetailActivity extends BaseActivity {
                 DetailActivity.this.startActivity(newIntent);
             }
         });
-        myPush.setOnLongClickListener(new View.OnLongClickListener() {
+
+        tvSite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ApiConfig.get().setSourceBean(cuHome);
+                Intent intent = new Intent(mContext(), HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("useCache", true);
+                intent.putExtras(bundle);
+                DetailActivity.this.startActivity(intent);
+            }
+        });
+
+        tvDes.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 //获取剪切板管理器
@@ -335,6 +350,21 @@ public class DetailActivity extends BaseActivity {
                 return true;
             }
         });
+
+        myPush.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String text = tvPlayUrl.getText().toString();
+                text = DefaultConfig.getHttpUrl(text);
+                Intent newIntent = new Intent(mContext, DetailActivity.class);
+                newIntent.putExtra("id", text);
+                newIntent.putExtra("sourceKey", "ali_Yiso");
+                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                DetailActivity.this.startActivity(newIntent);
+                return true;
+            }
+        });
+
         tvPlayUrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -695,9 +725,9 @@ public class DetailActivity extends BaseActivity {
                     vodInfo = new VodInfo();
                     vodInfo.setVideo(mVideo);
                     vodInfo.sourceKey = mVideo.sourceKey;
-
                     tvName.setText(mVideo.name);
-                    setTextShow(tvSite, "来源：", ApiConfig.get().getSource(mVideo.sourceKey).getName());
+                    cuHome = ApiConfig.get().getSource(mVideo.sourceKey);
+                    setTextShow(tvSite, "来源：", cuHome.getName());
                     setTextShow(tvYear, "年份：", mVideo.year == 0 ? "" : String.valueOf(mVideo.year));
                     setTextShow(tvArea, "地区：", mVideo.area);
                     setTextShow(tvLang, "语言：", mVideo.lang);

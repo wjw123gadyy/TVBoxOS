@@ -161,7 +161,6 @@ public class VodController extends BaseController {
                 String width = Integer.toString(mControlWrapper.getVideoSize()[0]);
                 String height = Integer.toString(mControlWrapper.getVideoSize()[1]);
                 mVideoSize.setText("[ " + width + " X " + height +" ]");
-                tvTime.setVisibility(GONE);
             }
 
             if (date != null) {
@@ -232,6 +231,7 @@ public class VodController extends BaseController {
             @Override
             public void run() {
                 timeFlag = Hawk.get(HawkConfig.TIME_FLAG, false);
+                mTopRoot2.setVisibility(VISIBLE);
                 mHandler.post(myRunnable2);
             }
         });
@@ -361,6 +361,9 @@ public class VodController extends BaseController {
                 timeFlag = Hawk.get(HawkConfig.TIME_FLAG, false);
                 timeFlag = !timeFlag;
                 Hawk.put(HawkConfig.TIME_FLAG, timeFlag);
+                String tip = "关闭";
+                if(timeFlag) tip = "开启";
+                Toast.makeText(getContext(), "播放进度已"+tip, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });

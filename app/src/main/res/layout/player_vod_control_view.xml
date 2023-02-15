@@ -65,7 +65,6 @@
                 android:layout_gravity="right"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:paddingTop="@dimen/vs_20"
                 android:tag="vod_control_pause_time"
                 android:text="00:00/00:00"
                 android:textColor="@color/color_808080"

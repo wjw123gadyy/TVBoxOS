@@ -137,7 +137,7 @@ public class VodController extends BaseController {
     Runnable myRunnable;
     int myHandleSeconds = 10000;//闲置多少毫秒秒关闭底栏  默认6秒
     int videoPlayState = 0;
-    private boolean timeFlag=false;
+    private boolean timeFlag;
     private boolean fromLongPress;
     private float speed_old = 1.0f;
     private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -149,7 +149,11 @@ public class VodController extends BaseController {
             String speed = "0";Date date =null;
             if (timeFlag) {
                 date = new Date();
-            }
+                String ctime = PlayerUtils.stringForTime((int)mControlWrapper.getCurrentPosition());
+                String etime = PlayerUtils.stringForTime((int)mControlWrapper.getDuration());
+                tvTime.setText(ctime+"/"+etime);
+                tvTime.setVisibility(VISIBLE);
+            }else tvTime.setVisibility(GONE);
             if (v==VISIBLE) {
                 if(date==null) date = new Date();
                 speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
@@ -158,15 +162,6 @@ public class VodController extends BaseController {
                 String height = Integer.toString(mControlWrapper.getVideoSize()[1]);
                 mVideoSize.setText("[ " + width + " X " + height +" ]");
                 tvTime.setVisibility(GONE);
-            }else {
-                if (timeFlag) {
-                    String ctime = PlayerUtils.stringForTime((int)mControlWrapper.getCurrentPosition());
-                    String etime = PlayerUtils.stringForTime((int)mControlWrapper.getDuration());
-                    tvTime.setText(ctime+"/"+etime);
-                    tvTime.setVisibility(VISIBLE);
-                }else {
-                    tvTime.setVisibility(GONE);
-                }
             }
 
             if (date != null) {
@@ -236,6 +231,7 @@ public class VodController extends BaseController {
         mPlayPauseTime.post(new Runnable() {
             @Override
             public void run() {
+                timeFlag = Hawk.get(HawkConfig.TIME_FLAG, false);
                 mHandler.post(myRunnable2);
             }
         });

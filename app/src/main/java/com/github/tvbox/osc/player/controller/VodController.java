@@ -343,7 +343,9 @@ public class VodController extends BaseController {
         playSp.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                timeFlag = Hawk.get(HawkConfig.TIME_FLAG, false);
                 timeFlag = !timeFlag;
+                Hawk.put(HawkConfig.TIME_FLAG, timeFlag);
             }
         });
 

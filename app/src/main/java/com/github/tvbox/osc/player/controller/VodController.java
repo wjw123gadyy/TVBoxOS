@@ -118,6 +118,7 @@ public class VodController extends BaseController {
     TextView mPlayerBtn;
     TextView mPlayerIJKBtn;
     TextView mPlayerRetry;
+    TextView playSp;
     TextView mPlayrefresh;
     public TextView mPlayerTimeStartEndText;
     public TextView mPlayerTimeStartBtn;
@@ -136,32 +137,43 @@ public class VodController extends BaseController {
     Runnable myRunnable;
     int myHandleSeconds = 10000;//闲置多少毫秒秒关闭底栏  默认6秒
     int videoPlayState = 0;
+    private boolean timeFlag=false;
     private boolean fromLongPress;
     private float speed_old = 1.0f;
+    private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
     private Runnable myRunnable2 = new Runnable() {
         @Override
         public void run() {
             int v = mBottomRoot.getVisibility();
-            String speed = "0";
+            String speed = "0";Date date =null;
+            if (timeFlag) {
+                date = new Date();
+            }
             if (v==VISIBLE) {
-                Date date = new Date();
-                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-                mPlayPauseTime.setText(timeFormat.format(date));
+                if(date==null) date = new Date();
                 speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                 mPlayLoadNetSpeedRightTop.setText(speed);
                 String width = Integer.toString(mControlWrapper.getVideoSize()[0]);
                 String height = Integer.toString(mControlWrapper.getVideoSize()[1]);
                 mVideoSize.setText("[ " + width + " X " + height +" ]");
+                tvTime.setVisibility(GONE);
             }else {
-                if (mControlWrapper.isPlaying()) {
+                if (timeFlag&&mControlWrapper.isPlaying()) {
                     String ctime = PlayerUtils.stringForTime((int)mControlWrapper.getCurrentPosition());
                     String etime = PlayerUtils.stringForTime((int)mControlWrapper.getDuration());
                     tvTime.setText(ctime+"/"+etime);
                     tvTime.setVisibility(VISIBLE);
-                }else tvTime.setVisibility(GONE);
+                }else {
+                    tvTime.setVisibility(GONE);
+                }
             }
-            mPlayPauseTime.setVisibility(v);
+
+            if (date != null) {
+                mPlayPauseTime.setText(timeFormat.format(date));
+                mPlayPauseTime.setVisibility(VISIBLE);
+            }else mPlayPauseTime.setVisibility(GONE);
+
             mVideoSize.setVisibility(v);
             mPlayLoadNetSpeedRightTop.setVisibility(v);
             if(mPlayLoadNetSpeed.getVisibility()==VISIBLE){
@@ -191,6 +203,7 @@ public class VodController extends BaseController {
         mGridView = findViewById(R.id.mGridView);
         mPlayerRetry = findViewById(R.id.play_retry);
         mPlayrefresh = findViewById(R.id.play_refresh);
+        playSp = findViewById(R.id.play_sp);
         mNextBtn = findViewById(R.id.play_next);
         mPreBtn = findViewById(R.id.play_pre);
         mPlayerScaleBtn = findViewById(R.id.play_scale);
@@ -326,6 +339,34 @@ public class VodController extends BaseController {
                 }
             }
         });
+
+        playSp.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timeFlag = !timeFlag;
+            }
+        });
+
+        playSp.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                myHandle.removeCallbacks(myRunnable);
+                myHandle.postDelayed(myRunnable, myHandleSeconds);
+                try {
+                    mPlayerConfig.put("sp", 1.5f);
+                    mPlayerConfig.put("st", 110);
+                    mPlayerConfig.put("et", 150);
+                    updatePlayerCfgView();
+                    listener.replay(false);
+                    listener.updatePlayerCfg();
+                    mControlWrapper.setSpeed(1.5f);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            }
+        });
+
         mPlayerSpeedBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

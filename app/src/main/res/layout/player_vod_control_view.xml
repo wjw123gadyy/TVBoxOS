@@ -79,8 +79,8 @@
             android:maxLines="1"
             android:tag="vod_control_pause_time"
             android:text="00:00:00"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/ts_20" />
+            android:textColor="@color/color_808080"
+            android:textSize="@dimen/ts_16" />
 
         <TextView
             android:id="@+id/tv_play_load_net_speed_right_top"
@@ -132,12 +132,14 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/play_sp"
                 android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/vs_5"
                 android:layout_marginRight="@dimen/vs_5"
                 android:paddingRight="@dimen/vs_10"
+                android:focusable="true"
                 android:text="播放"
                 android:textColor="@color/color_FFFFFF"
                 android:textSize="@dimen/ts_20" />

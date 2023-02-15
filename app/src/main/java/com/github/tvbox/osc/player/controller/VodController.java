@@ -140,7 +140,7 @@ public class VodController extends BaseController {
     private boolean timeFlag=false;
     private boolean fromLongPress;
     private float speed_old = 1.0f;
-    private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+    private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
     private Runnable myRunnable2 = new Runnable() {
         @Override
@@ -159,7 +159,7 @@ public class VodController extends BaseController {
                 mVideoSize.setText("[ " + width + " X " + height +" ]");
                 tvTime.setVisibility(GONE);
             }else {
-                if (timeFlag&&mControlWrapper.isPlaying()) {
+                if (timeFlag) {
                     String ctime = PlayerUtils.stringForTime((int)mControlWrapper.getCurrentPosition());
                     String etime = PlayerUtils.stringForTime((int)mControlWrapper.getDuration());
                     tvTime.setText(ctime+"/"+etime);

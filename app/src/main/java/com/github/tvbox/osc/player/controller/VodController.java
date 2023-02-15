@@ -143,7 +143,7 @@ public class VodController extends BaseController {
         @Override
         public void run() {
             int v = mBottomRoot.getVisibility();
-            if (v==0) {
+            if (v==VISIBLE) {
                 Date date = new Date();
                 SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
                 mPlayPauseTime.setText(timeFormat.format(date));

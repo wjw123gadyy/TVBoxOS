@@ -65,9 +65,10 @@
                 android:layout_gravity="right"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:paddingTop="@dimen/vs_20"
                 android:tag="vod_control_pause_time"
                 android:text="00:00/00:00"
-                android:textColor="@color/color_808080"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/ts_16" />
         <TextView
             android:id="@+id/tv_sys_time"
@@ -78,7 +79,7 @@
             android:maxLines="1"
             android:tag="vod_control_pause_time"
             android:text="00:00:00"
-            android:textColor="@color/color_808080"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/ts_16" />
 
         <TextView

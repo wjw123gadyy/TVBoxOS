@@ -321,7 +321,6 @@ public class DetailActivity extends BaseActivity {
                 Intent newIntent = new Intent(mContext, DetailActivity.class);
                 newIntent.putExtra("id", text);
                 newIntent.putExtra("sourceKey", "push_agent");
-                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 DetailActivity.this.startActivity(newIntent);
             }
         });
@@ -834,7 +833,7 @@ public class DetailActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {
             Bundle bundle = intent.getExtras();
-            loadDetail(bundle.getString("id", null), bundle.getString("sourceKey", ""));
+            loadDetail(bundle.getString("id", null), bundle.getString("sourceKey", "mtv_pc_小苹果源"));
         }
     }
 

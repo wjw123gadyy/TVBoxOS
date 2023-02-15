@@ -143,14 +143,13 @@ public class VodController extends BaseController {
         @Override
         public void run() {
             int v = mBottomRoot.getVisibility();
+            String speed = "0";
             if (v==VISIBLE) {
                 Date date = new Date();
                 SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
                 mPlayPauseTime.setText(timeFormat.format(date));
-
-                String speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
+                speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                 mPlayLoadNetSpeedRightTop.setText(speed);
-                mPlayLoadNetSpeed.setText(speed);
                 String width = Integer.toString(mControlWrapper.getVideoSize()[0]);
                 String height = Integer.toString(mControlWrapper.getVideoSize()[1]);
                 mVideoSize.setText("[ " + width + " X " + height +" ]");
@@ -165,7 +164,10 @@ public class VodController extends BaseController {
             mPlayPauseTime.setVisibility(v);
             mVideoSize.setVisibility(v);
             mPlayLoadNetSpeedRightTop.setVisibility(v);
-            mPlayLoadNetSpeed.setVisibility(v);
+            if(mPlayLoadNetSpeed.getVisibility()==VISIBLE){
+                if (v==GONE)speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
+                mPlayLoadNetSpeed.setText(speed);
+            }
             mHandler.postDelayed(this, 1000);
         }
     };

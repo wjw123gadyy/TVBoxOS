@@ -339,15 +339,6 @@ public class VodController extends BaseController {
         playSp.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                timeFlag = Hawk.get(HawkConfig.TIME_FLAG, false);
-                timeFlag = !timeFlag;
-                Hawk.put(HawkConfig.TIME_FLAG, timeFlag);
-            }
-        });
-
-        playSp.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
                 myHandle.removeCallbacks(myRunnable);
                 myHandle.postDelayed(myRunnable, myHandleSeconds);
                 try {
@@ -361,6 +352,15 @@ public class VodController extends BaseController {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        playSp.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                timeFlag = Hawk.get(HawkConfig.TIME_FLAG, false);
+                timeFlag = !timeFlag;
+                Hawk.put(HawkConfig.TIME_FLAG, timeFlag);
                 return true;
             }
         });

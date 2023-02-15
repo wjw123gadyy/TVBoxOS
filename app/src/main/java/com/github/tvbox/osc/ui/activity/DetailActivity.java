@@ -833,11 +833,8 @@ public class DetailActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {
             Bundle bundle = intent.getExtras();
-            String id = bundle.getString("id", null);
-            String key = bundle.getString("sourceKey", "mtv_pc_小苹果源");
-            Toast.makeText(DetailActivity.this, id+" "+key, Toast.LENGTH_SHORT).show();
-            loadDetail(id, key);
-        }else Toast.makeText(DetailActivity.this, "无数据", Toast.LENGTH_SHORT).show();
+            loadDetail(bundle.getString("id", null), bundle.getString("sourceKey", "mtv_pc_小苹果源"));
+        }
     }
 
     private void loadDetail(String vid, String key) {

@@ -76,7 +76,7 @@ public class VodController extends BaseController {
                     case 1003: { // 隐藏底部菜单
                         mBottomRoot.setVisibility(GONE);
                         mTopRoot1.setVisibility(GONE);
-                        mTopRoot2.setVisibility(GONE);
+                        mTopRoot2.setVisibility(VISIBLE);
                         break;
                     }
                     case 1004: { // 设置速度
@@ -142,21 +142,30 @@ public class VodController extends BaseController {
     private Runnable myRunnable2 = new Runnable() {
         @Override
         public void run() {
-            if (mControlWrapper.isPlaying()) {
-                String ctime = PlayerUtils.stringForTime((int)mControlWrapper.getCurrentPosition());
-                String etime = PlayerUtils.stringForTime((int)mControlWrapper.getDuration());
-                tvTime.setText(ctime+"/"+etime);
-                tvTime.setVisibility(VISIBLE);
-            }else  tvTime.setVisibility(GONE);
-            Date date = new Date();
-            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-            mPlayPauseTime.setText(timeFormat.format(date));
-            String speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
-            mPlayLoadNetSpeedRightTop.setText(speed);
-            mPlayLoadNetSpeed.setText(speed);
-            String width = Integer.toString(mControlWrapper.getVideoSize()[0]);
-            String height = Integer.toString(mControlWrapper.getVideoSize()[1]);
-            mVideoSize.setText("[ " + width + " X " + height +" ]");
+            int v = mBottomRoot.getVisibility();
+            if (v==0) {
+                Date date = new Date();
+                SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+                mPlayPauseTime.setText(timeFormat.format(date));
+
+                String speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
+                mPlayLoadNetSpeedRightTop.setText(speed);
+                mPlayLoadNetSpeed.setText(speed);
+                String width = Integer.toString(mControlWrapper.getVideoSize()[0]);
+                String height = Integer.toString(mControlWrapper.getVideoSize()[1]);
+                mVideoSize.setText("[ " + width + " X " + height +" ]");
+            }else {
+                if (mControlWrapper.isPlaying()) {
+                    String ctime = PlayerUtils.stringForTime((int)mControlWrapper.getCurrentPosition());
+                    String etime = PlayerUtils.stringForTime((int)mControlWrapper.getDuration());
+                    tvTime.setText(ctime+"/"+etime);
+                    tvTime.setVisibility(VISIBLE);
+                }else tvTime.setVisibility(GONE);
+            }
+            mPlayPauseTime.setVisibility(v);
+            mVideoSize.setVisibility(v);
+            mPlayLoadNetSpeedRightTop.setVisibility(v);
+            mPlayLoadNetSpeed.setVisibility(v);
             mHandler.postDelayed(this, 1000);
         }
     };

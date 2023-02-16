@@ -158,7 +158,8 @@ public class ApiConfig {
         String s0 = getBstr(ss, f);
         if(!s0.equals(ss)) flag = true;
         int c = cs(s0,"\\d+");
-        Map<String, String> m = new HashMap<>();
+        Map<String, String> m = new LinkedHashMap<>();
+        Collections.sort(list);
         for (String name : list) {
             if (type.isEmpty()||name.contains(type)) {
                 zname = name;

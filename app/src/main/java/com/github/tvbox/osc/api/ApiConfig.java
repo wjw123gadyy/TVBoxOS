@@ -88,6 +88,107 @@ public class ApiConfig {
         return instance;
     }
 
+    public static Matcher matcher(String regx, String content) {
+        Pattern pattern = Pattern.compile(regx);
+        return pattern.matcher(content);
+    }
+    public static boolean isNumeric(String str){
+        Pattern pattern = Pattern.compile("[0-9]*");
+        return pattern.matcher(str).matches();
+    }
+
+
+    public static int cs(String msg1,String regx){
+        String msg = msg1.replaceAll(regx, "⑩");
+        Matcher ma = matcher("⑩", msg);//指定字符串出现的次数
+        int c = 0;
+        while (ma.find()) {
+            c++;
+        }
+        return c;
+    }
+
+    public static String getBstr(String ss,boolean f){
+        String s = ss.replace("4K", "").replace("mp4", "");
+        if(!f) s = s.replaceFirst("1080", "");
+        return s;
+    }
+
+    public static String getBx(String vod_play_url){
+        int z = 0;//更换第一个
+        String[] playUrls = vod_play_url.split("\\$\\$\\$");
+        if(playUrls.length<2)return vod_play_url;
+        String s = playUrls[z];
+        String type = "";
+        boolean f = false;
+        if (s.contains("4K")) {
+            type = "4K";
+        }else if (s.contains("4k")) {
+            type = "4k";
+        }else if (s.contains("1080")) {
+            if(!s.contains("1079"))type = "1080";
+            else f = true;
+        }
+        Map<String, String> hashMap = new LinkedHashMap<>();
+        String[] urls = s.split("#");
+
+        for (String url : urls) {
+            String[] arr = url.split("\\$");
+            hashMap.put(arr[0], arr[1]);
+        }
+        ArrayList<String> arrayList2 = new ArrayList<>(hashMap.keySet());
+        hashMap =getBx(arrayList2, hashMap, type,f);
+
+        List<String> zlist = new ArrayList<>();
+        for (String k : hashMap.keySet()) {
+            zlist.add(k + "$" + hashMap.get(k));
+        }
+        String zstr = TextUtils.join("#", zlist);
+        playUrls[z]=zstr;
+        String zs = TextUtils.join("$$$", Arrays.asList(playUrls));
+        return zs;
+    }
+
+    public static  Map<String, String> getBx(List<String> list,Map<String, String> map,String type,boolean f){
+        String iname="",rname="",zname="";
+        String regx = szRegx;
+        Matcher ma = null;
+        boolean flag = false;
+        String ss = list.get(0);
+        String s0 = getBstr(ss, f);
+        if(!s0.equals(ss)) flag = true;
+        int c = cs(s0,"\\d+");
+        Map<String, String> m = new HashMap<>();
+        for (String name : list) {
+            if (type.isEmpty()||name.contains(type)) {
+                zname = name;
+                if (matcher(regx, name).find()) {
+                    iname = name.replaceAll(regx, "$2");
+                }else {
+                    name = name.replace("mp4", "").replace("4K","").replace("4k","").replace("1080P","").replace("1080p","");
+                    if (c==1) {
+                        if(flag) rname = getBstr(name,f);
+                        else rname = name;
+                        ma = matcher("\\d+", rname);
+                        while (ma.find()) {
+                            iname = ma.group();
+                        }
+                    }else if(matcher(".*(\\d+)集.*", name).find()){
+                        iname = name.replaceAll(".*(\\d+)集.*", "$1");
+                    }else if(matcher("(\\d+).*", name).find()){
+                        iname = name.replaceAll(".*?(\\d+).*", "$1");
+                    }else {
+                        iname = name;
+                    }
+                }
+                if(iname.contains(".")&&iname.length()>5) iname = iname.substring(0, iname.lastIndexOf("."));
+                if(isNumeric(iname)&&iname.length()==1)iname="0"+iname;
+                m.put(iname, map.get(zname));
+            }
+        }
+        return m;
+    }
+
     public static String FindResult(String json, String configKey) {
         String content = json;
         try {

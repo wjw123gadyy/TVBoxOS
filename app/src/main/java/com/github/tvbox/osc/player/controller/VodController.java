@@ -302,6 +302,18 @@ public class VodController extends BaseController {
                 hideBottom();
             }
         });
+        mNextBtn.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                timeFlag = Hawk.get(HawkConfig.TIME_FLAG, false);
+                timeFlag = !timeFlag;
+                Hawk.put(HawkConfig.TIME_FLAG, timeFlag);
+                String tip = "关闭";
+                if(timeFlag) tip = "开启";
+                Toast.makeText(getContext(), "播放进度已"+tip, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
         mNextBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -330,25 +342,6 @@ public class VodController extends BaseController {
                     updatePlayerCfgView();
                     listener.updatePlayerCfg();
                     mControlWrapper.setScreenScaleType(scaleType);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        playSp.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myHandle.removeCallbacks(myRunnable);
-                myHandle.postDelayed(myRunnable, myHandleSeconds);
-                try {
-                    mPlayerConfig.put("sp", 1.5f);
-                    mPlayerConfig.put("st", 110);
-                    mPlayerConfig.put("et", 150);
-                    updatePlayerCfgView();
-                    listener.replay(false);
-                    listener.updatePlayerCfg();
-                    mControlWrapper.setSpeed(1.5f);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

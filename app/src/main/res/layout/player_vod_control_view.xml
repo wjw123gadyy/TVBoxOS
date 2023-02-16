@@ -139,7 +139,6 @@
                 android:layout_marginEnd="@dimen/vs_5"
                 android:layout_marginRight="@dimen/vs_5"
                 android:paddingRight="@dimen/vs_10"
-                android:focusable="true"
                 android:text="播放"
                 android:textColor="@color/color_FFFFFF"
                 android:textSize="@dimen/ts_20" />

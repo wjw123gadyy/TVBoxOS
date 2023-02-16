@@ -145,7 +145,7 @@ public class ApiConfig {
         }
         String zstr = TextUtils.join("#", zlist);
         playUrls[z]=zstr;
-        String zs = TextUtils.join("$$$", Arrays.asList(playUrls));
+        String zs = TextUtils.join("$$$", playUrls);
         return zs;
     }
 

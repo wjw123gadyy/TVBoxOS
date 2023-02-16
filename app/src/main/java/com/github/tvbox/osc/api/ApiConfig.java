@@ -29,10 +29,9 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.hawk.Hawk;
-
+import java.util.Collections;
 import org.json.JSONObject;
-import java.util.Arrays;
-import java.util.Comparator;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -160,6 +159,12 @@ public class ApiConfig {
         if(!s0.equals(ss)) flag = true;
         int c = cs(s0,"\\d+");
         Map<String, String> m = new LinkedHashMap<>();
+        Collections.sort(list, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
         for (String name : list) {
             if (type.isEmpty()||name.contains(type)) {
                 zname = name;

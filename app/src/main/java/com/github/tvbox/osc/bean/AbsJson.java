@@ -3,7 +3,7 @@ package com.github.tvbox.osc.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.github.tvbox.osc.api.ApiConfig;
 /**
  * @author pj567
  * @date :2020/12/18

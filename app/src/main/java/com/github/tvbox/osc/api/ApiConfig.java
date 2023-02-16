@@ -117,7 +117,7 @@ public class ApiConfig {
     public static String getBx(String vod_play_url){
         int z = 0;//更换第一个
         String[] playUrls = vod_play_url.split("\\$\\$\\$");
-        if(playUrls.length<2)return vod_play_url;
+        if(playUrls.length!=2)return vod_play_url;
         String s = playUrls[z];
         String type = "";
         boolean f = false;
@@ -151,7 +151,7 @@ public class ApiConfig {
 
     public static  Map<String, String> getBx(List<String> list,Map<String, String> map,String type,boolean f){
         String iname="",rname="",zname="";
-        String regx = szRegx;
+        String regx = ".*(Ep|EP|E|第)(\\d+)[\\.|集]?.*";
         Matcher ma = null;
         boolean flag = false;
         String ss = list.get(0);

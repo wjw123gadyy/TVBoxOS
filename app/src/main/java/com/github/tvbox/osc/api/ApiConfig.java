@@ -162,6 +162,12 @@ public class ApiConfig {
         for (String name : list) {
             if (type.isEmpty()||name.contains(type)) {
                 zname = name;
+                if (name.startsWith("[")) {
+                    name = name.replaceAll("\\[.*\\](.*)","$1");
+                }
+                if (!f&&list.size()<300) {
+                    name = name.replaceAll("\\d{4,8}", "");
+                }
                 if (matcher(regx, name).find()) {
                     iname = name.replaceAll(regx, "$2");
                 }else {

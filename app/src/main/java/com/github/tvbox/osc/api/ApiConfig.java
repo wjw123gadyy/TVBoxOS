@@ -173,7 +173,7 @@ public class ApiConfig {
                 if (name.startsWith("[")) {
                     name = name.replaceAll("\\[.*\\](.*)","$1");
                 }
-                if (!f&&list.size()<300) {
+                if (!f&&list.size()<200) {
                     name = name.replaceAll("\\d{4,8}", "");
                 }
                 if (matcher(regx, name).find()) {

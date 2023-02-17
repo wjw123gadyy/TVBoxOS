@@ -738,7 +738,7 @@ public class VodController extends BaseController {
     }
 
     public void setTitle(String playTitleInfo) {
-        String reg = ".*?(\\d+)";
+        String reg = ".*? (\\d+)";
         if(ApiConfig.matcher(reg, playTitleInfo).find()){
             jsnum = playTitleInfo.replaceAll(reg, "$1")+"集 ";
         } else jsnum = "";

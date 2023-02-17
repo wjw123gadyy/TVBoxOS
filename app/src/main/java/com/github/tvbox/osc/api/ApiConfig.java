@@ -144,6 +144,12 @@ public class ApiConfig {
         for (String k : hashMap.keySet()) {
             zlist.add(k + "$" + hashMap.get(k));
         }
+        Collections.sort(zlist, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
         String zstr = TextUtils.join("#", zlist);
         playUrls[z]=zstr;
         String zs = TextUtils.join("$$$", playUrls);
@@ -160,12 +166,6 @@ public class ApiConfig {
         if(!s0.equals(ss)) flag = true;
         int c = cs(s0,"\\d+");
         Map<String, String> m = new LinkedHashMap<>();
-        Collections.sort(list, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        });
         for (String name : list) {
             if (type.isEmpty()||name.contains(type)) {
                 zname = name;

@@ -140,6 +140,7 @@ public class VodController extends BaseController {
     private boolean timeFlag;
     private boolean fromLongPress;
     private float speed_old = 1.0f;
+    private String jsnum;
     private SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
     private Runnable myRunnable2 = new Runnable() {
@@ -164,7 +165,8 @@ public class VodController extends BaseController {
             }
 
             if (date != null) {
-                mPlayPauseTime.setText(timeFormat.format(date));
+                String numText = jsnum+timeFormat.format(date);
+                mPlayPauseTime.setText(numText);
                 mPlayPauseTime.setVisibility(VISIBLE);
             }else mPlayPauseTime.setVisibility(GONE);
 
@@ -736,6 +738,10 @@ public class VodController extends BaseController {
     }
 
     public void setTitle(String playTitleInfo) {
+        String reg = ".*?(\\d+)";
+        if(ApiConfig.matcher(reg, playTitleInfo).find()){
+            jsnum = playTitleInfo.replaceAll(reg, "$1")+"集 ";
+        } else jsnum = "";
         mPlayTitle.setText(playTitleInfo);
         mPlayTitle1.setText(playTitleInfo);
     }
@@ -868,6 +874,7 @@ public class VodController extends BaseController {
             case VideoView.STATE_IDLE:
                 break;
             case VideoView.STATE_PLAYING:
+                mTopRoot2.setVisibility(VISIBLE);
                 initLandscapePortraitBtnInfo();
                 startProgress();
                 break;

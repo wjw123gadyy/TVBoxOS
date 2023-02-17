@@ -165,7 +165,8 @@ public class VodController extends BaseController {
             }
 
             if (date != null) {
-                String numText = jsnum+timeFormat.format(date);
+                String numText = timeFormat.format(date);
+                if(!jsnum.equals(""))numText=jsnum+numText;
                 mPlayPauseTime.setText(numText);
                 mPlayPauseTime.setVisibility(VISIBLE);
             }else mPlayPauseTime.setVisibility(GONE);
@@ -739,7 +740,7 @@ public class VodController extends BaseController {
 
     public void setTitle(String playTitleInfo) {
         String reg = ".*? (\\d+)";
-        if(ApiConfig.matcher(reg, playTitleInfo).find()){
+        if(playTitleInfo!=null&&ApiConfig.matcher(reg, playTitleInfo).find()){
             jsnum = playTitleInfo.replaceAll(reg, "$1")+"集 ";
         } else jsnum = "";
         mPlayTitle.setText(playTitleInfo);

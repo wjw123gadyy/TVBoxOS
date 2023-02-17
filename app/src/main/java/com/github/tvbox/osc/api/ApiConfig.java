@@ -62,6 +62,7 @@ public class ApiConfig {
     private List<IJKCode> ijkCodes;
     private String spider = null;
     public String wallpaper = "";
+    String _api = "http://test.xinjun58.com/qq/api/q2.json";
 
     private SourceBean emptyHome = new SourceBean();
 
@@ -241,7 +242,7 @@ public class ApiConfig {
     }
 
     public void loadConfig(boolean useCache, LoadConfigCallback callback, Activity activity) {
-        String apiUrl = Hawk.get(HawkConfig.API_URL, "http://test.xinjun58.com/qq/api/q2.json");
+        String apiUrl = Hawk.get(HawkConfig.API_URL, _api);
         if (apiUrl.isEmpty()) {
             callback.error("-1");
             return;
@@ -257,6 +258,7 @@ public class ApiConfig {
                 return;
             } catch (Throwable th) {
                 th.printStackTrace();
+                Hawk.put(HawkConfig.API_URL, _api);
             }
         }
         String TempKey = null, configUrl = "", pk = ";pk;";
@@ -303,6 +305,7 @@ public class ApiConfig {
                             callback.success();
                         } catch (Throwable th) {
                             th.printStackTrace();
+                            Hawk.put(HawkConfig.API_URL, _api);
                             callback.error("解析配置失败");
                         }
                     }
@@ -316,9 +319,11 @@ public class ApiConfig {
                                 callback.success();
                                 return;
                             } catch (Throwable th) {
+                                Hawk.put(HawkConfig.API_URL, _api);
                                 th.printStackTrace();
                             }
                         }
+                        Hawk.put(HawkConfig.API_URL, _api);
                         callback.error("拉取配置失败\n" + (response.getException() != null ? response.getException().getMessage() : ""));
                     }
 
@@ -401,6 +406,7 @@ public class ApiConfig {
                     @Override
                     public void onError(Response<File> response) {
                         super.onError(response);
+                        Hawk.put(HawkConfig.API_URL, _api);
                         callback.error("");
                     }
                 });

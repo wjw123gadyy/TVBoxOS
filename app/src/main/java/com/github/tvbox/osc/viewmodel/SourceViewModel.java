@@ -442,9 +442,6 @@ public class SourceViewModel extends ViewModel {
     }
     // detailContent
     public void getDetail(String sourceKey, String id) {
-        if(id.contains("aliyundrive")){
-            sourceKey = "ali_Yiso";
-        }
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {

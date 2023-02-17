@@ -166,7 +166,7 @@ public class VodController extends BaseController {
 
             if (date != null) {
                 String numText = timeFormat.format(date);
-                if(!jsnum.equals(""))numText=jsnum+numText;
+                if(jsnum!=null&&!jsnum.equals(""))numText=jsnum+numText;
                 mPlayPauseTime.setText(numText);
                 mPlayPauseTime.setVisibility(VISIBLE);
             }else mPlayPauseTime.setVisibility(GONE);

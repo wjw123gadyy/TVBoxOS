@@ -131,6 +131,7 @@ public class DetailActivity extends BaseActivity {
     private View seriesFlagFocus = null;
     private boolean isReverse;
     private String preFlag="";
+    private String wdName = "";
     private boolean firstReverse;
     private V7GridLayoutManager mGridViewLayoutMgr = null;
     private HashMap<String, String> mCheckSources = null;
@@ -833,6 +834,7 @@ public class DetailActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null && intent.getExtras() != null) {
             Bundle bundle = intent.getExtras();
+            wdName = bundle.getString("wdName", "");
             loadDetail(bundle.getString("id", null), bundle.getString("sourceKey", "mtv_pc_小苹果源"));
         }
     }
@@ -842,7 +844,7 @@ public class DetailActivity extends BaseActivity {
             vodId = vid;
             sourceKey = key;
             showLoading();
-            sourceViewModel.getDetail(sourceKey, vodId);
+            sourceViewModel.getDetail(sourceKey, vodId,wdName);
             boolean isVodCollect = RoomDataManger.isVodCollect(sourceKey, vodId);
             if (isVodCollect) {
                 tvCollect.setText("取消收藏");

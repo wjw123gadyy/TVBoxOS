@@ -450,18 +450,19 @@ public class SourceViewModel extends ViewModel {
                 @Override
                 public void run() {
                     try {
+                        String rid = id;
                         String isname = Hawk.get(HawkConfig.MY_NAME,"");
                         if (!isname.isEmpty()) {
                             if(sourceKey.startsWith("ali_")){
                                 String[] idInfo = id.split("\\$\\$\\$");
                                 if (idInfo.length == 1) {
-                                    id = id + "$$$$$$" + wdName;
+                                    rid = rid + "$$$$$$" + wdName;
                                 }
                             }
                         }
                         Spider sp = ApiConfig.get().getCSP(sourceBean);
                         List<String> ids = new ArrayList<>();
-                        ids.add(id);
+                        ids.add(rid);
                         json(detailResult, sp.detailContent(ids), sourceBean.getKey());
                     } catch (Throwable th) {
                         th.printStackTrace();

@@ -208,20 +208,17 @@ public class SearchActivity extends BaseActivity {
                 }
             }
         });
-        tvSearch.setOnLongClickListener(new OnLongClickListener() {
+
+        tvSearch.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                try {
-                    String isname = Hawk.get(HawkConfig.MY_NAME,"");
-                    if (isname.isEmpty()) {
-                        Hawk.put(HawkConfig.MY_NAME, "yes");
-                        Toast.makeText(mContext, "开启搜索标题", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Hawk.put(HawkConfig.MY_NAME, "");
-                        Toast.makeText(mContext, "关闭搜索标题", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            public boolean onLongClick(View v) {
+                String isname = Hawk.get(HawkConfig.MY_NAME,"");
+                if (isname.isEmpty()) {
+                    Hawk.put(HawkConfig.MY_NAME, "yes");
+                    Toast.makeText(mContext, "开启搜索标题", Toast.LENGTH_SHORT).show();
+                }else {
+                    Hawk.put(HawkConfig.MY_NAME, "");
+                    Toast.makeText(mContext, "关闭搜索标题", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }

@@ -205,7 +205,6 @@ public class SearchActivity extends BaseActivity {
                     bundle.putString("id", video.id);
                     bundle.putString("wdName", searchTitle);
                     bundle.putString("sourceKey", video.sourceKey);
-                    Toast.makeText(mContext, "wdName:"+searchTitle+"   vodId:"+video.id, Toast.LENGTH_SHORT).show();
                     jumpActivity(DetailActivity.class, bundle);
                 }
             }

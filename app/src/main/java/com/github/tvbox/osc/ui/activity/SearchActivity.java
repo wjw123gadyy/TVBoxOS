@@ -365,6 +365,7 @@ public class SearchActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("title")) {
             String title = intent.getStringExtra("title");
+            etSearch.setText(title);
             showLoading();
             search(title);
         }
@@ -437,6 +438,7 @@ public class SearchActivity extends BaseActivity {
         cancel();
         showLoading();
         this.searchTitle = title;
+        etSearch.setText(title);
         mGridView.setVisibility(View.INVISIBLE);
         searchAdapter.setNewData(new ArrayList<>());
         searchResult();

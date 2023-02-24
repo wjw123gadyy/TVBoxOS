@@ -17,7 +17,7 @@ import com.github.tvbox.osc.ui.adapter.HistoryAdapter;
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
-
+import android.content.Intent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -145,8 +145,14 @@ public class HistoryActivity extends BaseActivity {
             public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
                 FastClickCheckUtil.check(view);
                 VodInfo vodInfo = historyAdapter.getData().get(position);
-                historyAdapter.remove(position);
-                RoomDataManger.deleteVodRecord(vodInfo.sourceKey, vodInfo);
+                /*historyAdapter.remove(position);
+                RoomDataManger.deleteVodRecord(vodInfo.sourceKey, vodInfo);*/
+                Intent intent = new Intent(mContext, SearchActivity.class);
+                Bundle bundle = new Bundle();
+                intent.putExtras(bundle);
+                intent.putExtra("title", vodInfo.name);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 return true;
             }
         });
@@ -161,7 +167,7 @@ public class HistoryActivity extends BaseActivity {
                 String name = ApiConfig.get().getSource(sourceKey).getName();
                 if (name.contains("易搜")) {
                     vodInfo.pic = "https://f.haocew.com/image/tv/yiso.jpg";
-                }else if (name.contains("阿里")||vodInfo.id.contains("aliyundrive")) {
+                }else if (vodInfo.id.contains("aliyundrive")&&!vodInfo.pic.contains("xinjun58")) {
                     vodInfo.pic = "http://image.xinjun58.com/sp/pic/bg/ali.jpg";
                 }
             }

@@ -62,6 +62,7 @@ public class SourceViewModel extends ViewModel {
     public MutableLiveData<AbsXml> detailResult;
     public MutableLiveData<JSONObject> playResult;
     public List<Movie.Video> mv=null;
+    private String wdName = "";
 
     public SourceViewModel() {
         sortResult = new MutableLiveData<>();
@@ -449,6 +450,15 @@ public class SourceViewModel extends ViewModel {
                 @Override
                 public void run() {
                     try {
+                        String isname = Hawk.get(HawkConfig.MY_NAME,"");
+                        if (!isname.isEmpty()) {
+                            if(sourceKey.startsWith("ali_")){
+                                String[] idInfo = id.split("\\$\\$\\$");
+                                if (idInfo.length == 1) {
+                                    id = id + "$$$$$$" + wdName;
+                                }
+                            }
+                        }
                         Spider sp = ApiConfig.get().getCSP(sourceBean);
                         List<String> ids = new ArrayList<>();
                         ids.add(id);
@@ -505,6 +515,7 @@ public class SourceViewModel extends ViewModel {
                 Spider sp = ApiConfig.get().getCSP(sourceBean);
                 String search = sp.searchContent(wd, false);
                 if(!TextUtils.isEmpty(search)){
+                    wdName = wd;
                     json(searchResult, search, sourceBean.getKey());
                 } else {
                     json(searchResult, "", sourceBean.getKey());

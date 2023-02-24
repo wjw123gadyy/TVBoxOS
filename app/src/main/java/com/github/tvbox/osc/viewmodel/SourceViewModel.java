@@ -457,6 +457,9 @@ public class SourceViewModel extends ViewModel {
                                 String[] idInfo = id.split("\\$\\$\\$");
                                 if (idInfo.length == 1) {
                                     rid = rid + "$$$$$$" + wdName;
+                                }else if(idInfo.length>2) {
+                                    idInfo[2] = wdName;
+                                    rid = TextUtils.join("$$$", idInfo);
                                 }
                             }
                         }

@@ -489,7 +489,7 @@ public class SourceViewModel extends ViewModel {
                                                     ApiConfig.mop.put(wdName, idInfo2);
                                                     rjson(sourceBean,rid2);
                                                 } catch (Throwable th) {
-                                                    rjson(sourceBean,rid2);
+                                                    rjson(sourceBean,rid);
                                                 }
                                             }
                                             @Override

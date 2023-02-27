@@ -23,7 +23,7 @@ import android.content.ClipData;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
+import com.github.tvbox.osc.cache.CacheManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.github.tvbox.osc.R;
@@ -722,6 +722,19 @@ public class DetailActivity extends BaseActivity {
                 if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                     showSuccess();
                     mVideo = absXml.movie.videoList.get(0);
+                    Movie.Video mvo=(Movie.Video)CacheManager.getCache(mvo.name);
+                    if (mvo != null&&mVideo.actor.isEmpty()) {
+                        mVideo.year = mvo.year;
+                        mVideo.area = mvo.area;
+                        mVideo.director = mvo.director;
+                        mVideo.actor = mvo.actor;
+                        mVideo.des = mvo.des;
+                    }
+                    if (mvo == null&&!mVideo.actor.isEmpty()) {
+                        mvo = mVideo;
+                        mvo.urlBean=null;
+                        CacheManager.save(mvo.name, mvo);
+                    }
                     vodInfo = new VodInfo();
                     vodInfo.setVideo(mVideo);
                     vodInfo.sourceKey = mVideo.sourceKey;

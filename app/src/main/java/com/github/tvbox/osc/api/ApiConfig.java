@@ -32,7 +32,7 @@ import com.orhanobut.hawk.Hawk;
 import java.util.Collections;
 import java.util.Comparator;
 import org.json.JSONObject;
-
+import com.github.tvbox.osc.bean.Movie;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,7 +62,6 @@ public class ApiConfig {
     private List<IJKCode> ijkCodes;
     private String spider = null;
     public String wallpaper = "";
-    public static Map<String, String[]> mop = new HashMap<>();
     String _api = "http://test.xinjun58.com/qq/api/q2.json";
 
     private SourceBean emptyHome = new SourceBean();

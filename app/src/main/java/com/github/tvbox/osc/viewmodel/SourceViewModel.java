@@ -23,7 +23,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
-
+import com.github.tvbox.osc.cache.CacheManager;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -442,6 +442,8 @@ public class SourceViewModel extends ViewModel {
                                     idInfo[2] = wdName;
                                     rid = TextUtils.join("$$$", idInfo);
                                 }
+                                Movie.Video mvo=(Movie.Video)CacheManager.getCache(wdName);
+                                if(mvo!=null) rid = rid + "$$$0";
                             }
                         }
                         Spider sp = ApiConfig.get().getCSP(sourceBean);

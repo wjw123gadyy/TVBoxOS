@@ -467,11 +467,12 @@ public class SourceViewModel extends ViewModel {
                                     idInfo = new String[4];
                                     idInfo[0] = sid;
                                     idInfo[2] = wdName;
+                                    final String[] idInfo0=idInfo;final String rid0=rid;
                                     OkGo.<String>get("https://www.voflix.com/index.php/ajax/suggest?mid=1&limit=1&wd=" + wdName)
                                         .execute(new AbsCallback<String>() {
                                             @Override
                                             public void onSuccess(Response<String> res) {
-                                                String[] idInfo2 = idInfo;
+                                                String[] idInfo2 = idInfo0;
                                                 try {
                                                     JSONObject response = new JSONObject(res.body());
                                                     if (response.optInt("code", 0) == 1) {
@@ -489,7 +490,7 @@ public class SourceViewModel extends ViewModel {
                                                     ApiConfig.mop.put(wdName, idInfo2);
                                                     rjson(sourceBean,rid2);
                                                 } catch (Throwable th) {
-                                                    rjson(sourceBean,rid);
+                                                    rjson(sourceBean,rid0);
                                                 }
                                             }
                                             @Override

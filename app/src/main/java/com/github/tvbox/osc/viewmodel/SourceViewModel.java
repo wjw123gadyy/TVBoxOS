@@ -439,6 +439,13 @@ public class SourceViewModel extends ViewModel {
             callback.done(null);
         }
     }
+
+    public void rjson(SourceBean sourceBean,rid){
+        Spider sp = ApiConfig.get().getCSP(sourceBean);
+        List<String> ids = new ArrayList<>();
+        ids.add(rid);
+        json(detailResult, sp.detailContent(ids), sourceBean.getKey());
+    }
     // detailContent
     public void getDetail(String sourceKey, String id,String wdName) {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
@@ -450,11 +457,13 @@ public class SourceViewModel extends ViewModel {
                     try {
                         String rid = id,sid="";
                         String isname = Hawk.get(HawkConfig.MY_NAME,"");
+                        boolean fb = true;
                         if (!isname.isEmpty()&&!wdName.isEmpty()) {
                             if(sourceKey.startsWith("ali_")){
                                 sid = id.split("\\$\\$\\$")[0];
                                 String[] idInfo = ApiConfig.mop.get(wdName);
                                 if (idInfo == null) {
+                                    fb = false;
                                     idInfo = new String[4];
                                     idInfo[0] = sid;
                                     idInfo[2] = wdName;
@@ -462,6 +471,7 @@ public class SourceViewModel extends ViewModel {
                                         .execute(new AbsCallback<String>() {
                                             @Override
                                             public void onSuccess(Response<String> res) {
+                                                String[] idInfo2 = idInfo;
                                                 try {
                                                     JSONObject response = new JSONObject(res.body());
                                                     if (response.optInt("code", 0) == 1) {
@@ -470,14 +480,16 @@ public class SourceViewModel extends ViewModel {
                                                             JSONObject o = (JSONObject) jsonArray.get(0);
                                                             int id = o.optInt("id", 0);
                                                             if (id > 0) {
-                                                                idInfo[1] =o.optString("pic", "");
-                                                                idInfo[3] = String.valueOf(id);
+                                                                idInfo2[1] =o.optString("pic", "");
+                                                                idInfo2[3] = String.valueOf(id);
                                                             }
                                                         }
                                                     }
-                                                    ApiConfig.mop.put(wdName, idInfo);
+                                                    String rid2 = TextUtils.join("$$$", idInfo2);
+                                                    ApiConfig.mop.put(wdName, idInfo2);
+                                                    rjson(sourceBean,rid2);
                                                 } catch (Throwable th) {
-                                                    th.printStackTrace();
+                                                    rjson(sourceBean,rid2);
                                                 }
                                             }
                                             @Override
@@ -489,10 +501,7 @@ public class SourceViewModel extends ViewModel {
                                 rid = TextUtils.join("$$$", idInfo);
                             }
                         }
-                        Spider sp = ApiConfig.get().getCSP(sourceBean);
-                        List<String> ids = new ArrayList<>();
-                        ids.add(rid);
-                        json(detailResult, sp.detailContent(ids), sourceBean.getKey());
+                        if(fb) rjson(sourceBean,rid);
                     } catch (Throwable th) {
                         th.printStackTrace();
                     }

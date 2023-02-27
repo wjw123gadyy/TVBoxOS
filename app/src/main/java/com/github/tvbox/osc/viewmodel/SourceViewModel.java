@@ -434,7 +434,7 @@ public class SourceViewModel extends ViewModel {
                         String rid = id,sid="";
                         String isname = Hawk.get(HawkConfig.MY_NAME,"");
                         if (!isname.isEmpty()) {
-                            if(sourceKey.startsWith("ali_")){
+                            if(sourceKey.startsWith("ali_")&&!wdName.isEmpty()){
                                 String[] idInfo = id.split("\\$\\$\\$");
                                 if (idInfo.length == 1) {
                                     rid = rid + "$$$$$$" + wdName;

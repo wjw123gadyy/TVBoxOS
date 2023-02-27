@@ -135,6 +135,7 @@ public class HistoryActivity extends BaseActivity {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", vodInfo.id);
                         bundle.putString("sourceKey", vodInfo.sourceKey);
+                        bundle.putString("wdName", vodInfo.name);
                         jumpActivity(DetailActivity.class, bundle);
                     }
                 }

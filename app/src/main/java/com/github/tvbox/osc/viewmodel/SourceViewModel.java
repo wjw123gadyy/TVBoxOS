@@ -1,31 +1,19 @@
 package com.github.tvbox.osc.viewmodel;
 
 import android.text.TextUtils;
-
 import android.util.Base64;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.github.catvod.crawler.Spider;
 import com.github.tvbox.osc.api.ApiConfig;
 import com.github.tvbox.osc.base.App;
-import com.github.tvbox.osc.bean.AbsJson;
-import com.github.tvbox.osc.bean.AbsSortJson;
-import com.github.tvbox.osc.bean.AbsSortXml;
-import com.github.tvbox.osc.bean.AbsXml;
-import com.github.tvbox.osc.bean.Movie;
-import com.github.tvbox.osc.bean.MovieSort;
-import com.github.tvbox.osc.bean.SourceBean;
+import com.github.tvbox.osc.bean.*;
 import com.github.tvbox.osc.event.RefreshEvent;
 import com.github.tvbox.osc.util.DefaultConfig;
 import com.github.tvbox.osc.util.HawkConfig;
 import com.github.tvbox.osc.util.LOG;
 import com.github.tvbox.osc.util.thunder.Thunder;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.AbsCallback;
@@ -34,19 +22,13 @@ import com.orhanobut.hawk.Hawk;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 /**
  * @author pj567
@@ -440,12 +422,6 @@ public class SourceViewModel extends ViewModel {
         }
     }
 
-    public void rjson(SourceBean sourceBean,String rid){
-        Spider sp = ApiConfig.get().getCSP(sourceBean);
-        List<String> ids = new ArrayList<>();
-        ids.add(rid);
-        json(detailResult, sp.detailContent(ids), sourceBean.getKey());
-    }
     // detailContent
     public void getDetail(String sourceKey, String id,String wdName) {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
@@ -457,52 +433,21 @@ public class SourceViewModel extends ViewModel {
                     try {
                         String rid = id,sid="";
                         String isname = Hawk.get(HawkConfig.MY_NAME,"");
-                        boolean fb = true;
-                        if (!isname.isEmpty()&&!wdName.isEmpty()) {
+                        if (!isname.isEmpty()) {
                             if(sourceKey.startsWith("ali_")){
-                                sid = id.split("\\$\\$\\$")[0];
-                                String[] idInfo = ApiConfig.mop.get(wdName);
-                                if (idInfo == null) {
-                                    fb = false;
-                                    idInfo = new String[4];
-                                    idInfo[0] = sid;
+                                String[] idInfo = id.split("\\$\\$\\$");
+                                if (idInfo.length == 1) {
+                                    rid = rid + "$$$$$$" + wdName;
+                                }else if(idInfo.length>2) {
                                     idInfo[2] = wdName;
-                                    final String[] idInfo0=idInfo;final String rid0=rid;
-                                    OkGo.<String>get("https://www.voflix.com/index.php/ajax/suggest?mid=1&limit=1&wd=" + wdName)
-                                        .execute(new AbsCallback<String>() {
-                                            @Override
-                                            public void onSuccess(Response<String> res) {
-                                                String[] idInfo2 = idInfo0;
-                                                try {
-                                                    JSONObject response = new JSONObject(res.body());
-                                                    if (response.optInt("code", 0) == 1) {
-                                                        JSONArray jsonArray = response.getJSONArray("list");
-                                                        if (jsonArray.length() > 0) {
-                                                            JSONObject o = (JSONObject) jsonArray.get(0);
-                                                            int id = o.optInt("id", 0);
-                                                            if (id > 0) {
-                                                                idInfo2[1] =o.optString("pic", "");
-                                                                idInfo2[3] = String.valueOf(id);
-                                                            }
-                                                        }
-                                                    }
-                                                    String rid2 = TextUtils.join("$$$", idInfo2);
-                                                    ApiConfig.mop.put(wdName, idInfo2);
-                                                    rjson(sourceBean,rid2);
-                                                } catch (Throwable th) {
-                                                    rjson(sourceBean,rid0);
-                                                }
-                                            }
-                                            @Override
-                                            public String convertResponse(okhttp3.Response response) throws Throwable {
-                                                return response.body().string();
-                                            }
-                                        });
+                                    rid = TextUtils.join("$$$", idInfo);
                                 }
-                                rid = TextUtils.join("$$$", idInfo);
                             }
                         }
-                        if(fb) rjson(sourceBean,rid);
+                        Spider sp = ApiConfig.get().getCSP(sourceBean);
+                        List<String> ids = new ArrayList<>();
+                        ids.add(rid);
+                        json(detailResult, sp.detailContent(ids), sourceBean.getKey());
                     } catch (Throwable th) {
                         th.printStackTrace();
                     }

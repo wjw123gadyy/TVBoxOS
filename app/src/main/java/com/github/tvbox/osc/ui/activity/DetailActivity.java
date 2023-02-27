@@ -728,7 +728,7 @@ public class DetailActivity extends BaseActivity {
                     tvName.setText(mVideo.name);
                     cuHome = ApiConfig.get().getSource(mVideo.sourceKey);
                     setTextShow(tvSite, "来源：", cuHome.getName());
-                    setTextShow(tvYear, "年份：", mVideo.year == 0 ? "" : String.valueOf(mVideo.year));
+                    setTextShow(tvYear, "年份：", mVideo.year);
                     setTextShow(tvArea, "地区：", mVideo.area);
                     setTextShow(tvLang, "语言：", mVideo.lang);
                     setTextShow(tvType, "类型：", mVideo.type);

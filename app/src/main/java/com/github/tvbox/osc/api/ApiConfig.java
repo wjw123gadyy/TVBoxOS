@@ -169,38 +169,39 @@ public class ApiConfig {
         int c = cs(s0, "\\d+"), index = 0;
         Map<String, String> m = new LinkedHashMap<>();
         for (String name : list) {
-            if (type.isEmpty()||name.contains(type)) {
-                zname = name;
-                if (name.startsWith("[")) {
-                    name = name.replaceAll("\\[.*\\](.*)","$1");
-                }
-                if (!f&&list.size()<200) {
-                    name = name.replaceAll("\\d{4,8}", "");
-                }
-                if (matcher(regx, name).find()) {
-                    iname = name.replaceAll(regx, "$2");
-                }else {
-                    name = name.replace("mp4", "").replace("4K","").replace("4k","").replace("1080P","").replace("1080p","");
-                    if (c==1) {
-                        if(flag) rname = getBstr(name,f);
-                        else rname = name;
-                        ma = matcher("\\d+", rname);
-                        while (ma.find()) {
-                            iname = ma.group();
-                        }
-                    }else if(matcher(".*(\\d+)集.*", name).find()){
-                        iname = name.replaceAll(".*(\\d+)集.*", "$1");
-                    }else if(matcher("(\\d+).*", name).find()){
-                        iname = name.replaceAll(".*?(\\d+).*", "$1");
-                    }else {
-                        iname = name;
+            zname = name;
+            if (name.startsWith("[")) {
+                name = name.replaceAll("\\[.*\\](.*)","$1");
+            }
+            if (!f&&list.size()<200) {
+                name = name.replaceAll("\\d{4,8}", "");
+            }
+            if (matcher(regx, name).find()) {
+                iname = name.replaceAll(regx, "$2");
+            }else {
+                name = name.replace("mp4", "").replace("4K","").replace("4k","").replace("1080P","").replace("1080p","");
+                if (c==1) {
+                    if(flag) rname = getBstr(name,f);
+                    else rname = name;
+                    ma = matcher("\\d+", rname);
+                    while (ma.find()) {
+                        iname = ma.group();
                     }
+                }else if(matcher(".*(\\d+)集.*", name).find()){
+                    iname = name.replaceAll(".*(\\d+)集.*", "$1");
+                }else if(matcher("(\\d+).*", name).find()){
+                    iname = name.replaceAll(".*?(\\d+).*", "$1");
+                }else {
+                    iname = name;
                 }
-                if(iname.contains(".")&&iname.length()>5) iname = iname.substring(0, iname.lastIndexOf("."));
-                if(isNumeric(iname)) {
-                    index = Integer.parseInt(iname);
-                    if(iname.length()==1)iname="0"+iname;
-                } else iname = zname;
+            }
+            if(iname.contains(".")&&iname.length()>5) iname = iname.substring(0, iname.lastIndexOf("."));
+            if(isNumeric(iname)) {
+                int zi = Integer.parseInt(iname);
+                if(zi>index)index=zi;
+                if(iname.length()==1)iname="0"+iname;
+            } else iname = zname;
+            if (type.isEmpty()||zname.contains(type)) {
                 m.put(iname, map.get(zname));
             }
         }

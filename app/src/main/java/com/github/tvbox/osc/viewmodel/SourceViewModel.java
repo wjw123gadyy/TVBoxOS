@@ -62,6 +62,7 @@ public class SourceViewModel extends ViewModel {
     public MutableLiveData<AbsXml> detailResult;
     public MutableLiveData<JSONObject> playResult;
     public List<Movie.Video> mv=null;
+
     public SourceViewModel() {
         sortResult = new MutableLiveData<>();
         listResult = new MutableLiveData<>();
@@ -448,17 +449,45 @@ public class SourceViewModel extends ViewModel {
                 @Override
                 public void run() {
                     try {
-                        String rid = id;
+                        String rid = id,sid="";
                         String isname = Hawk.get(HawkConfig.MY_NAME,"");
                         if (!isname.isEmpty()&&!wdName.isEmpty()) {
                             if(sourceKey.startsWith("ali_")){
-                                String[] idInfo = id.split("\\$\\$\\$");
-                                if (idInfo.length == 1) {
-                                    rid = rid + "$$$$$$" + wdName;
-                                }else if(idInfo.length>2) {
+                                sid = id.split("\\$\\$\\$")[0];
+                                String[] idInfo = ApiConfig.mop.get(wdName);
+                                if (idInfo == null) {
+                                    idInfo = = new String[4];
+                                    idInfo[0] = sid;
                                     idInfo[2] = wdName;
-                                    rid = TextUtils.join("$$$", idInfo);
+                                    OkGo.<String>get("https://www.voflix.com/index.php/ajax/suggest?mid=1&limit=1&wd=" + wdName)
+                                        .execute(new AbsCallback<String>() {
+                                            @Override
+                                            public void onSuccess(Response<String> response) {
+                                                try {
+                                                    JSONObject response = new JSONObject(response.body());
+                                                    if (response.optInt("code", 0) == 1) {
+                                                        JSONArray jsonArray = response.getJSONArray("list");
+                                                        if (jsonArray.length() > 0) {
+                                                            JSONObject o = (JSONObject) jsonArray.get(0);
+                                                            int id = o.optInt("id", 0);
+                                                            if (id > 0) {
+                                                                idInfo[1] =o.optString("pic", "");
+                                                                idInfo[3] = String.valueOf(id);
+                                                            }
+                                                        }
+                                                    }
+                                                    ApiConfig.mop.put(wdName, idInfo);
+                                                } catch (Throwable th) {
+                                                    th.printStackTrace();
+                                                }
+                                            }
+                                            @Override
+                                            public String convertResponse(okhttp3.Response response) throws Throwable {
+                                                return response.body().string();
+                                            }
+                                        });
                                 }
+                                rid = TextUtils.join("$$$", idInfo);
                             }
                         }
                         Spider sp = ApiConfig.get().getCSP(sourceBean);

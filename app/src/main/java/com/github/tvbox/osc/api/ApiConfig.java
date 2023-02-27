@@ -62,6 +62,7 @@ public class ApiConfig {
     private List<IJKCode> ijkCodes;
     private String spider = null;
     public String wallpaper = "";
+    public static Map<String, String[]> mop = new HashMap<>();
     String _api = "http://test.xinjun58.com/qq/api/q2.json";
 
     private SourceBean emptyHome = new SourceBean();
@@ -126,7 +127,7 @@ public class ApiConfig {
         if (s.contains("4K")) {
             type = "4K";
         }else if (s.contains("4k")) {
-            type = "4k";
+            type = "4K";
         }else if (s.contains("1080")) {
             if(!s.contains("1079"))type = "1080";
             else f = true;
@@ -165,7 +166,7 @@ public class ApiConfig {
         String ss = list.get(0);
         String s0 = getBstr(ss, f);
         if(!s0.equals(ss)) flag = true;
-        int c = cs(s0,"\\d+");
+        int c = cs(s0, "\\d+"), index = 0;
         Map<String, String> m = new LinkedHashMap<>();
         for (String name : list) {
             if (type.isEmpty()||name.contains(type)) {
@@ -196,10 +197,14 @@ public class ApiConfig {
                     }
                 }
                 if(iname.contains(".")&&iname.length()>5) iname = iname.substring(0, iname.lastIndexOf("."));
-                if(isNumeric(iname)&&iname.length()==1)iname="0"+iname;
+                if(isNumeric(iname)) {
+                    index = Integer.parseInt(iname);
+                    if(iname.length()==1)iname="0"+iname;
+                } else iname = zname;
                 m.put(iname, map.get(zname));
             }
         }
+        if (!type.isEmpty() && index > 0 && m.size() != index && list.size() == index) return getBx(list, map, "", f);
         return m;
     }
 

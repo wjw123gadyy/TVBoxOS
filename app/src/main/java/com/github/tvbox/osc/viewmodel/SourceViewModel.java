@@ -440,7 +440,7 @@ public class SourceViewModel extends ViewModel {
         }
     }
 
-    public void rjson(SourceBean sourceBean,rid){
+    public void rjson(SourceBean sourceBean,String rid){
         Spider sp = ApiConfig.get().getCSP(sourceBean);
         List<String> ids = new ArrayList<>();
         ids.add(rid);

@@ -456,7 +456,7 @@ public class SourceViewModel extends ViewModel {
                                 sid = id.split("\\$\\$\\$")[0];
                                 String[] idInfo = ApiConfig.mop.get(wdName);
                                 if (idInfo == null) {
-                                    idInfo = = new String[4];
+                                    idInfo = new String[4];
                                     idInfo[0] = sid;
                                     idInfo[2] = wdName;
                                     OkGo.<String>get("https://www.voflix.com/index.php/ajax/suggest?mid=1&limit=1&wd=" + wdName)

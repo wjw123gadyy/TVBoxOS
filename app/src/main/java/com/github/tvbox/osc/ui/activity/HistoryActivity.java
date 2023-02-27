@@ -165,10 +165,12 @@ public class HistoryActivity extends BaseActivity {
             String sourceKey = vodInfo.sourceKey;
             if (sourceKey != null) {
                 String name = ApiConfig.get().getSource(sourceKey).getName();
-                if (name.contains("易搜")) {
-                    vodInfo.pic = "https://f.haocew.com/image/tv/yiso.jpg";
-                }else if (vodInfo.id.contains("aliyundrive")&&!vodInfo.pic.contains("xinjun58")) {
-                    vodInfo.pic = "http://image.xinjun58.com/sp/pic/bg/ali.jpg";
+                if(!vodInfo.pic.contains("img2.doubanio.com")){
+                    if (name.contains("易搜")) {
+                        vodInfo.pic = "https://f.haocew.com/image/tv/yiso.jpg";
+                    }else if (vodInfo.id.contains("aliyundrive")&&!vodInfo.pic.contains("xinjun58")) {
+                        vodInfo.pic = "http://image.xinjun58.com/sp/pic/bg/ali.jpg";
+                    }
                 }
             }
             if (vodInfo.playNote != null && !vodInfo.playNote.isEmpty())vodInfo.note = "最近：" + vodInfo.playNote;

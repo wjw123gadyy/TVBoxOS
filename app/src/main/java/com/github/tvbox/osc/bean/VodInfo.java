@@ -34,7 +34,7 @@ public class VodInfo implements Serializable {
     //地区
     public String area;
     //年份
-    public int year;
+    public String year;
     public String state;
     //描述集数或者影片信息<![CDATA[共40集]]>
     public String note;

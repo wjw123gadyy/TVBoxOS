@@ -722,7 +722,7 @@ public class DetailActivity extends BaseActivity {
                 if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                     showSuccess();
                     mVideo = absXml.movie.videoList.get(0);
-                    Movie.Video mvo=(Movie.Video)CacheManager.getCache(mvo.name);
+                    Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
                     if (mvo != null&&mVideo.actor.isEmpty()) {
                         mVideo.year = mvo.year;
                         mVideo.area = mvo.area;

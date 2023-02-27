@@ -462,9 +462,9 @@ public class SourceViewModel extends ViewModel {
                                     OkGo.<String>get("https://www.voflix.com/index.php/ajax/suggest?mid=1&limit=1&wd=" + wdName)
                                         .execute(new AbsCallback<String>() {
                                             @Override
-                                            public void onSuccess(Response<String> response) {
+                                            public void onSuccess(Response<String> res) {
                                                 try {
-                                                    JSONObject response = new JSONObject(response.body());
+                                                    JSONObject response = new JSONObject(res.body());
                                                     if (response.optInt("code", 0) == 1) {
                                                         JSONArray jsonArray = response.getJSONArray("list");
                                                         if (jsonArray.length() > 0) {

@@ -442,8 +442,23 @@ public class SourceViewModel extends ViewModel {
                                     idInfo[2] = wdName;
                                     rid = TextUtils.join("$$$", idInfo);
                                 }
-                                Movie.Video mvo=(Movie.Video)CacheManager.getCache(wdName);
-                                if(mvo!=null) rid = rid + "$$$0";
+                                idInfo = rid.split("\\$\\$\\$");
+                                if (idInfo.length >2) {
+                                    String vd = Hawk.get(HawkConfig.VIDEO_DETAIL,"");
+                                    int index = 1;//开启视频详情
+                                    if (vd.isEmpty()) {
+                                        index = 0;
+                                    }else {
+                                        Movie.Video mvo=(Movie.Video)CacheManager.getCache(wdName);
+                                        if(mvo!=null)index = 0;
+                                    }
+                                    if (idInfo.length == 3) {
+                                        rid = rid + "$$$"+index;
+                                    }else {
+                                        idInfo[3] = ""+index;
+                                        rid = TextUtils.join("$$$", idInfo);
+                                    }
+                                }
                             }
                         }
                         Spider sp = ApiConfig.get().getCSP(sourceBean);

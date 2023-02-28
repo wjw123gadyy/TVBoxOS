@@ -166,7 +166,7 @@ public class HistoryActivity extends BaseActivity {
             String sourceKey = vodInfo.sourceKey;
             if (sourceKey != null) {
                 String name = ApiConfig.get().getSource(sourceKey).getName();
-                if(!vodInfo.pic.contains("doubanio.com")){
+                if (vodInfo.director == null || director.isEmpty()) {
                     if (name.contains("易搜")) {
                         vodInfo.pic = "https://f.haocew.com/image/tv/yiso.jpg";
                     }else if (vodInfo.id.contains("aliyundrive")&&!vodInfo.pic.contains("xinjun58")) {

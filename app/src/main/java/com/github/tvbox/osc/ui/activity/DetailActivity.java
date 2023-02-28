@@ -139,6 +139,8 @@ public class DetailActivity extends BaseActivity {
     private View currentSeriesGroupView;
     private int GroupCount;
     private SourceBean cuHome;
+    private String spName;
+    private String spPic;
 
     @Override
     protected int getLayoutResID() {
@@ -233,11 +235,11 @@ public class DetailActivity extends BaseActivity {
                 }
             }
         });
+
         tvSort.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String text = tvPlayUrl.getText().toString();
-                text = "r"+DefaultConfig.getHttpUrl(text);
+                String text = "r"+DefaultConfig.getHttpUrl(spName);
                 updateData(text);
                 return true;
             }
@@ -307,9 +309,7 @@ public class DetailActivity extends BaseActivity {
         tvCollect.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String text = tvPlayUrl.getText().toString();
-                text = text.replace("视频信息: ","");
-                updateData(text);
+                updateData(spName + spPic);
                 return true;
             }
         });
@@ -365,24 +365,29 @@ public class DetailActivity extends BaseActivity {
             }
         });
 
+        tvDirector.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                copyInfo("已复制", spName);
+            }
+        });
+        tvDirector.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                copyInfo("已复制链接",DefaultConfig.getHttpUrl(spName));
+                return true;
+            }
+        });
         tvPlayUrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //获取剪切板管理器
-                ClipboardManager cm = (ClipboardManager)getSystemService(mContext.CLIPBOARD_SERVICE);
-                //设置内容到剪切板
-                cm.setPrimaryClip(ClipData.newPlainText(null, tvPlayUrl.getText().toString().replace("视频信息: ","")));
-                Toast.makeText(DetailActivity.this, "已复制", Toast.LENGTH_SHORT).show();
+                copyInfo("已复制", spName);
             }
         });
         tvPlayUrl.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ClipboardManager cm = (ClipboardManager)getSystemService(mContext.CLIPBOARD_SERVICE);
-                String text = tvPlayUrl.getText().toString();
-                text = DefaultConfig.getHttpUrl(text);
-                cm.setPrimaryClip(ClipData.newPlainText(null, text));
-                Toast.makeText(DetailActivity.this, "已复制链接", Toast.LENGTH_SHORT).show();
+                copyInfo("已复制链接",DefaultConfig.getHttpUrl(spName));
                 return true;
             }
         });
@@ -524,6 +529,12 @@ public class DetailActivity extends BaseActivity {
 
 
         setLoadSir(llLayout);
+    }
+
+    public void copyInfo(String title,String text){
+        ClipboardManager cm = (ClipboardManager)getSystemService(mContext.CLIPBOARD_SERVICE);
+        cm.setPrimaryClip(ClipData.newPlainText(null, text));
+        Toast.makeText(DetailActivity.this, title, Toast.LENGTH_SHORT).show();
     }
     private void updateData(String text) {
         String aliurl = "http://qyh.haocew.com/qy/demand/vd";
@@ -723,18 +734,26 @@ public class DetailActivity extends BaseActivity {
                     showSuccess();
                     mVideo = absXml.movie.videoList.get(0);
                     Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
-                    if (mvo != null&&mVideo.actor.isEmpty()) {
+                    boolean spflag = mVideo.director.isEmpty();
+                    if (mvo != null&&spflag) {
+                        mVideo.pic = mvo.pic;
                         mVideo.year = mvo.year;
                         mVideo.area = mvo.area;
                         mVideo.director = mvo.director;
                         mVideo.actor = mvo.actor;
                         mVideo.des = mvo.des;
                     }
-                    if (mvo == null&&!mVideo.actor.isEmpty()) {
-                        mvo = mVideo;
-                        mvo.urlBean=null;
+                    if (mvo == null&&!spflag) {
+                        mvo = new Movie.Video();
+                        mvo.pic = mVideo.pic;
+                        mvo.year = mVideo.year;
+                        mvo.area = mVideo.area;
+                        mvo.director = mVideo.director;
+                        mvo.actor = mVideo.actor;
+                        mvo.des = mVideo.des;
                         CacheManager.save(mvo.name, mvo);
                     }
+                    spPic=mVideo.pic;
                     vodInfo = new VodInfo();
                     vodInfo.setVideo(mVideo);
                     vodInfo.sourceKey = mVideo.sourceKey;
@@ -807,8 +826,11 @@ public class DetailActivity extends BaseActivity {
                                 bfurl = vodInfo.name+" "+_bfurl;
                             }
                         }
+                        spName = bfurl;
+
                         //设置播放地址
-                        setTextShow(tvPlayUrl, "视频信息: ", bfurl);
+                        if(spflag)setTextShow(tvPlayUrl, "", bfurl);
+                        else setTextShow(tvPlayUrl, null, null);
                         seriesFlagAdapter.setNewData(vodInfo.seriesFlags);
                         mGridViewFlag.scrollToPosition(flagScrollTo);
 

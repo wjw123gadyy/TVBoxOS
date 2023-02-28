@@ -243,6 +243,21 @@ public class SearchActivity extends BaseActivity {
                 }
             }
         });
+
+        tvClear.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String vd = Hawk.get(HawkConfig.VIDEO_DETAIL,"");
+                if (vd.isEmpty()) {
+                    Hawk.put(HawkConfig.VIDEO_DETAIL, "yes");
+                    Toast.makeText(mContext, "开启视频详情", Toast.LENGTH_SHORT).show();
+                }else {
+                    Hawk.put(HawkConfig.VIDEO_DETAIL, "");
+                    Toast.makeText(mContext, "关闭视频详情", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
         tvClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

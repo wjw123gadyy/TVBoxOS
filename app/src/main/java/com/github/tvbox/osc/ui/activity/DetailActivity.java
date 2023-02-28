@@ -768,7 +768,7 @@ public class DetailActivity extends BaseActivity {
                     setTextShow(tvArea, "地区：", mVideo.area);
                     setTextShow(tvLang, "语言：", mVideo.lang);
                     setTextShow(tvType, "类型：", mVideo.type);
-                    setTextShow(tvTag, "标签：", mVideo.tvTag);
+                    setTextShow(tvTag, "标签：", mVideo.tag);
                     setTextShow(tvActor, "演员：", mVideo.actor);
                     setTextShow(tvDirector, "导演：", mVideo.director);
                     setTextShow(tvDes, "内容简介：", removeHtmlTag(mVideo.des));

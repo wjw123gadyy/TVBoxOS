@@ -764,6 +764,16 @@ public class DetailActivity extends BaseActivity {
                         spPic=mVideo.pic;
                         vodInfo = new VodInfo();
                         vodInfo.setVideo(mVideo);
+                        String bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
+                        if (vodInfo.id != null) {
+                            String[] idInfo = vodInfo.id.split("\\$\\$\\$");
+                            String _bfurl = idInfo[0];
+                            if(_bfurl.contains("aliyundrive")){
+                                _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
+                                bfurl = vodInfo.name+" "+_bfurl;
+                            }
+                        }
+                        spName = bfurl;
                         vodInfo.sourceKey = mVideo.sourceKey;
                         tvName.setText(mVideo.name);
                         cuHome = ApiConfig.get().getSource(mVideo.sourceKey);
@@ -826,16 +836,6 @@ public class DetailActivity extends BaseActivity {
                                 } else
                                     flag.selected = false;
                             }
-                            String bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
-                            if (vodInfo.id != null) {
-                                String[] idInfo = vodInfo.id.split("\\$\\$\\$");
-                                String _bfurl = idInfo[0];
-                                if(_bfurl.contains("aliyundrive")){
-                                    _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
-                                    bfurl = vodInfo.name+" "+_bfurl;
-                                }
-                            }
-                            spName = bfurl;
 
                             //设置播放地址
                             if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);

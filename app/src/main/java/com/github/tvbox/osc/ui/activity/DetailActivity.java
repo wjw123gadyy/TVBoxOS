@@ -758,6 +758,7 @@ public class DetailActivity extends BaseActivity {
                             mvo.des = mVideo.des;
                             CacheManager.save(mVideo.name, mvo);
                         }
+                        spflag = mVideo.director==null||mVideo.director.isEmpty();
                         spPic=mVideo.pic;
                         vodInfo = new VodInfo();
                         vodInfo.setVideo(mVideo);
@@ -765,7 +766,7 @@ public class DetailActivity extends BaseActivity {
                         tvName.setText(mVideo.name);
                         cuHome = ApiConfig.get().getSource(mVideo.sourceKey);
                         setTextShow(tvSite, "来源：", cuHome.getName());
-                        setTextShow(tvYear, "年份：", mVideo.year);
+                        setTextShow(tvYear, "上映：", mVideo.year);
                         setTextShow(tvArea, "地区：", mVideo.area);
                         setTextShow(tvLang, "语言：", mVideo.lang);
                         setTextShow(tvType, "类型：", mVideo.type);
@@ -835,7 +836,7 @@ public class DetailActivity extends BaseActivity {
                             spName = bfurl;
 
                             //设置播放地址
-                            if(spflag)setTextShow(tvPlayUrl, "", bfurl);
+                            if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);
                             else setTextShow(tvPlayUrl, null, null);
                             seriesFlagAdapter.setNewData(vodInfo.seriesFlags);
                             mGridViewFlag.scrollToPosition(flagScrollTo);

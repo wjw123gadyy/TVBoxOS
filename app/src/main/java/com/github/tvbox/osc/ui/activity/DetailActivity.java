@@ -758,6 +758,8 @@ public class DetailActivity extends BaseActivity {
                             mvo.des = mVideo.des;
                             CacheManager.save(mVideo.name, mvo);
                         }
+                        String apiUrl = Hawk.get(HawkConfig.API_URL, "");
+                        if(apiUrl.contains("xinjun"))myPush.setVisibility(View.GONE);
                         spflag = mVideo.director==null||mVideo.director.isEmpty();
                         spPic=mVideo.pic;
                         vodInfo = new VodInfo();

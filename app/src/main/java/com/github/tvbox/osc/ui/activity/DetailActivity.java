@@ -755,7 +755,7 @@ public class DetailActivity extends BaseActivity {
                         mvo.director = mVideo.director;
                         mvo.actor = mVideo.actor;
                         mvo.des = mVideo.des;
-                        CacheManager.save(mvo.name, mvo);
+                        CacheManager.save(mVideo.name, mvo);
                     }
                     spPic=mVideo.pic;
                     vodInfo = new VodInfo();

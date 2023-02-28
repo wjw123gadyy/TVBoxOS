@@ -323,6 +323,7 @@ public class DetailActivity extends BaseActivity {
                 text = DefaultConfig.getHttpUrl(text);
                 Intent newIntent = new Intent(mContext, DetailActivity.class);
                 newIntent.putExtra("id", text);
+                newIntent.putExtra("wdName", wdName);
                 newIntent.putExtra("sourceKey", "push_agent");
                 DetailActivity.this.startActivity(newIntent);
             }
@@ -360,6 +361,7 @@ public class DetailActivity extends BaseActivity {
                 text = DefaultConfig.getHttpUrl(text);
                 Intent newIntent = new Intent(mContext, DetailActivity.class);
                 newIntent.putExtra("id", text);
+                newIntent.putExtra("wdName", wdName);
                 newIntent.putExtra("sourceKey", "ali_Yiso");
                 newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 DetailActivity.this.startActivity(newIntent);

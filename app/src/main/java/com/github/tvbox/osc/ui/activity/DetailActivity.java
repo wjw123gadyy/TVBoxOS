@@ -739,6 +739,7 @@ public class DetailActivity extends BaseActivity {
                     boolean spflag = mVideo.director.isEmpty();
                     if (mvo != null&&spflag) {
                         mVideo.pic = mvo.pic;
+                        mVideo.tag = mvo.tag;
                         mVideo.year = mvo.year;
                         mVideo.area = mvo.area;
                         mVideo.director = mvo.director;
@@ -748,6 +749,7 @@ public class DetailActivity extends BaseActivity {
                     if (mvo == null&&!spflag) {
                         mvo = new Movie.Video();
                         mvo.pic = mVideo.pic;
+                        mvo.tag = mVideo.tag;
                         mvo.year = mVideo.year;
                         mvo.area = mVideo.area;
                         mvo.director = mVideo.director;

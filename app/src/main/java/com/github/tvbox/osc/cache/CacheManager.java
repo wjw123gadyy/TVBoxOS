@@ -74,6 +74,7 @@ public class CacheManager {
     }
 
     public static <T> void save(String key, T body) {
+        if(key==null||key.isEmpty())return null;
         Cache cache = new Cache();
         cache.key = key;
         cache.data = toByteArray(body);
@@ -81,6 +82,7 @@ public class CacheManager {
     }
 
     public static Object getCache(String key) {
+        if(key==null||key.isEmpty())return null;
         Cache cache = AppDataManager.get().getCacheDao().getCache(key);
         if (cache != null && cache.data != null) {
             return toObject(cache.data);

@@ -732,132 +732,136 @@ public class DetailActivity extends BaseActivity {
         sourceViewModel.detailResult.observe(this, new Observer<AbsXml>() {
             @Override
             public void onChanged(AbsXml absXml) {
-                if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
-                    showSuccess();
-                    mVideo = absXml.movie.videoList.get(0);
-                    Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
-                    boolean spflag = mVideo.director.isEmpty();
-                    if (mvo != null&&spflag) {
-                        mVideo.pic = mvo.pic;
-                        mVideo.tag = mvo.tag;
-                        mVideo.year = mvo.year;
-                        mVideo.area = mvo.area;
-                        mVideo.director = mvo.director;
-                        mVideo.actor = mvo.actor;
-                        mVideo.des = mvo.des;
-                    }
-                    if (mvo == null&&!spflag) {
-                        mvo = new Movie.Video();
-                        mvo.pic = mVideo.pic;
-                        mvo.tag = mVideo.tag;
-                        mvo.year = mVideo.year;
-                        mvo.area = mVideo.area;
-                        mvo.director = mVideo.director;
-                        mvo.actor = mVideo.actor;
-                        mvo.des = mVideo.des;
-                        CacheManager.save(mVideo.name, mvo);
-                    }
-                    spPic=mVideo.pic;
-                    vodInfo = new VodInfo();
-                    vodInfo.setVideo(mVideo);
-                    vodInfo.sourceKey = mVideo.sourceKey;
-                    tvName.setText(mVideo.name);
-                    cuHome = ApiConfig.get().getSource(mVideo.sourceKey);
-                    setTextShow(tvSite, "来源：", cuHome.getName());
-                    setTextShow(tvYear, "年份：", mVideo.year);
-                    setTextShow(tvArea, "地区：", mVideo.area);
-                    setTextShow(tvLang, "语言：", mVideo.lang);
-                    setTextShow(tvType, "类型：", mVideo.type);
-                    setTextShow(tvTag, "标签：", mVideo.tag);
-                    setTextShow(tvActor, "演员：", mVideo.actor);
-                    setTextShow(tvDirector, "导演：", mVideo.director);
-                    setTextShow(tvDes, "内容简介：", removeHtmlTag(mVideo.des));
-                    if (!TextUtils.isEmpty(mVideo.pic)) {
-                        Picasso.get()
-                                .load(DefaultConfig.checkReplaceProxy(mVideo.pic))
-                                .transform(new RoundTransformation(MD5.string2MD5(mVideo.pic + mVideo.name))
-                                        .centerCorp(true)
-                                        .override(AutoSizeUtils.mm2px(mContext, 300), AutoSizeUtils.mm2px(mContext, 400))
-                                        .roundRadius(AutoSizeUtils.mm2px(mContext, 10), RoundTransformation.RoundType.ALL))
-                                .placeholder(R.drawable.img_loading_placeholder)
-                                .error(R.drawable.img_loading_placeholder)
-                                .into(ivThumb);
-                    } else {
-                        ivThumb.setImageResource(R.drawable.img_loading_placeholder);
-                    }
-
-                    if (vodInfo.seriesMap != null && vodInfo.seriesMap.size() > 0) {
-                        mGridViewFlag.setVisibility(View.VISIBLE);
-                        mGridView.setVisibility(View.VISIBLE);
-                        tvPlay.setVisibility(View.VISIBLE);
-                        mEmptyPlayList.setVisibility(View.GONE);
-
-                        VodInfo vodInfoRecord = RoomDataManger.getVodInfo(sourceKey, vodId);
-                        // 读取历史记录
-                        if (vodInfoRecord != null) {
-                            vodInfo.playIndex = Math.max(vodInfoRecord.playIndex, 0);
-                            vodInfo.playFlag = vodInfoRecord.playFlag;
-                            vodInfo.playerCfg = vodInfoRecord.playerCfg;
-                            vodInfo.reverseSort = vodInfoRecord.reverseSort;
+                try {
+                    if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
+                        showSuccess();
+                        mVideo = absXml.movie.videoList.get(0);
+                        Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
+                        boolean spflag = mVideo.director==null||mVideo.director.isEmpty();
+                        if (mvo != null&&spflag) {
+                            mVideo.pic = mvo.pic;
+                            mVideo.tag = mvo.tag;
+                            mVideo.year = mvo.year;
+                            mVideo.area = mvo.area;
+                            mVideo.director = mvo.director;
+                            mVideo.actor = mvo.actor;
+                            mVideo.des = mvo.des;
+                        }
+                        if (mvo == null&&!spflag) {
+                            mvo = new Movie.Video();
+                            mvo.pic = mVideo.pic;
+                            mvo.tag = mVideo.tag;
+                            mvo.year = mVideo.year;
+                            mvo.area = mVideo.area;
+                            mvo.director = mVideo.director;
+                            mvo.actor = mVideo.actor;
+                            mvo.des = mVideo.des;
+                            CacheManager.save(mVideo.name, mvo);
+                        }
+                        spPic=mVideo.pic;
+                        vodInfo = new VodInfo();
+                        vodInfo.setVideo(mVideo);
+                        vodInfo.sourceKey = mVideo.sourceKey;
+                        tvName.setText(mVideo.name);
+                        cuHome = ApiConfig.get().getSource(mVideo.sourceKey);
+                        setTextShow(tvSite, "来源：", cuHome.getName());
+                        setTextShow(tvYear, "年份：", mVideo.year);
+                        setTextShow(tvArea, "地区：", mVideo.area);
+                        setTextShow(tvLang, "语言：", mVideo.lang);
+                        setTextShow(tvType, "类型：", mVideo.type);
+                        setTextShow(tvTag, "标签：", mVideo.tag);
+                        setTextShow(tvActor, "演员：", mVideo.actor);
+                        setTextShow(tvDirector, "导演：", mVideo.director);
+                        setTextShow(tvDes, "内容简介：", removeHtmlTag(mVideo.des));
+                        if (!TextUtils.isEmpty(mVideo.pic)) {
+                            Picasso.get()
+                                    .load(DefaultConfig.checkReplaceProxy(mVideo.pic))
+                                    .transform(new RoundTransformation(MD5.string2MD5(mVideo.pic + mVideo.name))
+                                            .centerCorp(true)
+                                            .override(AutoSizeUtils.mm2px(mContext, 300), AutoSizeUtils.mm2px(mContext, 400))
+                                            .roundRadius(AutoSizeUtils.mm2px(mContext, 10), RoundTransformation.RoundType.ALL))
+                                    .placeholder(R.drawable.img_loading_placeholder)
+                                    .error(R.drawable.img_loading_placeholder)
+                                    .into(ivThumb);
                         } else {
-                            vodInfo.playIndex = 0;
-                            vodInfo.playFlag = null;
-                            vodInfo.playerCfg = "";
-                            vodInfo.reverseSort = false;
+                            ivThumb.setImageResource(R.drawable.img_loading_placeholder);
                         }
 
-                        if (vodInfo.reverseSort) {
-                            vodInfo.reverse();
-                        }
+                        if (vodInfo.seriesMap != null && vodInfo.seriesMap.size() > 0) {
+                            mGridViewFlag.setVisibility(View.VISIBLE);
+                            mGridView.setVisibility(View.VISIBLE);
+                            tvPlay.setVisibility(View.VISIBLE);
+                            mEmptyPlayList.setVisibility(View.GONE);
 
-                        if (vodInfo.playFlag == null || !vodInfo.seriesMap.containsKey(vodInfo.playFlag))
-                            vodInfo.playFlag = (String) vodInfo.seriesMap.keySet().toArray()[0];
-
-                        int flagScrollTo = 0;
-                        for (int j = 0; j < vodInfo.seriesFlags.size(); j++) {
-                            VodInfo.VodSeriesFlag flag = vodInfo.seriesFlags.get(j);
-                            if (flag.name.equals(vodInfo.playFlag)) {
-                                flagScrollTo = j;
-                                flag.selected = true;
-                            } else
-                                flag.selected = false;
-                        }
-                        String bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
-                        if (vodInfo.id != null) {
-                            String[] idInfo = vodInfo.id.split("\\$\\$\\$");
-                            String _bfurl = idInfo[0];
-                            if(_bfurl.contains("aliyundrive")){
-                                _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
-                                bfurl = vodInfo.name+" "+_bfurl;
+                            VodInfo vodInfoRecord = RoomDataManger.getVodInfo(sourceKey, vodId);
+                            // 读取历史记录
+                            if (vodInfoRecord != null) {
+                                vodInfo.playIndex = Math.max(vodInfoRecord.playIndex, 0);
+                                vodInfo.playFlag = vodInfoRecord.playFlag;
+                                vodInfo.playerCfg = vodInfoRecord.playerCfg;
+                                vodInfo.reverseSort = vodInfoRecord.reverseSort;
+                            } else {
+                                vodInfo.playIndex = 0;
+                                vodInfo.playFlag = null;
+                                vodInfo.playerCfg = "";
+                                vodInfo.reverseSort = false;
                             }
-                        }
-                        spName = bfurl;
 
-                        //设置播放地址
-                        if(spflag)setTextShow(tvPlayUrl, "", bfurl);
-                        else setTextShow(tvPlayUrl, null, null);
-                        seriesFlagAdapter.setNewData(vodInfo.seriesFlags);
-                        mGridViewFlag.scrollToPosition(flagScrollTo);
+                            if (vodInfo.reverseSort) {
+                                vodInfo.reverse();
+                            }
 
-                        refreshList();
-                        if (showPreview) {
-                            jumpToPlay();
-                            llPlayerFragmentContainer.setVisibility(View.VISIBLE);
-                            llPlayerFragmentContainerBlock.setVisibility(View.VISIBLE);
-                            toggleSubtitleTextSize();
+                            if (vodInfo.playFlag == null || !vodInfo.seriesMap.containsKey(vodInfo.playFlag))
+                                vodInfo.playFlag = (String) vodInfo.seriesMap.keySet().toArray()[0];
+
+                            int flagScrollTo = 0;
+                            for (int j = 0; j < vodInfo.seriesFlags.size(); j++) {
+                                VodInfo.VodSeriesFlag flag = vodInfo.seriesFlags.get(j);
+                                if (flag.name.equals(vodInfo.playFlag)) {
+                                    flagScrollTo = j;
+                                    flag.selected = true;
+                                } else
+                                    flag.selected = false;
+                            }
+                            String bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
+                            if (vodInfo.id != null) {
+                                String[] idInfo = vodInfo.id.split("\\$\\$\\$");
+                                String _bfurl = idInfo[0];
+                                if(_bfurl.contains("aliyundrive")){
+                                    _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
+                                    bfurl = vodInfo.name+" "+_bfurl;
+                                }
+                            }
+                            spName = bfurl;
+
+                            //设置播放地址
+                            if(spflag)setTextShow(tvPlayUrl, "", bfurl);
+                            else setTextShow(tvPlayUrl, null, null);
+                            seriesFlagAdapter.setNewData(vodInfo.seriesFlags);
+                            mGridViewFlag.scrollToPosition(flagScrollTo);
+
+                            refreshList();
+                            if (showPreview) {
+                                jumpToPlay();
+                                llPlayerFragmentContainer.setVisibility(View.VISIBLE);
+                                llPlayerFragmentContainerBlock.setVisibility(View.VISIBLE);
+                                toggleSubtitleTextSize();
+                            }
+                            // startQuickSearch();
+                        } else {
+                            mGridViewFlag.setVisibility(View.GONE);
+                            mGridView.setVisibility(View.GONE);
+                            mSeriesGroupView.setVisibility(View.GONE);
+                            tvPlay.setVisibility(View.GONE);
+                            mEmptyPlayList.setVisibility(View.VISIBLE);
                         }
-                        // startQuickSearch();
                     } else {
-                        mGridViewFlag.setVisibility(View.GONE);
-                        mGridView.setVisibility(View.GONE);
-                        mSeriesGroupView.setVisibility(View.GONE);
-                        tvPlay.setVisibility(View.GONE);
-                        mEmptyPlayList.setVisibility(View.VISIBLE);
+                        showEmpty();
+                        llPlayerFragmentContainer.setVisibility(View.GONE);
+                        llPlayerFragmentContainerBlock.setVisibility(View.GONE);
                     }
-                } else {
-                    showEmpty();
-                    llPlayerFragmentContainer.setVisibility(View.GONE);
-                    llPlayerFragmentContainerBlock.setVisibility(View.GONE);
+                } catch (Exception e) {
+                    Toast.makeText(DetailActivity.this, "错误信息："+e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -319,13 +319,12 @@ public class DetailActivity extends BaseActivity {
         myPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = tvPlayUrl.getText().toString();
-                text = DefaultConfig.getHttpUrl(text);
+                String text = DefaultConfig.getHttpUrl(spName);
                 Intent newIntent = new Intent(mContext, DetailActivity.class);
                 newIntent.putExtra("id", text);
                 newIntent.putExtra("wdName", wdName);
                 newIntent.putExtra("sourceKey", "push_agent");
-                DetailActivity.this.startActivity(newIntent);
+                startActivity(newIntent);
             }
         });
 
@@ -357,14 +356,13 @@ public class DetailActivity extends BaseActivity {
         myPush.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String text = tvPlayUrl.getText().toString();
-                text = DefaultConfig.getHttpUrl(text);
+                String text = DefaultConfig.getHttpUrl(spName);
                 Intent newIntent = new Intent(mContext, DetailActivity.class);
                 newIntent.putExtra("id", text);
                 newIntent.putExtra("wdName", wdName);
                 newIntent.putExtra("sourceKey", "ali_Yiso");
                 newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                DetailActivity.this.startActivity(newIntent);
+                startActivity(newIntent);
                 return true;
             }
         });

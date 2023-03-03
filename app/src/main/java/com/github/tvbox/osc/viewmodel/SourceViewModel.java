@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.*;
-import android.widget.Toast;
 /**
  * @author pj567
  * @date :2020/12/18
@@ -431,7 +430,6 @@ public class SourceViewModel extends ViewModel {
                 sourceKey = idInfo[1];
             }
         }
-        Toast.makeText(SourceViewModel.this, "key:" + sourceKey + "  id:" + id, Toast.LENGTH_SHORT).show();
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {

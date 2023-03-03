@@ -65,7 +65,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -322,7 +321,7 @@ public class DetailActivity extends BaseActivity {
         myPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String json = new JSONObject(vodInfo).toString();
+                String json = new Gson().toJson(vodInfo);
                 Toast.makeText(DetailActivity.this, json, Toast.LENGTH_SHORT).show();
             }
         });
@@ -882,6 +881,7 @@ public class DetailActivity extends BaseActivity {
             vodId = vid;
             sourceKey = key;
             showLoading();
+            Toast.makeText(DetailActivity.this, "key:" + key + "  id:" + vid, Toast.LENGTH_SHORT).show();
             sourceViewModel.getDetail(sourceKey, vodId,wdName);
             boolean isVodCollect = RoomDataManger.isVodCollect(sourceKey, vodId);
             if (isVodCollect) {

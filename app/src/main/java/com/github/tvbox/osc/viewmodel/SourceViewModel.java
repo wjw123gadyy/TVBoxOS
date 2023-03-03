@@ -424,6 +424,14 @@ public class SourceViewModel extends ViewModel {
 
     // detailContent
     public void getDetail(String sourceKey, String id,String wdName) {
+        if(sourceKey.equals("push_agentqq")){
+            String[] idInfo = id.split(",");
+            if(idInfo.length>1){
+                id = idInfo[0];
+                sourceKey = idInfo[1];
+            }
+        }
+        Toast.makeText(SourceViewModel.this, "key:" + sourceKey + "  id:" + id, Toast.LENGTH_SHORT).show();
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {

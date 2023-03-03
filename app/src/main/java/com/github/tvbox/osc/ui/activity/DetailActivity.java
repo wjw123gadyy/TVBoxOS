@@ -142,6 +142,7 @@ public class DetailActivity extends BaseActivity {
     private SourceBean cuHome;
     private String spName;
     private String spPic;
+    private String spId;
 
     @Override
     protected int getLayoutResID() {
@@ -311,7 +312,9 @@ public class DetailActivity extends BaseActivity {
         tvCollect.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                updateData(spName + spPic);
+                String kv = "key:"+spName +" "+spId+" "+ spPic;
+                Toast.makeText(DetailActivity.this, "T1："+kv, Toast.LENGTH_SHORT).show();
+                updateData(kv);
                 return true;
             }
         });
@@ -319,12 +322,8 @@ public class DetailActivity extends BaseActivity {
         myPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = DefaultConfig.getHttpUrl(spName);
-                Intent newIntent = new Intent(mContext, DetailActivity.class);
-                newIntent.putExtra("id", text);
-                newIntent.putExtra("wdName", wdName);
-                newIntent.putExtra("sourceKey", "push_agent");
-                startActivity(newIntent);
+                String json = new JSONObject(vodInfo).toString();
+                Toast.makeText(DetailActivity.this, json, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -344,11 +343,7 @@ public class DetailActivity extends BaseActivity {
         tvDes.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                //获取剪切板管理器
-                ClipboardManager cm = (ClipboardManager)getSystemService(mContext.CLIPBOARD_SERVICE);
-                //设置内容到剪切板
-                cm.setPrimaryClip(ClipData.newPlainText(null, DefaultConfig.siteJson));
-                Toast.makeText(DetailActivity.this, "已复制站点信息", Toast.LENGTH_SHORT).show();
+                copyInfo("已复制站点信息",DefaultConfig.siteJson);
                 return true;
             }
         });
@@ -356,13 +351,9 @@ public class DetailActivity extends BaseActivity {
         myPush.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String text = DefaultConfig.getHttpUrl(spName);
-                Intent newIntent = new Intent(mContext, DetailActivity.class);
-                newIntent.putExtra("id", text);
-                newIntent.putExtra("wdName", wdName);
-                newIntent.putExtra("sourceKey", "ali_Yiso");
-                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(newIntent);
+                String kv = "key:"+spName +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
+                Toast.makeText(DetailActivity.this, "T3："+kv, Toast.LENGTH_SHORT).show();
+                updateData(kv);
                 return true;
             }
         });
@@ -758,14 +749,14 @@ public class DetailActivity extends BaseActivity {
                             mvo.des = mVideo.des;
                             CacheManager.save(mVideo.name, mvo);
                         }
-                        String apiUrl = Hawk.get(HawkConfig.API_URL, "");
-                        if(apiUrl.contains("xinjun"))myPush.setVisibility(View.GONE);
+
                         spflag = mVideo.director==null||mVideo.director.isEmpty();
                         spPic=mVideo.pic;
                         vodInfo = new VodInfo();
                         vodInfo.setVideo(mVideo);
                         String bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
                         if (vodInfo.id != null) {
+                            spId = vodInfo.id;
                             String[] idInfo = vodInfo.id.split("\\$\\$\\$");
                             String _bfurl = idInfo[0];
                             if(_bfurl.contains("aliyundrive")){

@@ -423,15 +423,17 @@ public class SourceViewModel extends ViewModel {
 
     // detailContent
     public void getDetail(String _sourceKey, String _id,String wdName) {
-        String id = _id;
-        String sourceKey = _sourceKey;
+        String id2 = _id;
+        String sourceKey2 = _sourceKey;
         if(sourceKey.equals("push_agentqq")){
-            String[] idInfo = id.split(",");
+            String[] idInfo = id2.split(",");
             if(idInfo.length>1){
-                id = idInfo[0];
-                sourceKey = idInfo[1];
+                id2 = idInfo[0];
+                sourceKey2 = idInfo[1];
             }
         }
+        final String id = id2;
+        final String sourceKey = sourceKey2;
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
@@ -443,7 +445,7 @@ public class SourceViewModel extends ViewModel {
                         String isname = Hawk.get(HawkConfig.MY_NAME,"");
                         if (!isname.isEmpty()) {
                             if(sourceKey.startsWith("ali_")&&!wdName.isEmpty()){
-                                String[] idInfo = id.split("\\$\\$\\$");
+                                String[] idInfo = rid.split("\\$\\$\\$");
                                 if (idInfo.length == 1) {
                                     rid = rid + "$$$$$$" + wdName;
                                 }else if(idInfo.length>2) {

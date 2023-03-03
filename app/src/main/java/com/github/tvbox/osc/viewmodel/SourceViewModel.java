@@ -422,7 +422,9 @@ public class SourceViewModel extends ViewModel {
     }
 
     // detailContent
-    public void getDetail(String sourceKey, String id,String wdName) {
+    public void getDetail(String _sourceKey, String _id,String wdName) {
+        String id = _id;
+        String sourceKey = _sourceKey;
         if(sourceKey.equals("push_agentqq")){
             String[] idInfo = id.split(",");
             if(idInfo.length>1){

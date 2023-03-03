@@ -425,7 +425,7 @@ public class SourceViewModel extends ViewModel {
     public void getDetail(String _sourceKey, String _id,String wdName) {
         String id2 = _id;
         String sourceKey2 = _sourceKey;
-        if(sourceKey.equals("push_agentqq")){
+        if(sourceKey2.equals("push_agentqq")){
             String[] idInfo = id2.split(",");
             if(idInfo.length>1){
                 id2 = idInfo[0];

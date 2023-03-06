@@ -759,10 +759,22 @@ public class DetailActivity extends BaseActivity {
                             CacheManager.save(mVideo.name, mvo);
                         }
                         String apiUrl = Hawk.get(HawkConfig.API_URL, "");
+                        if(apiUrl.contains("xinjun"))myPush.setVisibility(View.GONE);
                         spflag = mVideo.director==null||mVideo.director.isEmpty();
                         spPic=mVideo.pic;
                         vodInfo = new VodInfo();
                         vodInfo.setVideo(mVideo);
+                        String bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
+                        if (vodInfo.id != null) {
+                            spId = vodInfo.id;
+                            String[] idInfo = vodInfo.id.split("\\$\\$\\$");
+                            String _bfurl = idInfo[0];
+                            if(_bfurl.contains("aliyundrive")){
+                                _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
+                                bfurl = vodInfo.name+" "+_bfurl;
+                            }
+                        }
+                        spName = bfurl;
                         vodInfo.sourceKey = mVideo.sourceKey;
                         tvName.setText(mVideo.name);
                         cuHome = ApiConfig.get().getSource(mVideo.sourceKey);
@@ -825,17 +837,6 @@ public class DetailActivity extends BaseActivity {
                                 } else
                                     flag.selected = false;
                             }
-                            String bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
-                            if (vodInfo.id != null) {
-                                spId = vodInfo.id;
-                                String[] idInfo = vodInfo.id.split("\\$\\$\\$");
-                                String _bfurl = idInfo[0];
-                                if(_bfurl.contains("aliyundrive")){
-                                    _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
-                                    bfurl = vodInfo.name+" "+_bfurl;
-                                }
-                            }
-                            spName = bfurl;
 
                             //设置播放地址
                             if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);
@@ -890,7 +891,7 @@ public class DetailActivity extends BaseActivity {
                     sourceKey = idInfo[1];
                 }
             }
-            sourceKey = bundle.getString("sourceKey", "");
+            sourceKey = bundle.getString("sourceKey", "mtv_pc_小苹果源");
             loadDetail(spId, sourceKey);
         }
     }

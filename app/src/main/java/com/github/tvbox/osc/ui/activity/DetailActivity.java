@@ -754,7 +754,7 @@ public class DetailActivity extends BaseActivity {
                         vodInfo = new VodInfo();
                         vodInfo.setVideo(mVideo);
 
-                        spName = bfurl;
+
                         vodInfo.sourceKey = mVideo.sourceKey;
                         tvName.setText(mVideo.name);
                         cuHome = ApiConfig.get().getSource(mVideo.sourceKey);
@@ -791,6 +791,7 @@ public class DetailActivity extends BaseActivity {
                                     _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
                                     bfurl = vodInfo.name+" "+_bfurl;
                                 }
+                                spName = bfurl;
                             }
                             mGridViewFlag.setVisibility(View.VISIBLE);
                             mGridView.setVisibility(View.VISIBLE);

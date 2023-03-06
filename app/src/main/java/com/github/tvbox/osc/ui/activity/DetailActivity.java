@@ -65,6 +65,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
@@ -142,7 +143,6 @@ public class DetailActivity extends BaseActivity {
     private String spName;
     private String spPic;
     private String spId;
-
     @Override
     protected int getLayoutResID() {
         return R.layout.activity_detail;
@@ -311,9 +311,7 @@ public class DetailActivity extends BaseActivity {
         tvCollect.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String kv = "key:"+spName +" "+spId+" "+ spPic;
-                Toast.makeText(DetailActivity.this, "T1："+kv, Toast.LENGTH_SHORT).show();
-                updateData(kv);
+                updateData(spName + spPic);
                 return true;
             }
         });
@@ -321,8 +319,12 @@ public class DetailActivity extends BaseActivity {
         myPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String json = new Gson().toJson(vodInfo);
-                Toast.makeText(DetailActivity.this, json, Toast.LENGTH_SHORT).show();
+                String text = DefaultConfig.getHttpUrl(spName);
+                Intent newIntent = new Intent(mContext, DetailActivity.class);
+                newIntent.putExtra("id", text);
+                newIntent.putExtra("wdName", wdName);
+                newIntent.putExtra("sourceKey", "push_agent");
+                startActivity(newIntent);
             }
         });
 
@@ -342,7 +344,11 @@ public class DetailActivity extends BaseActivity {
         tvDes.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                copyInfo("已复制站点信息",DefaultConfig.siteJson);
+                //获取剪切板管理器
+                ClipboardManager cm = (ClipboardManager)getSystemService(mContext.CLIPBOARD_SERVICE);
+                //设置内容到剪切板
+                cm.setPrimaryClip(ClipData.newPlainText(null, DefaultConfig.siteJson));
+                Toast.makeText(DetailActivity.this, "已复制站点信息", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -350,9 +356,13 @@ public class DetailActivity extends BaseActivity {
         myPush.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String kv = "key:"+spName +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
-                Toast.makeText(DetailActivity.this, "T3："+kv, Toast.LENGTH_SHORT).show();
-                updateData(kv);
+                String text = DefaultConfig.getHttpUrl(spName);
+                Intent newIntent = new Intent(mContext, DetailActivity.class);
+                newIntent.putExtra("id", text);
+                newIntent.putExtra("wdName", wdName);
+                newIntent.putExtra("sourceKey", "ali_Yiso");
+                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(newIntent);
                 return true;
             }
         });
@@ -748,22 +758,11 @@ public class DetailActivity extends BaseActivity {
                             mvo.des = mVideo.des;
                             CacheManager.save(mVideo.name, mvo);
                         }
-
+                        String apiUrl = Hawk.get(HawkConfig.API_URL, "");
                         spflag = mVideo.director==null||mVideo.director.isEmpty();
                         spPic=mVideo.pic;
                         vodInfo = new VodInfo();
                         vodInfo.setVideo(mVideo);
-                        String bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
-                        if (vodInfo.id != null) {
-                            spId = vodInfo.id;
-                            String[] idInfo = vodInfo.id.split("\\$\\$\\$");
-                            String _bfurl = idInfo[0];
-                            if(_bfurl.contains("aliyundrive")){
-                                _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
-                                bfurl = vodInfo.name+" "+_bfurl;
-                            }
-                        }
-                        spName = bfurl;
                         vodInfo.sourceKey = mVideo.sourceKey;
                         tvName.setText(mVideo.name);
                         cuHome = ApiConfig.get().getSource(mVideo.sourceKey);
@@ -826,6 +825,17 @@ public class DetailActivity extends BaseActivity {
                                 } else
                                     flag.selected = false;
                             }
+                            String bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
+                            if (vodInfo.id != null) {
+                                spId = vodInfo.id;
+                                String[] idInfo = vodInfo.id.split("\\$\\$\\$");
+                                String _bfurl = idInfo[0];
+                                if(_bfurl.contains("aliyundrive")){
+                                    _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
+                                    bfurl = vodInfo.name+" "+_bfurl;
+                                }
+                            }
+                            spName = bfurl;
 
                             //设置播放地址
                             if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);
@@ -880,7 +890,7 @@ public class DetailActivity extends BaseActivity {
                     sourceKey = idInfo[1];
                 }
             }
-            sourceKey = bundle.getString("sourceKey", "mtv_pc_小苹果源");
+            sourceKey = bundle.getString("sourceKey", "");
             loadDetail(spId, sourceKey);
         }
     }
@@ -890,7 +900,6 @@ public class DetailActivity extends BaseActivity {
             vodId = vid;
             sourceKey = key;
             showLoading();
-            Toast.makeText(DetailActivity.this, "key:" + key + "  id:" + vid, Toast.LENGTH_SHORT).show();
             sourceViewModel.getDetail(sourceKey, vodId,wdName);
             boolean isVodCollect = RoomDataManger.isVodCollect(sourceKey, vodId);
             if (isVodCollect) {

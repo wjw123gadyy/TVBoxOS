@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.*;
+
 /**
  * @author pj567
  * @date :2020/12/18
@@ -422,9 +423,7 @@ public class SourceViewModel extends ViewModel {
     }
 
     // detailContent
-    public void getDetail(String sourceKey2, String id2,String wdName) {
-        final String id = id2;
-        final String sourceKey = sourceKey2;
+    public void getDetail(String sourceKey, String id,String wdName) {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
@@ -436,7 +435,7 @@ public class SourceViewModel extends ViewModel {
                         String isname = Hawk.get(HawkConfig.MY_NAME,"");
                         if (!isname.isEmpty()) {
                             if(sourceKey.startsWith("ali_")&&!wdName.isEmpty()){
-                                String[] idInfo = rid.split("\\$\\$\\$");
+                                String[] idInfo = id.split("\\$\\$\\$");
                                 if (idInfo.length == 1) {
                                     rid = rid + "$$$$$$" + wdName;
                                 }else if(idInfo.length>2) {

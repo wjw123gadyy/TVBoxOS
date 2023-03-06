@@ -876,7 +876,7 @@ public class DetailActivity extends BaseActivity {
             if(sourceKey.equals("push_agentqq")){
                 String[] idInfo = spId.split(",");
                 if(idInfo.length>1){
-                    id = idInfo[0];
+                    spId = idInfo[0];
                     sourceKey = idInfo[1];
                 }
             }

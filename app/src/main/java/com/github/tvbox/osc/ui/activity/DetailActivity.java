@@ -872,7 +872,16 @@ public class DetailActivity extends BaseActivity {
         if (intent != null && intent.getExtras() != null) {
             Bundle bundle = intent.getExtras();
             wdName = bundle.getString("wdName", "");
-            loadDetail(bundle.getString("id", null), bundle.getString("sourceKey", "mtv_pc_小苹果源"));
+            spId = bundle.getString("id", null);
+            if(sourceKey.equals("push_agentqq")){
+                String[] idInfo = spId.split(",");
+                if(idInfo.length>1){
+                    id = idInfo[0];
+                    sourceKey = idInfo[1];
+                }
+            }
+            sourceKey = bundle.getString("sourceKey", "mtv_pc_小苹果源");
+            loadDetail(spId, sourceKey);
         }
     }
 

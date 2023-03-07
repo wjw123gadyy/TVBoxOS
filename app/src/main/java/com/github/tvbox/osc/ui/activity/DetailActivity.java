@@ -725,9 +725,11 @@ public class DetailActivity extends BaseActivity {
                 try {
                     if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                         showSuccess();
+                        Toast.makeText(DetailActivity.this, "错误信息0", Toast.LENGTH_SHORT).show();
                         mVideo = absXml.movie.videoList.get(0);
                         Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
                         boolean spflag = mVideo.director==null||mVideo.director.isEmpty();
+                        Toast.makeText(DetailActivity.this, "错误信息0:"+spflag, Toast.LENGTH_SHORT).show();
                         if (mvo != null&&spflag) {
                             mVideo.pic = mvo.pic;
                             mVideo.tag = mvo.tag;
@@ -748,7 +750,7 @@ public class DetailActivity extends BaseActivity {
                             mvo.des = mVideo.des;
                             CacheManager.save(mVideo.name, mvo);
                         }
-                        Toast.makeText(DetailActivity.this, "错误信息1").show();
+                        Toast.makeText(DetailActivity.this, "错误信息1", Toast.LENGTH_SHORT).show();
                         spflag = mVideo.director==null||mVideo.director.isEmpty();
                         spPic=mVideo.pic;
                         vodInfo = new VodInfo();
@@ -780,12 +782,12 @@ public class DetailActivity extends BaseActivity {
                         } else {
                             ivThumb.setImageResource(R.drawable.img_loading_placeholder);
                         }
-                        Toast.makeText(DetailActivity.this, "错误信息2").show();
+                        Toast.makeText(DetailActivity.this, "错误信息2", Toast.LENGTH_SHORT).show();
                         if (vodInfo.seriesMap != null && vodInfo.seriesMap.size() > 0) {
                             if (vodInfo.id != null) {
                                 String bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
                                 spId = vodInfo.id;
-                                Toast.makeText(DetailActivity.this, "错误信息22").show();
+                                Toast.makeText(DetailActivity.this, "错误信息22", Toast.LENGTH_SHORT).show();
                                 String[] idInfo = vodInfo.id.split("\\$\\$\\$");
                                 String _bfurl = idInfo[0];
                                 if(_bfurl.contains("aliyundrive")){
@@ -798,7 +800,7 @@ public class DetailActivity extends BaseActivity {
                             mGridView.setVisibility(View.VISIBLE);
                             tvPlay.setVisibility(View.VISIBLE);
                             mEmptyPlayList.setVisibility(View.GONE);
-                            Toast.makeText(DetailActivity.this, "错误信息3").show();
+                            Toast.makeText(DetailActivity.this, "错误信息3", Toast.LENGTH_SHORT).show();
                             VodInfo vodInfoRecord = RoomDataManger.getVodInfo(sourceKey, vodId);
                             // 读取历史记录
                             if (vodInfoRecord != null) {
@@ -816,7 +818,7 @@ public class DetailActivity extends BaseActivity {
                             if (vodInfo.reverseSort) {
                                 vodInfo.reverse();
                             }
-                            Toast.makeText(DetailActivity.this, "错误信息4").show();
+                            Toast.makeText(DetailActivity.this, "错误信息4", Toast.LENGTH_SHORT).show();
                             if (vodInfo.playFlag == null || !vodInfo.seriesMap.containsKey(vodInfo.playFlag))
                                 vodInfo.playFlag = (String) vodInfo.seriesMap.keySet().toArray()[0];
 
@@ -829,7 +831,7 @@ public class DetailActivity extends BaseActivity {
                                 } else
                                     flag.selected = false;
                             }
-                            Toast.makeText(DetailActivity.this, "错误信息5").show();
+                            Toast.makeText(DetailActivity.this, "错误信息5", Toast.LENGTH_SHORT).show();
                             //设置播放地址
                             if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);
                             else setTextShow(tvPlayUrl, null, null);

@@ -725,7 +725,7 @@ public class DetailActivity extends BaseActivity {
                 try {
                     if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                         showSuccess();
-                        Toast.makeText(DetailActivity.this, "错误信息0", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailActivity.this, "错误信息00:"+sourceKey, Toast.LENGTH_SHORT).show();
                         mVideo = absXml.movie.videoList.get(0);
                         Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
                         boolean spflag = mVideo.director==null||mVideo.director.isEmpty();

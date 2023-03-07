@@ -125,7 +125,7 @@ public class LivePlayActivity extends BaseActivity {
     private LivePlayerManager livePlayerManager = new LivePlayerManager();
     private ArrayList<Integer> channelGroupPasswordConfirmed = new ArrayList<>();
 
-//EPG   by 龍
+    //EPG   by 龍
     private static LiveChannelItem  channel_Name = null;
     private static Hashtable hsEpg = new Hashtable();
     private CountDownTimer countDownTimer;
@@ -769,7 +769,7 @@ public class LivePlayActivity extends BaseActivity {
     private boolean playChannel(int channelGroupIndex, int liveChannelIndex, boolean changeSource) {
         if ((channelGroupIndex == currentChannelGroupIndex && liveChannelIndex == currentLiveChannelIndex && !changeSource)
                 || (changeSource && currentLiveChannelItem.getSourceNum() == 1)) {
-           // showChannelInfo();
+            // showChannelInfo();
             return true;
         }
         mVideoView.release();
@@ -794,7 +794,7 @@ public class LivePlayActivity extends BaseActivity {
         backcontroller.setVisibility(View.GONE);
         ll_right_top_huikan.setVisibility(View.GONE);
         mVideoView.setUrl(currentLiveChannelItem.getUrl());
-       // showChannelInfo();
+        // showChannelInfo();
         mVideoView.start();
         return true;
     }
@@ -1065,7 +1065,7 @@ public class LivePlayActivity extends BaseActivity {
                     sBar = (SeekBar) findViewById(R.id.pb_progressbar);
                     sBar.setMax(shiyi_time_c*1000);
                     sBar.setProgress((int)  mVideoView.getCurrentPosition());
-                   // long dd = mVideoView.getDuration();
+                    // long dd = mVideoView.getDuration();
                     tv_currentpos.setText(durationToString((int)mVideoView.getCurrentPosition()));
                     tv_duration.setText(durationToString(shiyi_time_c*1000));
                     showProgressBars(true);
@@ -1185,7 +1185,8 @@ public class LivePlayActivity extends BaseActivity {
                     case VideoView.STATE_ERROR:
                     case VideoView.STATE_PLAYBACK_COMPLETED:
                         mHandler.removeCallbacks(mConnectTimeoutChangeSourceRun);
-                        mHandler.post(mConnectTimeoutChangeSourceRun);
+//                        mHandler.post(mConnectTimeoutChangeSourceRun);
+                        mHandler.postDelayed(mConnectTimeoutChangeSourceRun, 1500);
                         break;
                     case VideoView.STATE_PREPARING:
                     case VideoView.STATE_BUFFERING:
@@ -2006,5 +2007,4 @@ public class LivePlayActivity extends BaseActivity {
         }
         countDownTimer3.start();
     }
-
 }

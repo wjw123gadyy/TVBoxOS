@@ -232,7 +232,7 @@ public class DetailActivity extends BaseActivity {
                     vodInfo.playIndex=(vodInfo.seriesMap.get(vodInfo.playFlag).size()-1)-vodInfo.playIndex;
                     insertVod(sourceKey, vodInfo);
                     firstReverse = true;
-                    setSeriesGroupOptions();
+                    //setSeriesGroupOptions();
                     seriesAdapter.notifyDataSetChanged();
                 }
             }
@@ -655,9 +655,7 @@ public class DetailActivity extends BaseActivity {
         if(offset > 6) offset =6;
         mGridViewLayoutMgr.setSpanCount(offset);
         seriesAdapter.setNewData(vodInfo.seriesMap.get(vodInfo.playFlag));
-
-        setSeriesGroupOptions();
-
+        //setSeriesGroupOptions();
         mGridView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -1086,7 +1084,7 @@ public class DetailActivity extends BaseActivity {
             toggleFullPreview();
             mGridView.requestFocus();
             List<VodInfo.VodSeries> list = vodInfo.seriesMap.get(vodInfo.playFlag);
-            mSeriesGroupView.setVisibility(list.size()>GroupCount ? View.VISIBLE : View.GONE);
+            //mSeriesGroupView.setVisibility(list.size()>GroupCount ? View.VISIBLE : View.GONE);
             return;
         }
         if (seriesSelect) {
@@ -1127,7 +1125,7 @@ public class DetailActivity extends BaseActivity {
         llPlayerFragmentContainerBlock.setVisibility(fullWindows ? View.GONE : View.VISIBLE);
         mGridView.setVisibility(fullWindows ? View.GONE : View.VISIBLE);
         mGridViewFlag.setVisibility(fullWindows ? View.GONE : View.VISIBLE);
-        mSeriesGroupView.setVisibility(fullWindows ? View.GONE : View.VISIBLE);
+        //mSeriesGroupView.setVisibility(fullWindows ? View.GONE : View.VISIBLE);
 
         //全屏下禁用详情页几个按键的焦点 防止上键跑过来
         tvPlay.setFocusable(!fullWindows);

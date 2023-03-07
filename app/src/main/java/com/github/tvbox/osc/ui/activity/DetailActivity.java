@@ -795,6 +795,9 @@ public class DetailActivity extends BaseActivity {
                                     bfurl = vodInfo.name+" "+_bfurl;
                                 }
                                 spName = bfurl;
+                                //设置播放地址
+                                if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);
+                                else setTextShow(tvPlayUrl, null, null);
                             }
                             mGridViewFlag.setVisibility(View.VISIBLE);
                             mGridView.setVisibility(View.VISIBLE);
@@ -832,9 +835,6 @@ public class DetailActivity extends BaseActivity {
                                     flag.selected = false;
                             }
                             Toast.makeText(DetailActivity.this, "错误信息5", Toast.LENGTH_SHORT).show();
-                            //设置播放地址
-                            if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);
-                            else setTextShow(tvPlayUrl, null, null);
                             seriesFlagAdapter.setNewData(vodInfo.seriesFlags);
                             mGridViewFlag.scrollToPosition(flagScrollTo);
 

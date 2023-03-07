@@ -232,7 +232,7 @@ public class DetailActivity extends BaseActivity {
                     vodInfo.playIndex=(vodInfo.seriesMap.get(vodInfo.playFlag).size()-1)-vodInfo.playIndex;
                     insertVod(sourceKey, vodInfo);
                     firstReverse = true;
-                    //setSeriesGroupOptions();
+                    setSeriesGroupOptions();
                     seriesAdapter.notifyDataSetChanged();
                 }
             }
@@ -655,7 +655,7 @@ public class DetailActivity extends BaseActivity {
         if(offset > 6) offset =6;
         mGridViewLayoutMgr.setSpanCount(offset);
         seriesAdapter.setNewData(vodInfo.seriesMap.get(vodInfo.playFlag));
-        //setSeriesGroupOptions();
+        setSeriesGroupOptions();
         mGridView.postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -318,14 +318,6 @@ public class DetailActivity extends BaseActivity {
             }
         });
 
-        myPush.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String json = new Gson().toJson(vodInfo);
-                Toast.makeText(DetailActivity.this, json, Toast.LENGTH_SHORT).show();
-            }
-        });
-
         tvSite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -347,11 +339,20 @@ public class DetailActivity extends BaseActivity {
             }
         });
 
+        myPush.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String kv = "key:"+vodInfo.name +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
+                updateData(kv);
+
+            }
+        });
+
         myPush.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String kv = "key:"+vodInfo.name +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
-                updateData(kv);
+                String json = new Gson().toJson(vodInfo);
+                Toast.makeText(DetailActivity.this, json, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -791,7 +792,6 @@ public class DetailActivity extends BaseActivity {
                                     bfurl = vodInfo.name+" "+_bfurl;
                                 }
                                 if(bfurl.isEmpty())bfurl = vodInfo.name+" "+_bfurl;
-                                Toast.makeText(DetailActivity.this, "视频信息:"+bfurl, Toast.LENGTH_SHORT).show();
                                 spName = bfurl;
                                 //设置播放地址
                                 if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);
@@ -890,7 +890,6 @@ public class DetailActivity extends BaseActivity {
             vodId = vid;
             sourceKey = key;
             showLoading();
-            Toast.makeText(DetailActivity.this, "key:" + key + "  id:" + vid, Toast.LENGTH_SHORT).show();
             sourceViewModel.getDetail(sourceKey, vodId,wdName);
             boolean isVodCollect = RoomDataManger.isVodCollect(sourceKey, vodId);
             if (isVodCollect) {

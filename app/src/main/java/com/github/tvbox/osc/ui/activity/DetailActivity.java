@@ -725,7 +725,7 @@ public class DetailActivity extends BaseActivity {
                 try {
                     if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                         showSuccess();
-                        Toast.makeText(DetailActivity.this, "错误信息0", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailActivity.this, "错误信息00:"+sourceKey, Toast.LENGTH_SHORT).show();
                         mVideo = absXml.movie.videoList.get(0);
                         Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
                         boolean spflag = mVideo.director==null||mVideo.director.isEmpty();
@@ -795,6 +795,9 @@ public class DetailActivity extends BaseActivity {
                                     bfurl = vodInfo.name+" "+_bfurl;
                                 }
                                 spName = bfurl;
+                                //设置播放地址
+                                if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);
+                                else setTextShow(tvPlayUrl, null, null);
                             }
                             mGridViewFlag.setVisibility(View.VISIBLE);
                             mGridView.setVisibility(View.VISIBLE);
@@ -832,9 +835,6 @@ public class DetailActivity extends BaseActivity {
                                     flag.selected = false;
                             }
                             Toast.makeText(DetailActivity.this, "错误信息5", Toast.LENGTH_SHORT).show();
-                            //设置播放地址
-                            if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);
-                            else setTextShow(tvPlayUrl, null, null);
                             seriesFlagAdapter.setNewData(vodInfo.seriesFlags);
                             mGridViewFlag.scrollToPosition(flagScrollTo);
 

@@ -311,7 +311,7 @@ public class DetailActivity extends BaseActivity {
         tvCollect.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String kv = "key:"+spName +" "+spId+" "+ spPic;
+                String kv = "key:"+vodInfo.name +" "+spId+" "+ spPic;
                 Toast.makeText(DetailActivity.this, "T1："+kv, Toast.LENGTH_SHORT).show();
                 updateData(kv);
                 return true;
@@ -350,8 +350,7 @@ public class DetailActivity extends BaseActivity {
         myPush.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String kv = "key:"+spName +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
-                Toast.makeText(DetailActivity.this, "T3："+kv, Toast.LENGTH_SHORT).show();
+                String kv = "key:"+vodInfo.name +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
                 updateData(kv);
                 return true;
             }
@@ -725,7 +724,6 @@ public class DetailActivity extends BaseActivity {
                 try {
                     if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                         showSuccess();
-                        Toast.makeText(DetailActivity.this, "错误信息00:"+sourceKey, Toast.LENGTH_SHORT).show();
                         mVideo = absXml.movie.videoList.get(0);
                         Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
                         boolean spflag = mVideo.director==null||mVideo.director.isEmpty();
@@ -803,7 +801,6 @@ public class DetailActivity extends BaseActivity {
                             mGridView.setVisibility(View.VISIBLE);
                             tvPlay.setVisibility(View.VISIBLE);
                             mEmptyPlayList.setVisibility(View.GONE);
-                            Toast.makeText(DetailActivity.this, "错误信息3", Toast.LENGTH_SHORT).show();
                             VodInfo vodInfoRecord = RoomDataManger.getVodInfo(sourceKey, vodId);
                             // 读取历史记录
                             if (vodInfoRecord != null) {
@@ -821,7 +818,6 @@ public class DetailActivity extends BaseActivity {
                             if (vodInfo.reverseSort) {
                                 vodInfo.reverse();
                             }
-                            Toast.makeText(DetailActivity.this, "错误信息4", Toast.LENGTH_SHORT).show();
                             if (vodInfo.playFlag == null || !vodInfo.seriesMap.containsKey(vodInfo.playFlag))
                                 vodInfo.playFlag = (String) vodInfo.seriesMap.keySet().toArray()[0];
 
@@ -834,7 +830,6 @@ public class DetailActivity extends BaseActivity {
                                 } else
                                     flag.selected = false;
                             }
-                            Toast.makeText(DetailActivity.this, "错误信息5", Toast.LENGTH_SHORT).show();
                             seriesFlagAdapter.setNewData(vodInfo.seriesFlags);
                             mGridViewFlag.scrollToPosition(flagScrollTo);
 

@@ -311,8 +311,7 @@ public class DetailActivity extends BaseActivity {
         tvCollect.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String kv = "key:"+vodInfo.name +" "+spId+" "+ spPic;
-                Toast.makeText(DetailActivity.this, "T1："+kv, Toast.LENGTH_SHORT).show();
+                String kv = vodInfo.name +" "+spId+" "+ spPic;
                 updateData(kv);
                 return true;
             }

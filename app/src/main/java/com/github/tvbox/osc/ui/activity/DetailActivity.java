@@ -342,6 +342,7 @@ public class DetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String kv = "key:"+vodInfo.name +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
+                if(spId.contains("aliyundrive"))kv = vodInfo.name +" "+spId+" "+ spPic;
                 updateData(kv);
 
             }
@@ -746,11 +747,16 @@ public class DetailActivity extends BaseActivity {
                             CacheManager.save(mVideo.name, mvo);
                         }
                         spflag = mVideo.director==null||mVideo.director.isEmpty();
-                        spPic=mVideo.pic;
+                        if (mVideo.pic != null) {
+                            if (mVideo.pic.contains("xinjun")||mVideo.pic.contains("inews.gtimg.com/newsapp_bt/0/13263837859/1000")) {
+                                spPic = "";
+                            }else {
+                                spPic=mVideo.pic.split("\\$\\$\\$")[0];
+                            }
+                        }
+
                         vodInfo = new VodInfo();
                         vodInfo.setVideo(mVideo);
-
-
                         vodInfo.sourceKey = sourceKey;
                         tvName.setText(mVideo.name);
                         cuHome = ApiConfig.get().getSource(sourceKey);
@@ -781,13 +787,13 @@ public class DetailActivity extends BaseActivity {
                                 String bfurl = "";
                                 if(vodInfo.seriesMap.get(vodInfo.playFlag)!=null)
                                     bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
-                                spId = vodInfo.id;
                                 String[] idInfo = vodInfo.id.split("\\$\\$\\$");
                                 String _bfurl = idInfo[0];
                                 if(_bfurl.contains("aliyundrive")){
                                     _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
                                     bfurl = vodInfo.name+" "+_bfurl;
                                 }
+                                spId = _bfurl;
                                 if(bfurl.isEmpty())bfurl = vodInfo.name+" "+_bfurl;
                                 spName = bfurl;
                                 //设置播放地址

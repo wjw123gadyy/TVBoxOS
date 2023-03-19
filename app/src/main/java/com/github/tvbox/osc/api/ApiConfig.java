@@ -119,6 +119,7 @@ public class ApiConfig {
     public static String getBx(String vod_play_url){
         int z = 0;//更换第一个
         String[] playUrls = vod_play_url.split("\\$\\$\\$");
+        if(playUrls.length!=2)return vod_play_url;
         String s = playUrls[z];
         String type = "";
         boolean f = false;

@@ -119,7 +119,6 @@ public class ApiConfig {
     public static String getBx(String vod_play_url){
         int z = 0;//更换第一个
         String[] playUrls = vod_play_url.split("\\$\\$\\$");
-        if(playUrls.length!=2)return vod_play_url;
         String s = playUrls[z];
         String type = "";
         boolean f = false;
@@ -456,7 +455,7 @@ public class ApiConfig {
                     sb.setQuickSearch(DefaultConfig.safeJsonInt(obj, "quickSearch", 1));
                     sb.setFilterable(DefaultConfig.safeJsonInt(obj, "filterable", 1));
                     sb.setPlayerUrl(DefaultConfig.safeJsonString(obj, "playUrl", ""));
-                    if(siteKey.contains("ali_")||siteKey.contains("push_agent")){
+                    if(siteKey.contains("ali_")||siteKey.contains("push_agent")||api.equals("csp_YiSo")){
                         sb.setExt(aliToken);
                     }else if(obj.has("ext") && (obj.get("ext").isJsonObject() || obj.get("ext").isJsonArray())){
                         sb.setExt(obj.get("ext").toString());
@@ -466,7 +465,7 @@ public class ApiConfig {
                     String jar = DefaultConfig.safeJsonString(obj, "jar", "");
                     if (apiUrl==null||(!apiUrl.contains("xinjun58.com")&&siteKey.contains("push_agent"))) {
                         api = "csp_PushAgent";
-                        jar = "http://f.haocew.com/TVBox/1/jar/qm0228.jar;md5;3A6ABC5379B361BB65C6E6C93AD3D948";
+                        jar = "http://f.haocew.com/TVBox/1/jar/qm0320.jar;md5;0D41020F4310BC393AAE6CA287CC7408";
                     }
                     sb.setApi(api);
                     sb.setJar(jar);

@@ -341,18 +341,20 @@ public class DetailActivity extends BaseActivity {
         myPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String kv = "key:"+vodInfo.name +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
-                if(spId.contains("aliyundrive"))kv = vodInfo.name +" "+spId+" "+ spPic;
-                updateData(kv);
-
+                Intent newIntent = new Intent(mContext, DetailActivity.class);
+                newIntent.putExtra("id", spId);
+                newIntent.putExtra("wdName", wdName);
+                newIntent.putExtra("sourceKey", "push_agent");
+                DetailActivity.this.startActivity(newIntent);
             }
         });
 
         myPush.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String json = new Gson().toJson(vodInfo);
-                Toast.makeText(DetailActivity.this, json, Toast.LENGTH_SHORT).show();
+                String kv = "key:"+vodInfo.name +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
+                if(spId.contains("aliyundrive"))kv = vodInfo.name +" "+spId+" "+ spPic;
+                updateData(kv);
                 return true;
             }
         });
@@ -876,7 +878,7 @@ public class DetailActivity extends BaseActivity {
             Bundle bundle = intent.getExtras();
             wdName = bundle.getString("wdName", "");
             spId = bundle.getString("id", null);
-            sourceKey = bundle.getString("sourceKey", "mtv_pc_小苹果源");
+            sourceKey = bundle.getString("sourceKey", "");
             if(sourceKey.equals("push_agentqq")){
                 String[] idInfo = spId.split(",");
                 if(idInfo.length>1){

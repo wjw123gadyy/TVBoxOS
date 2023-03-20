@@ -726,44 +726,46 @@ public class DetailActivity extends BaseActivity {
                     if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                         showSuccess();
                         mVideo = absXml.movie.videoList.get(0);
-                        Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
-                        boolean spflag = mVideo.director==null||mVideo.director.isEmpty();
-                        if (mvo != null&&spflag) {
-                            mVideo.pic = mvo.pic;
-                            mVideo.tag = mvo.tag;
-                            mVideo.year = mvo.year;
-                            mVideo.area = mvo.area;
-                            mVideo.director = mvo.director;
-                            mVideo.actor = mvo.actor;
-                            mVideo.des = mvo.des;
-                        }
-                        if (mvo == null&&!spflag) {
-                            mvo = new Movie.Video();
-                            mvo.pic = mVideo.pic;
-                            mvo.tag = mVideo.tag;
-                            mvo.year = mVideo.year;
-                            mvo.area = mVideo.area;
-                            mvo.director = mVideo.director;
-                            mvo.actor = mVideo.actor;
-                            mvo.des = mVideo.des;
-                            CacheManager.save(mVideo.name, mvo);
-                        }
-                        spflag = mVideo.director==null||mVideo.director.isEmpty();
-                        if (mVideo.pic != null) {
-                            if (mVideo.pic.contains("xinjun")||mVideo.pic.contains("inews.gtimg.com/newsapp_bt/0/13263837859/1000")) {
-                                spPic = "";
-                            }else {
-                                spPic=mVideo.pic.split("\\$\\$\\$")[0];
+
+                        if(mVideo.name!=null&&!mVideo.name.isEmpty()){
+                            Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
+                            boolean spflag = mVideo.director==null||mVideo.director.isEmpty();
+                            if (mvo != null&&spflag) {
+                                mVideo.pic = mvo.pic;
+                                mVideo.tag = mvo.tag;
+                                mVideo.year = mvo.year;
+                                mVideo.area = mvo.area;
+                                mVideo.director = mvo.director;
+                                mVideo.actor = mvo.actor;
+                                mVideo.des = mvo.des;
+                            }
+                            if (mvo == null&&!spflag) {
+                                mvo = new Movie.Video();
+                                mvo.pic = mVideo.pic;
+                                mvo.tag = mVideo.tag;
+                                mvo.year = mVideo.year;
+                                mvo.area = mVideo.area;
+                                mvo.director = mVideo.director;
+                                mvo.actor = mVideo.actor;
+                                mvo.des = mVideo.des;
+                                CacheManager.save(mVideo.name, mvo);
+                            }
+                            spflag = mVideo.director==null||mVideo.director.isEmpty();
+                            if (mVideo.pic != null) {
+                                if (mVideo.pic.contains("xinjun")||mVideo.pic.contains("inews.gtimg.com/newsapp_bt/0/13263837859/1000")) {
+                                    spPic = "";
+                                }else {
+                                    spPic=mVideo.pic.split("\\$\\$\\$")[0];
+                                }
                             }
                         }
-
                         vodInfo = new VodInfo();
                         vodInfo.setVideo(mVideo);
-                        vodInfo.sourceKey = sourceKey;
+                        vodInfo.sourceKey = mVideo.sourceKey;
+
                         tvName.setText(mVideo.name);
-                        cuHome = ApiConfig.get().getSource(sourceKey);
-                        setTextShow(tvSite, "来源：", cuHome.getName());
-                        setTextShow(tvYear, "上映：", mVideo.year);
+                        setTextShow(tvSite, "来源：", ApiConfig.get().getSource(mVideo.sourceKey).getName());
+                        setTextShow(tvYear, "年份：", mVideo.year == 0 ? "" : String.valueOf(mVideo.year));
                         setTextShow(tvArea, "地区：", mVideo.area);
                         setTextShow(tvLang, "语言：", mVideo.lang);
                         setTextShow(tvType, "类型：", mVideo.type);
@@ -784,28 +786,13 @@ public class DetailActivity extends BaseActivity {
                         } else {
                             ivThumb.setImageResource(R.drawable.img_loading_placeholder);
                         }
+
                         if (vodInfo.seriesMap != null && vodInfo.seriesMap.size() > 0) {
-                            if (vodInfo.id != null) {
-                                String bfurl = "";
-                                if(vodInfo.seriesMap.get(vodInfo.playFlag)!=null)
-                                    bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
-                                String[] idInfo = vodInfo.id.split("\\$\\$\\$");
-                                String _bfurl = idInfo[0];
-                                if(_bfurl.contains("aliyundrive")){
-                                    _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
-                                    bfurl = vodInfo.name+" "+_bfurl;
-                                }
-                                spId = _bfurl;
-                                if(bfurl.isEmpty())bfurl = vodInfo.name+" "+_bfurl;
-                                spName = bfurl;
-                                //设置播放地址
-                                if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);
-                                else setTextShow(tvPlayUrl, null, null);
-                            }
                             mGridViewFlag.setVisibility(View.VISIBLE);
                             mGridView.setVisibility(View.VISIBLE);
                             tvPlay.setVisibility(View.VISIBLE);
                             mEmptyPlayList.setVisibility(View.GONE);
+
                             VodInfo vodInfoRecord = RoomDataManger.getVodInfo(sourceKey, vodId);
                             // 读取历史记录
                             if (vodInfoRecord != null) {
@@ -823,6 +810,7 @@ public class DetailActivity extends BaseActivity {
                             if (vodInfo.reverseSort) {
                                 vodInfo.reverse();
                             }
+
                             if (vodInfo.playFlag == null || !vodInfo.seriesMap.containsKey(vodInfo.playFlag))
                                 vodInfo.playFlag = (String) vodInfo.seriesMap.keySet().toArray()[0];
 
@@ -835,6 +823,23 @@ public class DetailActivity extends BaseActivity {
                                 } else
                                     flag.selected = false;
                             }
+                            String bfurl = vodInfo.name+" "+vodInfo.seriesMap.get(vodInfo.playFlag).get(0).url;
+                            if (vodInfo.id != null) {
+                                String[] idInfo = vodInfo.id.split("\\$\\$\\$");
+                                String _bfurl = idInfo[0];
+                                if(_bfurl.contains("aliyundrive")){
+                                    _bfurl = _bfurl.replaceAll(".*(http.*)", "$1");
+                                    bfurl = vodInfo.name+" "+_bfurl;
+                                }
+                                spId = _bfurl;
+                                if(bfurl.isEmpty())bfurl = vodInfo.name+" "+_bfurl;
+                                spName = bfurl;
+                            }
+
+
+                            //设置播放地址
+                            if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);
+                            else setTextShow(tvPlayUrl, null, null);
                             seriesFlagAdapter.setNewData(vodInfo.seriesFlags);
                             mGridViewFlag.scrollToPosition(flagScrollTo);
 

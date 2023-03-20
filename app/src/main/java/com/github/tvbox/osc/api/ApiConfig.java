@@ -95,6 +95,7 @@ public class ApiConfig {
         return pattern.matcher(content);
     }
     public static boolean isNumeric(String str){
+        if(str==null||str.isEmpty())return false;
         Pattern pattern = Pattern.compile("[0-9]*");
         return pattern.matcher(str).matches();
     }
@@ -168,15 +169,16 @@ public class ApiConfig {
         Map<String, String> m = new LinkedHashMap<>();
         for (String name : list) {
             zname = name;
-            if (name.startsWith("[")) {
-                name = name.replaceAll("\\[.*\\](.*)","$1");
-            }
-            if (!f&&list.size()<200) {
-                name = name.replaceAll("\\d{4,8}", "");
-            }
             if (matcher(regx, name).find()) {
                 iname = name.replaceAll(regx, "$2");
             }else {
+                if (name.startsWith("[")) {
+                    name = name.replaceAll("\\[.*\\](.*)", "$1");
+                }
+                if (!f && list.size() < 200) {
+                    name = name.replaceAll("\\d{4,8}", "");
+                }
+
                 name = name.replace("mp4", "").replace("4K","").replace("4k","").replace("1080P","").replace("1080p","");
                 if (c==1) {
                     if(flag) rname = getBstr(name,f);

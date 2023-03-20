@@ -128,7 +128,7 @@ public class AbsJson implements Serializable {
             video.director = vod_director;
             Movie.Video.UrlBean urlBean = new Movie.Video.UrlBean();
             if (vod_play_from != null && vod_play_url != null && !vod_play_url.contains("无数据")) {
-                if(video.id.contains("aliyundrive.com")&&vod_play_from.contains("i"))vod_play_url = ApiConfig.getBx(vod_play_url);
+                if(video.id.contains("aliyundrive.com")&&!vod_play_from.contains("i"))vod_play_url = ApiConfig.getBx(vod_play_url);
                 String[] playFlags = vod_play_from.split("\\$\\$\\$");
                 String[] playUrls = vod_play_url.split("\\$\\$\\$");
                 List<Movie.Video.UrlBean.UrlInfo> infoList = new ArrayList<>();

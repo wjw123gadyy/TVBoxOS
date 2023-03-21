@@ -198,7 +198,7 @@
                             android:background="@drawable/button_detail_mypush"
                             android:focusable="true"
                             android:gravity="center"
-                            android:text="网站"
+                            android:text="推送"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/vs_20" />
                     <TextView

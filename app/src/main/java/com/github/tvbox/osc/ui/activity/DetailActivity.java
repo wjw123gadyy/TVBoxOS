@@ -344,7 +344,7 @@ public class DetailActivity extends BaseActivity {
                 if (!ApiConfig.pushKey.isEmpty()) {
                     Intent newIntent = new Intent(mContext, DetailActivity.class);
                     newIntent.putExtra("id", spId);
-                    newIntent.putExtra("wdName", wdName);
+                    newIntent.putExtra("wdName", vodInfo.name);
                     newIntent.putExtra("sourceKey", ApiConfig.pushKey);
                     DetailActivity.this.startActivity(newIntent);
                 }else Toast.makeText(DetailActivity.this, "pushKey没有", Toast.LENGTH_SHORT).show();

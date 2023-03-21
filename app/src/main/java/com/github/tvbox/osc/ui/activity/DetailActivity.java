@@ -341,11 +341,7 @@ public class DetailActivity extends BaseActivity {
         myPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent newIntent = new Intent(mContext, DetailActivity.class);
-                newIntent.putExtra("id", spId);
-                newIntent.putExtra("wdName", wdName);
-                newIntent.putExtra("sourceKey", "push_agent");
-                DetailActivity.this.startActivity(newIntent);
+                loadDetail(spId, "push_agent");
             }
         });
 

@@ -62,6 +62,7 @@ public class ApiConfig {
     private List<IJKCode> ijkCodes;
     private String spider = null;
     public String wallpaper = "";
+    public static String pushKey = "";
     String _api = "http://test.xinjun58.com/qq/api/q2.json";
 
     private SourceBean emptyHome = new SourceBean();
@@ -457,13 +458,15 @@ public class ApiConfig {
                     sb.setQuickSearch(DefaultConfig.safeJsonInt(obj, "quickSearch", 1));
                     sb.setFilterable(DefaultConfig.safeJsonInt(obj, "filterable", 1));
                     sb.setPlayerUrl(DefaultConfig.safeJsonString(obj, "playUrl", ""));
-                    if(siteKey.contains("ali_")||siteKey.contains("push_agent")||api.equals("csp_YiSo")){
+                    if(siteKey.contains("ali_")||siteKey.contains("push_agent")||name.contains("推送")||api.equals("csp_YiSo")){
+                        pushKey = siteKey;
                         sb.setExt(aliToken);
                     }else if(obj.has("ext") && (obj.get("ext").isJsonObject() || obj.get("ext").isJsonArray())){
                         sb.setExt(obj.get("ext").toString());
                     }else {
                         sb.setExt(DefaultConfig.safeJsonString(obj, "ext", ""));
                     }
+
                     String jar = DefaultConfig.safeJsonString(obj, "jar", "");
                     if (apiUrl==null||(!apiUrl.contains("xinjun58.com")&&siteKey.contains("push_agent"))) {
                         api = "csp_PushAgent";

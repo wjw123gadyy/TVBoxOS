@@ -2,11 +2,11 @@ package com.github.tvbox.osc.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
-
+import android.widget.Toast;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
@@ -29,11 +29,9 @@ import com.orhanobut.hawk.Hawk;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7GridLayoutManager;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
-import java.util.Stack;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Stack;
 
 /**
  * @author pj567
@@ -226,11 +224,17 @@ public class GridFragment extends BaseLazyFragment {
                 FastClickCheckUtil.check(view);
                 Movie.Video video = gridAdapter.getData().get(position);
                 if (video != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("id", video.id);
-                    bundle.putString("sourceKey", video.sourceKey);
-                    bundle.putString("title", video.name);
-                    jumpActivity(FastSearchActivity.class, bundle);
+                    if(video.sourceKey.contains("push_agentqq")){
+                        String id = video.id.split("\\$\\$\\$")[0];
+                        String kv = video.name + " " + id;
+                        DetailActivity.updateData(kv);
+                    }else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", video.id);
+                        bundle.putString("sourceKey", video.sourceKey);
+                        bundle.putString("title", video.name);
+                        jumpActivity(FastSearchActivity.class, bundle);
+                    }
                 }
                 return true;
             }

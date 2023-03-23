@@ -50,6 +50,7 @@ public class VodInfo implements Serializable {
     public String playNote = "";
     public String sourceKey;
     public String playerCfg = "";
+    public String tag;
     public boolean reverseSort = false;
 
     public void setVideo(Movie.Video video) {
@@ -66,6 +67,7 @@ public class VodInfo implements Serializable {
         state = video.state;
         note = video.note;
         actor = video.actor;
+        tag = video.tag;
         director = video.director;
         des = video.des;
         if (video.urlBean != null && video.urlBean.infoList != null && video.urlBean.infoList.size() > 0) {

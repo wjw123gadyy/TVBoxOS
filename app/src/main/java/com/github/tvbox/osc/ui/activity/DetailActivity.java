@@ -541,7 +541,7 @@ public class DetailActivity extends BaseActivity {
         cm.setPrimaryClip(ClipData.newPlainText(null, text));
         Toast.makeText(DetailActivity.this, title, Toast.LENGTH_SHORT).show();
     }
-    private void updateData(String text) {
+    public static void updateData(String text) {
         String aliurl = "http://qyh.haocew.com/qy/demand/vd";
         String pwd = Hawk.get(HawkConfig.MY_PWD,"");
         if (!pwd.isEmpty()) {

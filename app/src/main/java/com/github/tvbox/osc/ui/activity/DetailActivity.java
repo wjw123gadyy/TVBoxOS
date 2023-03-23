@@ -557,7 +557,7 @@ public class DetailActivity extends BaseActivity {
                             try {
                                 JSONObject jo = new JSONObject(json);
                                 String msg = jo.optString("msg", "失败");
-                                Toast.makeText(DetailActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(App.getInstance(), msg, Toast.LENGTH_SHORT).show();
                             } catch (Exception e) {
                             }
                         }
@@ -568,14 +568,14 @@ public class DetailActivity extends BaseActivity {
                     }
                     @Override
                     public void onError(Response<String> response) {
-                        Toast.makeText(DetailActivity.this, "请求错误", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(App.getInstance(), "请求错误", Toast.LENGTH_SHORT).show();
                         super.onError(response);
                     }
                 });
             } catch (Exception e) {
             }
         }else {
-            Toast.makeText(DetailActivity.this, "无权限", Toast.LENGTH_SHORT).show();
+            Toast.makeText(App.getInstance(), "无权限", Toast.LENGTH_SHORT).show();
         }
     }
 

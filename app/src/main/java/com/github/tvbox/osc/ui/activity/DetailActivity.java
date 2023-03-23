@@ -297,8 +297,15 @@ public class DetailActivity extends BaseActivity {
         tvTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = tvTag.getText().toString();
-                copyInfo("已复制token",text);
+                copyInfo("已复制token",vodInfo.tag);
+            }
+        });
+
+        tvTag.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                CacheManager.delete(vodInfo.name,0);
+                return true;
             }
         });
 

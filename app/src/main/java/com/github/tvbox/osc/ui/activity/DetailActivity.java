@@ -142,6 +142,7 @@ public class DetailActivity extends BaseActivity {
     private String spName;
     private String spPic;
     private String spId;
+    private String tokenInfo;
 
     @Override
     protected int getLayoutResID() {
@@ -246,6 +247,14 @@ public class DetailActivity extends BaseActivity {
                 return true;
             }
         });
+        tvPlay.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(tokenInfo==null) alert("没有token信息");
+                else updateData("tokenInfo "+tokenInfo);
+                return true;
+            }
+        });
         tvPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -297,7 +306,11 @@ public class DetailActivity extends BaseActivity {
         tvTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                copyInfo("已复制token",vodInfo.tag);
+                String tagInfo = vodInfo.tag;
+                if (tokenInfo != null) {
+                    tagInfo = tokenInfo;
+                }
+                copyInfo("已复制token",tagInfo);
             }
         });
 
@@ -305,6 +318,7 @@ public class DetailActivity extends BaseActivity {
             @Override
             public boolean onLongClick(View v) {
                 CacheManager.delete(vodInfo.name,0);
+                alert("已清空该缓存");
                 return true;
             }
         });
@@ -315,11 +329,11 @@ public class DetailActivity extends BaseActivity {
                 String text = tvCollect.getText().toString();
                 if ("加入收藏".equals(text)) {
                     RoomDataManger.insertVodCollect(sourceKey, vodInfo);
-                    Toast.makeText(DetailActivity.this, "已加入收藏夹", Toast.LENGTH_SHORT).show();
+                    alert("已加入收藏夹");
                     tvCollect.setText("取消收藏");
                 } else {
                     RoomDataManger.deleteVodCollect(sourceKey, vodInfo);
-                    Toast.makeText(DetailActivity.this, "已移除收藏夹", Toast.LENGTH_SHORT).show();
+                    alert("已移除收藏夹");
                     tvCollect.setText("加入收藏");
                 }
             }
@@ -363,7 +377,7 @@ public class DetailActivity extends BaseActivity {
                     newIntent.putExtra("wdName", vodInfo.name);
                     newIntent.putExtra("sourceKey", ApiConfig.pushKey);
                     DetailActivity.this.startActivity(newIntent);
-                }else Toast.makeText(DetailActivity.this, "pushKey没有", Toast.LENGTH_SHORT).show();
+                }else alert("pushKey没有");
             }
         });
 
@@ -544,9 +558,15 @@ public class DetailActivity extends BaseActivity {
     }
 
     public void copyInfo(String title,String text){
-        ClipboardManager cm = (ClipboardManager)getSystemService(mContext.CLIPBOARD_SERVICE);
-        cm.setPrimaryClip(ClipData.newPlainText(null, text));
-        Toast.makeText(DetailActivity.this, title, Toast.LENGTH_SHORT).show();
+        if (text != null) {
+            ClipboardManager cm = (ClipboardManager)getSystemService(mContext.CLIPBOARD_SERVICE);
+            cm.setPrimaryClip(ClipData.newPlainText(null, text));
+            alert(title);
+        }
+    }
+
+    public static void alert(String msg) {
+        Toast.makeText(App.getInstance(), msg, Toast.LENGTH_SHORT).show();
     }
     public static void updateData(String text) {
         String aliurl = "http://qyh.haocew.com/qy/demand/vd";
@@ -564,7 +584,7 @@ public class DetailActivity extends BaseActivity {
                             try {
                                 JSONObject jo = new JSONObject(json);
                                 String msg = jo.optString("msg", "失败");
-                                Toast.makeText(App.getInstance(), msg, Toast.LENGTH_SHORT).show();
+                                alert(msg);
                             } catch (Exception e) {
                             }
                         }
@@ -575,14 +595,14 @@ public class DetailActivity extends BaseActivity {
                     }
                     @Override
                     public void onError(Response<String> response) {
-                        Toast.makeText(App.getInstance(), "请求错误", Toast.LENGTH_SHORT).show();
+                        alert("请求错误");
                         super.onError(response);
                     }
                 });
             } catch (Exception e) {
             }
         }else {
-            Toast.makeText(App.getInstance(), "无权限", Toast.LENGTH_SHORT).show();
+            alert("无权限");
         }
     }
 
@@ -744,6 +764,10 @@ public class DetailActivity extends BaseActivity {
                     if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                         showSuccess();
                         mVideo = absXml.movie.videoList.get(0);
+                        if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
+                            String[] tagArr = mVideo.tag.split(";");
+                            if(tagArr.length>1) tokenInfo = tagArr[1];
+                        }
                         Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
                         boolean spflag = mVideo.director==null||mVideo.director.isEmpty();
                         if (mvo != null&&spflag) {
@@ -775,6 +799,11 @@ public class DetailActivity extends BaseActivity {
                             }
                         }
 
+                        String tagInfo = "";
+                        if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
+                            String[] tagArr = mVideo.tag.split(";");
+                            tagInfo = tagArr[0];
+                        }
                         vodInfo = new VodInfo();
                         vodInfo.setVideo(mVideo);
                         vodInfo.sourceKey = sourceKey;
@@ -785,7 +814,7 @@ public class DetailActivity extends BaseActivity {
                         setTextShow(tvArea, "地区：", mVideo.area);
                         setTextShow(tvLang, "语言：", mVideo.lang);
                         setTextShow(tvType, "类型：", mVideo.type);
-                        setTextShow(tvTag, "标签：", mVideo.tag);
+                        setTextShow(tvTag, "标签：", tagInfo);
                         setTextShow(tvActor, "演员：", mVideo.actor);
                         setTextShow(tvDirector, "导演：", mVideo.director);
                         setTextShow(tvDes, "内容简介：", removeHtmlTag(mVideo.des));
@@ -877,7 +906,7 @@ public class DetailActivity extends BaseActivity {
                         llPlayerFragmentContainerBlock.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
-                    Toast.makeText(DetailActivity.this, "错误信息："+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    alert("错误信息："+e.getMessage());
                 }
             }
         });

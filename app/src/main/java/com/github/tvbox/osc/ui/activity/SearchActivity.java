@@ -200,7 +200,15 @@ public class SearchActivity extends BaseActivity {
                     }
                     hasKeyBoard = false;
                     isSearchBack = true;
-                    DetailActivity.start(this, video.sourceKey, video.id, searchTitle);
+                    Intent newIntent = new Intent(mContext, DetailActivity.class);
+                    newIntent.putExtra("id", video.id);
+                    newIntent.putExtra("wdName", searchTitle);
+                    newIntent.putExtra("sourceKey", video.sourceKey);
+                    newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    SearchActivity.this.startActivity(newIntent);
+
+                    DetailActivity.start(getActivity(), video.sourceKey, video.id, searchTitle);
+
                 }
             }
         });

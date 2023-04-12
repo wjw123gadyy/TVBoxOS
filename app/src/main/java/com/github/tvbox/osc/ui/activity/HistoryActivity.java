@@ -132,11 +132,7 @@ public class HistoryActivity extends BaseActivity {
                         historyAdapter.remove(position);
                         RoomDataManger.deleteVodRecord(vodInfo.sourceKey, vodInfo);
                     } else {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", vodInfo.id);
-                        bundle.putString("sourceKey", vodInfo.sourceKey);
-                        bundle.putString("wdName", vodInfo.name);
-                        jumpActivity(DetailActivity.class, bundle);
+                        DetailActivity.start(getActivity(), vodInfo.sourceKey, vodInfo.id, vodInfo.name);
                     }
                 }
             }

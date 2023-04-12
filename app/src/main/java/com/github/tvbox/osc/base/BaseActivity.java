@@ -43,7 +43,9 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomAd
     private LoadService mLoadService;
 
     private static float screenRatio = -100.0f;
-
+    protected Activity getActivity() {
+        return this;
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         try {

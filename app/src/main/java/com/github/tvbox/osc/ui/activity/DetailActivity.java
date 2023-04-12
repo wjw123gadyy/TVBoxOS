@@ -158,10 +158,6 @@ public class DetailActivity extends BaseActivity {
         initData();
     }
 
-    public static void push(Activity activity, String url) {
-        start(activity, "push_agent", url, wdName);
-    }
-
     public static void start(Activity activity, String key, String id, String name) {
         Intent intent = new Intent(activity, DetailActivity.class);
         intent.putExtra("wdName", name);

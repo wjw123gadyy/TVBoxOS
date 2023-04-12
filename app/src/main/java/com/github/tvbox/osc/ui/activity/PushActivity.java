@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.os.Bundle;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.server.ControlManager;

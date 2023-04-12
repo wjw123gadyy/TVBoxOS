@@ -431,7 +431,7 @@ public class ApiConfig {
         parseJson(apiUrl, sb.toString());
     }
 
-    private boolean isAli(String id){
+    public static boolean isAli(String id){
         if(id==null)return false;
         if(id.contains("aliyundrive")){
             return true;

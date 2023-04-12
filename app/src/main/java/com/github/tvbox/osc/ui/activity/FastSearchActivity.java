@@ -201,10 +201,12 @@ public class FastSearchActivity extends BaseActivity {
                     } catch (Throwable th) {
                         th.printStackTrace();
                     }
-                    Bundle bundle = new Bundle();
-                    bundle.putString("id", video.id);
-                    bundle.putString("sourceKey", video.sourceKey);
-                    jumpActivity(DetailActivity.class, bundle);
+                    Intent newIntent = new Intent(mContext, DetailActivity.class);
+                    newIntent.putExtra("id", video.id);
+                    newIntent.putExtra("wdName", searchTitle);
+                    newIntent.putExtra("sourceKey", video.sourceKey);
+                    newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    FastSearchActivity.this.startActivity(newIntent);
                 }
             }
         });

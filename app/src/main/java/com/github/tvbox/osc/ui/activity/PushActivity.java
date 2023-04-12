@@ -21,7 +21,7 @@ import me.jessyan.autosize.utils.AutoSizeUtils;
 public class PushActivity extends BaseActivity {
     private ImageView ivQRCode;
     private TextView tvAddress;
-
+    private String wdName = "";
     @Override
     protected int getLayoutResID() {
         return R.layout.activity_push;
@@ -29,8 +29,8 @@ public class PushActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        initView();
         initData();
+        initView();
     }
 
     private void initView() {
@@ -40,48 +40,39 @@ public class PushActivity extends BaseActivity {
         findViewById(R.id.pushLocal).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    ClipboardManager manager = (ClipboardManager) PushActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    if (manager != null) {
-                        if (manager.hasPrimaryClip() && manager.getPrimaryClip() != null && manager.getPrimaryClip().getItemCount() > 0) {
-                            ClipData.Item addedText = manager.getPrimaryClip().getItemAt(0);
-                            String clipText = addedText.getText().toString().trim();
-                            clipText = DefaultConfig.getHttpUrl(clipText);
-                            Intent newIntent = new Intent(mContext, DetailActivity.class);
-                            newIntent.putExtra("id", clipText);
-                            newIntent.putExtra("sourceKey", "push_agent");
-                            newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            PushActivity.this.startActivity(newIntent);
-                        }
-                    }
-                } catch (Throwable th) {
-
-                }
+                pushdo("push_agent");
             }
         });
 
         findViewById(R.id.pushLocalYiso).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    ClipboardManager manager = (ClipboardManager) PushActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    if (manager != null) {
-                        if (manager.hasPrimaryClip() && manager.getPrimaryClip() != null && manager.getPrimaryClip().getItemCount() > 0) {
-                            ClipData.Item addedText = manager.getPrimaryClip().getItemAt(0);
-                            String clipText = addedText.getText().toString().trim();
-                            clipText = DefaultConfig.getHttpUrl(clipText);
-                            Intent newIntent = new Intent(mContext, DetailActivity.class);
-                            newIntent.putExtra("id", clipText);
-                            newIntent.putExtra("sourceKey", "ali_Yiso");
-                            newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            PushActivity.this.startActivity(newIntent);
-                        }
-                    }
-                } catch (Throwable th) {
-
-                }
+                pushdo("ali_Yiso");
             }
         });
+    }
+
+    private void pushdo(String key){
+        try {
+            ClipboardManager manager = (ClipboardManager) PushActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+            if (manager != null) {
+                if (manager.hasPrimaryClip() && manager.getPrimaryClip() != null && manager.getPrimaryClip().getItemCount() > 0) {
+                    ClipData.Item addedText = manager.getPrimaryClip().getItemAt(0);
+                    String clipText = addedText.getText().toString().trim();
+                    clipText = DefaultConfig.getHttpUrl(clipText);
+                    Intent newIntent = new Intent(mContext, DetailActivity.class);
+                    newIntent.putExtra("id", clipText);
+                    if (!wdName.isEmpty()) {
+                        newIntent.putExtra("wdName", wdName);
+                    }
+                    newIntent.putExtra("sourceKey", key);
+                    newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    PushActivity.this.startActivity(newIntent);
+                }
+            }
+        } catch (Throwable th) {
+
+        }
     }
 
     private void refreshQRCode() {
@@ -91,6 +82,10 @@ public class PushActivity extends BaseActivity {
     }
 
     private void initData() {
-
+        Intent intent = getIntent();
+        if (intent != null && intent.getExtras() != null) {
+            Bundle bundle = intent.getExtras();
+            wdName = bundle.getString("wdName", "");
+        }
     }
 }

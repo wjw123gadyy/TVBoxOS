@@ -2,6 +2,7 @@ package com.github.tvbox.osc.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -155,6 +156,22 @@ public class DetailActivity extends BaseActivity {
         initView();
         initViewModel();
         initData();
+    }
+
+    public static void push(Activity activity, String url) {
+        start(activity, "push_agent", url, wdName);
+    }
+
+    public static void start(Activity activity, String id, String name) {
+        start(activity, ApiConfig.get().getHome().getKey(), id, name);
+    }
+
+    public static void start(Activity activity, String key, String id, String name) {
+        Intent intent = new Intent(activity, DetailActivity.class);
+        intent.putExtra("wdName", name);
+        intent.putExtra("sourceKey", key);
+        intent.putExtra("id", id);
+        activity.startActivity(intent);
     }
 
     private void initView() {

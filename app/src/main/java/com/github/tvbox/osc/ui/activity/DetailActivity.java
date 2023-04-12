@@ -385,7 +385,7 @@ public class DetailActivity extends BaseActivity {
                 if (!ApiConfig.pushKey.isEmpty()) {
                     String wname = wdName;
                     if(wname.isEmpty())wname = vodInfo.name;
-                    start(mContext,ApiConfig.pushKey,spid,wname);
+                    start(mContext,ApiConfig.pushKey,spId,wname);
                 }else alert("pushKey没有");
             }
         });

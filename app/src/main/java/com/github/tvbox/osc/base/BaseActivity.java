@@ -1,5 +1,4 @@
 package com.github.tvbox.osc.base;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -43,9 +42,6 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomAd
     private LoadService mLoadService;
 
     private static float screenRatio = -100.0f;
-    protected Activity getActivity() {
-        return this;
-    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         try {

@@ -158,12 +158,13 @@ public class DetailActivity extends BaseActivity {
         initData();
     }
 
-    public static void start(Activity activity, String key, String id, String name) {
-        Intent intent = new Intent(activity, DetailActivity.class);
+    public static void start(Context mContext, String key, String id, String name) {
+        Intent newIntent = new Intent(mContext, DetailActivity.class);
         intent.putExtra("wdName", name);
         intent.putExtra("sourceKey", key);
         intent.putExtra("id", id);
-        activity.startActivity(intent);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        DetailActivity.this.startActivity(newIntent);
     }
 
     private void initView() {
@@ -381,12 +382,9 @@ public class DetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (!ApiConfig.pushKey.isEmpty()) {
-                    Intent newIntent = new Intent(mContext, DetailActivity.class);
-                    newIntent.putExtra("id", spId);
-                    newIntent.putExtra("wdName", vodInfo.name);
-                    newIntent.putExtra("sourceKey", ApiConfig.pushKey);
-                    newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    DetailActivity.this.startActivity(newIntent);
+                    String wname = wdName;
+                    if(wname.isEmpty())wname = vodInfo.name;
+                    start(mContext,ApiConfig.pushKey,spid,wname);
                 }else alert("pushKey没有");
             }
         });

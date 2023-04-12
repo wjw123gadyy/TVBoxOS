@@ -201,7 +201,7 @@ public class FastSearchActivity extends BaseActivity {
                     } catch (Throwable th) {
                         th.printStackTrace();
                     }
-                    DetailActivity.start(getActivity(), video.sourceKey, video.id, searchTitle);
+                    DetailActivity.start(mContext, video.sourceKey, video.id, searchTitle);
                 }
             }
         });

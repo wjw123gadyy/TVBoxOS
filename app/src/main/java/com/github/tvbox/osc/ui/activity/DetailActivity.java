@@ -161,9 +161,9 @@ public class DetailActivity extends BaseActivity {
 
     public static void start(Context mContext, String key, String id, String name) {
         Intent newIntent = new Intent(mContext, DetailActivity.class);
-        intent.putExtra("wdName", name);
-        intent.putExtra("sourceKey", key);
-        intent.putExtra("id", id);
+        newIntent.putExtra("wdName", name);
+        newIntent.putExtra("sourceKey", key);
+        newIntent.putExtra("id", id);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(newIntent);
     }

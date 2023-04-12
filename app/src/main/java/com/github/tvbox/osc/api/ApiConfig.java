@@ -470,7 +470,7 @@ public class ApiConfig {
                     String jar = DefaultConfig.safeJsonString(obj, "jar", "");
                     if (apiUrl==null||(!apiUrl.contains("xinjun58.com")&&siteKey.contains("push_agent"))) {
                         api = "csp_PushAgent";
-                        jar = "http://f.haocew.com/TVBox/1/jar/qm0320.jar;md5;0D41020F4310BC393AAE6CA287CC7408";
+                        jar = "http://f.haocew.com/TVBox/1/jar/qm032361.jar;md5;30E83C9414F8BA043D2DAFB7E1DC4422";
                     }
                     sb.setApi(api);
                     sb.setJar(jar);

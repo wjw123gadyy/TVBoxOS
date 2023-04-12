@@ -376,6 +376,7 @@ public class DetailActivity extends BaseActivity {
                     newIntent.putExtra("id", spId);
                     newIntent.putExtra("wdName", vodInfo.name);
                     newIntent.putExtra("sourceKey", ApiConfig.pushKey);
+                    newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     DetailActivity.this.startActivity(newIntent);
                 }else alert("pushKey没有");
             }

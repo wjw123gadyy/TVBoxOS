@@ -165,7 +165,7 @@ public class DetailActivity extends BaseActivity {
         intent.putExtra("sourceKey", key);
         intent.putExtra("id", id);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        DetailActivity.this.startActivity(newIntent);
+        startActivity(newIntent);
     }
 
     private void initView() {

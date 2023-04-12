@@ -200,8 +200,10 @@ public class SearchActivity extends BaseActivity {
                     }
                     hasKeyBoard = false;
                     isSearchBack = true;
-                    DetailActivity.start(mContext, video.sourceKey, video.id, searchTitle);
 
+                    String key = ApiConfig.pushKey;
+                    if(!ApiConfig.isAli(video.id))key = video.sourceKey;
+                    DetailActivity.start(mContext, key, video.id, searchTitle);
                 }
             }
         });

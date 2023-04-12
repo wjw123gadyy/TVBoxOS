@@ -201,7 +201,9 @@ public class FastSearchActivity extends BaseActivity {
                     } catch (Throwable th) {
                         th.printStackTrace();
                     }
-                    DetailActivity.start(mContext, video.sourceKey, video.id, searchTitle);
+                    String key = ApiConfig.pushKey;
+                    if(!ApiConfig.isAli(video.id))key = video.sourceKey;
+                    DetailActivity.start(mContext, key, video.id, searchTitle);
                 }
             }
         });

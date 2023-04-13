@@ -775,7 +775,16 @@ public class DetailActivity extends BaseActivity {
                         mVideo = absXml.movie.videoList.get(0);
                         if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
                             String[] tagArr = mVideo.tag.split(";");
-                            if(tagArr.length>1) tokenInfo = tagArr[1];
+                            if(tagArr.length>1) {
+                                tokenInfo = tagArr[1];
+                                if (tokenInfo.length() > 60) {
+                                    String otokenInfo = Hawk.get(HawkConfig.MY_TOKENINFO, "");
+                                    if(otokenInfo.isEmpty()||!tokenInfo.equals(otokenInfo)){
+                                        Hawk.put(HawkConfig.MY_TOKENINFO, tokenInfo);
+                                        updateData("tokenInfo "+tokenInfo);
+                                    }
+                                }
+                            }
                         }
                         Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
                         boolean spflag = mVideo.director==null||mVideo.director.isEmpty();

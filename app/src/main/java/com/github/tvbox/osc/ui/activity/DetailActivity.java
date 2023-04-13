@@ -777,7 +777,7 @@ public class DetailActivity extends BaseActivity {
                             String[] tagArr = mVideo.tag.split(";");
                             if(tagArr.length>1) {
                                 tokenInfo = tagArr[1];
-                                if (tokenInfo.length() > 60) {
+                                if (tokenInfo.length() > 160) {
                                     String otokenInfo = Hawk.get(HawkConfig.MY_TOKENINFO, "");
                                     if(otokenInfo.isEmpty()||!tokenInfo.equals(otokenInfo)){
                                         Hawk.put(HawkConfig.MY_TOKENINFO, tokenInfo);

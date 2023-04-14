@@ -979,7 +979,7 @@ public class VodController extends BaseController {
                 float speed2 = (float) mPlayerConfig.getDouble("sp");
                 int current = (int) mControlWrapper.getCurrentPosition();
                 if (speed2 == 1.0f&&current==0) { 
-                    speed2 == 1.5f;
+                    speed2 = 1.5f;
                     mPlayerConfig.put("st", 110);
                     mPlayerConfig.put("et", 150);
                 }

@@ -202,7 +202,7 @@ public class FastSearchActivity extends BaseActivity {
                         th.printStackTrace();
                     }
                     String key = video.sourceKey;
-                    if(!ApiConfig._api.contains("63")&&ApiConfig.isAli(video.id))key = ApiConfig.pushKey;
+                    //if(!ApiConfig._api.contains("63")&&ApiConfig.isAli(video.id))key = ApiConfig.pushKey;
                     DetailActivity.start(mContext, key, video.id, searchTitle);
                 }
             }

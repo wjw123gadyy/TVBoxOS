@@ -55,6 +55,17 @@ public class SourceViewModel extends ViewModel {
 
     public static final ExecutorService spThreadPool = Executors.newSingleThreadExecutor();
 
+    public static void closePool(){
+        try {
+            spThreadPool.shutdown();
+            if(!spThreadPool.awaitTermination(6, TimeUnit.MILLISECONDS)){
+                spThreadPool.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            spThreadPool.shutdownNow();
+        }
+
+    }
     public void setAbsSortXmlQQ(){
         SourceBean sourceBeanQQ =  ApiConfig.get().getSourceQQ();
         if (sourceBeanQQ != null) {
@@ -135,6 +146,7 @@ public class SourceViewModel extends ViewModel {
                 }
             };
             spThreadPool.execute(waitResponse);
+            closePool();
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag(sourceBean.getKey() + "_sort")
@@ -250,6 +262,7 @@ public class SourceViewModel extends ViewModel {
                     }
                 }
             });
+            closePool();
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(homeSourceBean.getApi())
                     .tag(homeSourceBean.getApi())
@@ -378,6 +391,7 @@ public class SourceViewModel extends ViewModel {
                 }
             };
             spThreadPool.execute(waitResponse);
+            closePool();
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag("detail")
@@ -470,6 +484,7 @@ public class SourceViewModel extends ViewModel {
                     }
                 }
             });
+            closePool();
         } else if (type == 0 || type == 1|| type == 4) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag("detail")
@@ -694,6 +709,7 @@ public class SourceViewModel extends ViewModel {
                     }
                 }
             });
+            closePool();
         } else if (type == 0 || type == 1) {
             JSONObject result = new JSONObject();
             try {

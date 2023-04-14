@@ -53,7 +53,13 @@ public class SourceViewModel extends ViewModel {
         playResult = new MutableLiveData<>();
     }
 
-    public static final ExecutorService spThreadPool = Executors.newSingleThreadExecutor();
+    public ExecutorService spThreadPool;
+    private void execute(Runnable runnable) {
+        if (spThreadPool != null) spThreadPool.shutdownNow();
+        spThreadPool = Executors.newSingleThreadExecutor();
+        spThreadPool.execute(runnable);
+        closePool();
+    }
 
     public static void closePool(){
         try {
@@ -142,11 +148,10 @@ public class SourceViewModel extends ViewModel {
                         } catch (Throwable th) {
                             th.printStackTrace();
                         }
-                        closePool();
                     }
                 }
             };
-            spThreadPool.execute(waitResponse);
+            execute(waitResponse);
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag(sourceBean.getKey() + "_sort")
@@ -251,7 +256,7 @@ public class SourceViewModel extends ViewModel {
         SourceBean homeSourceBean = ApiConfig.get().getHomeSourceBean();
         int type = homeSourceBean.getType();
         if (type == 3) {
-            spThreadPool.execute(new Runnable() {
+            execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -259,8 +264,6 @@ public class SourceViewModel extends ViewModel {
                         json(listResult, sp.categoryContent(sortData.id, page + "", true, sortData.filterSelect), homeSourceBean.getKey());
                     } catch (Throwable th) {
                         th.printStackTrace();
-                    }finally {
-                        closePool();
                     }
                 }
             });
@@ -388,11 +391,10 @@ public class SourceViewModel extends ViewModel {
                         } catch (Throwable th) {
                             th.printStackTrace();
                         }
-                        closePool();
                     }
                 }
             };
-            spThreadPool.execute(waitResponse);
+            execute(waitResponse);
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag("detail")
@@ -442,7 +444,7 @@ public class SourceViewModel extends ViewModel {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
-            spThreadPool.execute(new Runnable() {
+            execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -482,8 +484,6 @@ public class SourceViewModel extends ViewModel {
                         json(detailResult, sp.detailContent(ids), sourceBean.getKey());
                     } catch (Throwable th) {
                         th.printStackTrace();
-                    } finally {
-                        closePool();
                     }
                 }
             });
@@ -692,7 +692,7 @@ public class SourceViewModel extends ViewModel {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
-            spThreadPool.execute(new Runnable() {
+            execute(new Runnable() {
                 @Override
                 public void run() {
                     Spider sp = ApiConfig.get().getCSP(sourceBean);
@@ -708,8 +708,6 @@ public class SourceViewModel extends ViewModel {
                     } catch (Throwable th) {
                         th.printStackTrace();
                         playResult.postValue(null);
-                    } finally {
-                        closePool();
                     }
                 }
             });
@@ -1029,6 +1027,7 @@ public class SourceViewModel extends ViewModel {
 
     @Override
     protected void onCleared() {
+        if (spThreadPool != null) spThreadPool.shutdownNow();
         super.onCleared();
     }
 }

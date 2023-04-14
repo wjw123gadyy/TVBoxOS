@@ -58,7 +58,7 @@ public class SourceViewModel extends ViewModel {
         if (spThreadPool != null) spThreadPool.shutdownNow();
         spThreadPool = Executors.newSingleThreadExecutor();
         spThreadPool.execute(runnable);
-        closePool();
+        //closePool();
     }
 
     public void closePool(){

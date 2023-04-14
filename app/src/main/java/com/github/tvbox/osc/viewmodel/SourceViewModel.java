@@ -1027,7 +1027,6 @@ public class SourceViewModel extends ViewModel {
 
     @Override
     protected void onCleared() {
-        if (spThreadPool != null) spThreadPool.shutdownNow();
         super.onCleared();
     }
 }

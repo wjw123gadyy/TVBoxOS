@@ -582,6 +582,8 @@ public class DetailActivity extends BaseActivity {
         String pwd = Hawk.get(HawkConfig.MY_PWD,"");
         if (!pwd.isEmpty()) {
             try {
+                final boolean bflag = text.startsWith("notip");
+                if(bflag)text=text.replace("notip","");
                 JSONObject jj = new JSONObject();
                 jj.put("pwd", pwd);
                 jj.put("key", text);
@@ -593,7 +595,7 @@ public class DetailActivity extends BaseActivity {
                             try {
                                 JSONObject jo = new JSONObject(json);
                                 String msg = jo.optString("msg", "失败");
-                                alert(msg);
+                                if(!bflag) alert(msg);
                             } catch (Exception e) {
                             }
                         }
@@ -781,7 +783,7 @@ public class DetailActivity extends BaseActivity {
                                     String otokenInfo = Hawk.get(HawkConfig.MY_TOKENINFO, "");
                                     if(otokenInfo.isEmpty()||!tokenInfo.equals(otokenInfo)){
                                         Hawk.put(HawkConfig.MY_TOKENINFO, tokenInfo);
-                                        updateData("tokenInfo "+tokenInfo);
+                                        updateData("notiptokenInfo "+tokenInfo);
                                     }
                                 }
                             }

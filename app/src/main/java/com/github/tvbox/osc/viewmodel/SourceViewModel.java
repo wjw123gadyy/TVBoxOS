@@ -61,7 +61,7 @@ public class SourceViewModel extends ViewModel {
         closePool();
     }
 
-    public static void closePool(){
+    public void closePool(){
         try {
             spThreadPool.shutdown();
             if(!spThreadPool.awaitTermination(6, TimeUnit.MILLISECONDS)){

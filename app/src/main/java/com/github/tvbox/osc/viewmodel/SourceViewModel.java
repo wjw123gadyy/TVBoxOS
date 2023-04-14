@@ -142,11 +142,11 @@ public class SourceViewModel extends ViewModel {
                         } catch (Throwable th) {
                             th.printStackTrace();
                         }
+                        closePool();
                     }
                 }
             };
             spThreadPool.execute(waitResponse);
-            closePool();
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag(sourceBean.getKey() + "_sort")
@@ -259,10 +259,11 @@ public class SourceViewModel extends ViewModel {
                         json(listResult, sp.categoryContent(sortData.id, page + "", true, sortData.filterSelect), homeSourceBean.getKey());
                     } catch (Throwable th) {
                         th.printStackTrace();
+                    }finally {
+                        closePool();
                     }
                 }
             });
-            closePool();
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(homeSourceBean.getApi())
                     .tag(homeSourceBean.getApi())
@@ -387,11 +388,11 @@ public class SourceViewModel extends ViewModel {
                         } catch (Throwable th) {
                             th.printStackTrace();
                         }
+                        closePool();
                     }
                 }
             };
             spThreadPool.execute(waitResponse);
-            closePool();
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag("detail")
@@ -481,10 +482,11 @@ public class SourceViewModel extends ViewModel {
                         json(detailResult, sp.detailContent(ids), sourceBean.getKey());
                     } catch (Throwable th) {
                         th.printStackTrace();
+                    } finally {
+                        closePool();
                     }
                 }
             });
-            closePool();
         } else if (type == 0 || type == 1|| type == 4) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag("detail")
@@ -706,10 +708,11 @@ public class SourceViewModel extends ViewModel {
                     } catch (Throwable th) {
                         th.printStackTrace();
                         playResult.postValue(null);
+                    } finally {
+                        closePool();
                     }
                 }
             });
-            closePool();
         } else if (type == 0 || type == 1) {
             JSONObject result = new JSONObject();
             try {

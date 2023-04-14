@@ -977,7 +977,7 @@ public class VodController extends BaseController {
             fromLongPress = true;
             try {
                 float speed2 = (float) mPlayerConfig.getDouble("sp");
-                int current = mPlayerConfig.getInt("st")
+                int current = mPlayerConfig.getInt("st");
                 if (speed2 == 1.0f&&current==0) { 
                     speed2 = 1.5f;
                     mPlayerConfig.put("st", 110);

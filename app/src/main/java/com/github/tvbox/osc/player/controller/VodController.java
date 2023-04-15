@@ -885,7 +885,8 @@ public class VodController extends BaseController {
                 break;
             case VideoView.STATE_PREPARING:
             case VideoView.STATE_BUFFERING:
-                if(mProgressRoot.getVisibility()==GONE)mPlayLoadNetSpeed.setVisibility(VISIBLE);
+                if(mProgressRoot.getVisibility()==GONE)mPlayLoadNetSpeed.setVisibility(VISIBLE); 
+                listener.replay(false);
                 break;
             case VideoView.STATE_PLAYBACK_COMPLETED:
                 listener.playNext(true);

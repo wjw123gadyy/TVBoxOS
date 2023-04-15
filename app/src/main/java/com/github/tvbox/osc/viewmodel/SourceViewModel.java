@@ -143,7 +143,7 @@ public class SourceViewModel extends ViewModel {
                         }
                     }
                 }
-            };
+            }
             execute(runn);
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
@@ -387,7 +387,7 @@ public class SourceViewModel extends ViewModel {
                         }
                     }
                 }
-            };
+            }
             execute(runn);
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())

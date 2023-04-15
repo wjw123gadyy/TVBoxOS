@@ -983,14 +983,14 @@ public class VodController extends BaseController {
     }
 
     public void can(){
-        if (videoPlayState!=VideoView.STATE_PAUSED) {
-            fromLongPress = true;
+        if (videoPlayState!=VideoView.STATE_PAUSED) {           
             try {
                 float speed2 = (float) mPlayerConfig.getDouble("sp");
                 int current = mPlayerConfig.getInt("st");
                 if (speed2 == 1.0f&&current==0) { 
                     sdrest();
                 }else{
+                    fromLongPress = true;
                     if (speed2 != 3.0f) {
                     speed_old = speed2;
                     float speed = 3.0f;

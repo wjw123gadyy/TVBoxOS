@@ -545,19 +545,7 @@ public class VodController extends BaseController {
         mPlayerTimeStartEndText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                myHandle.removeCallbacks(myRunnable);
-                myHandle.postDelayed(myRunnable, myHandleSeconds);
-                try {
-                    mPlayerConfig.put("sp", 1.5f);
-                    mPlayerConfig.put("st", 110);
-                    mPlayerConfig.put("et", 150);
-                    updatePlayerCfgView();
-                    listener.replay(false);
-                    listener.updatePlayerCfg();
-                    mControlWrapper.setSpeed(1.5f);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                sdrest();
             }
         });
         mPlayerTimeStartBtn.setOnClickListener(new OnClickListener() {
@@ -972,6 +960,22 @@ public class VodController extends BaseController {
         can();
     }
 
+    public void sdrest() {
+                myHandle.removeCallbacks(myRunnable);
+                myHandle.postDelayed(myRunnable, myHandleSeconds);
+                try {
+                    mPlayerConfig.put("sp", 1.5f);
+                    mPlayerConfig.put("st", 110);
+                    mPlayerConfig.put("et", 150);
+                    updatePlayerCfgView();
+                    listener.replay(false);
+                    listener.updatePlayerCfg();
+                    mControlWrapper.setSpeed(1.5f);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+    }
+
     public void can(){
         if (videoPlayState!=VideoView.STATE_PAUSED) {
             fromLongPress = true;
@@ -979,19 +983,17 @@ public class VodController extends BaseController {
                 float speed2 = (float) mPlayerConfig.getDouble("sp");
                 int current = mPlayerConfig.getInt("st");
                 if (speed2 == 1.0f&&current==0) { 
-                    speed2 = 1.5f;
-                    mPlayerConfig.put("st", 110);
-                    mPlayerConfig.put("et", 150);
-                }
-                
-                if (speed2 != 3.0f) {
+                    sdrest();
+                }else{
+                    if (speed2 != 3.0f) {
                     speed_old = speed2;
                     float speed = 3.0f;
                     mPlayerConfig.put("sp", speed);
                     updatePlayerCfgView();
                     listener.updatePlayerCfg();
                     mControlWrapper.setSpeed(speed);
-                }
+                    }
+                }       
             } catch (JSONException f) {
                 f.printStackTrace();
             }

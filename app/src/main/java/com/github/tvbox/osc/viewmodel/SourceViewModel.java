@@ -54,24 +54,17 @@ public class SourceViewModel extends ViewModel {
     }
 
     public ExecutorService spThreadPool;
+    private Runnable runn;
     private void execute(Runnable runnable) {
-        if (spThreadPool != null) spThreadPool.shutdownNow();
-        spThreadPool = Executors.newSingleThreadExecutor();
-        spThreadPool.execute(runnable);
-        //closePool();
-    }
-
-    public void closePool(){
         try {
-            spThreadPool.shutdown();
-            if(!spThreadPool.awaitTermination(6, TimeUnit.MILLISECONDS)){
-                spThreadPool.shutdownNow();
-            }
-        } catch (InterruptedException e) {
+            if (spThreadPool != null) spThreadPool.shutdownNow();
+            spThreadPool = Executors.newSingleThreadExecutor();
+            spThreadPool.execute(runnable);
+        } catch (Exception e) {
             spThreadPool.shutdownNow();
         }
-
     }
+
     public void setAbsSortXmlQQ(){
         SourceBean sourceBeanQQ =  ApiConfig.get().getSourceQQ();
         if (sourceBeanQQ != null) {
@@ -101,7 +94,7 @@ public class SourceViewModel extends ViewModel {
         }
         int type = sourceBean.getType();
         if (type == 3) {
-            Runnable waitResponse = new Runnable() {
+            runn = new Runnable() {
                 @Override
                 public void run() {
                     ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -151,7 +144,7 @@ public class SourceViewModel extends ViewModel {
                     }
                 }
             };
-            execute(waitResponse);
+            execute(runn);
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag(sourceBean.getKey() + "_sort")
@@ -255,8 +248,8 @@ public class SourceViewModel extends ViewModel {
     public void getList(MovieSort.SortData sortData, int page) {
         SourceBean homeSourceBean = ApiConfig.get().getHomeSourceBean();
         int type = homeSourceBean.getType();
-        if (type == 3) {
-            execute(new Runnable() {
+        if (type == 3) { 
+            runn = new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -266,7 +259,8 @@ public class SourceViewModel extends ViewModel {
                         th.printStackTrace();
                     }
                 }
-            });
+            }
+            execute(runn);
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(homeSourceBean.getApi())
                     .tag(homeSourceBean.getApi())
@@ -356,7 +350,7 @@ public class SourceViewModel extends ViewModel {
     void getHomeRecList(SourceBean sourceBean, ArrayList<String> ids, HomeRecCallback callback) {
         int type = sourceBean.getType();
         if (type == 3) {
-            Runnable waitResponse = new Runnable() {
+            runn = new Runnable() {
                 @Override
                 public void run() {
                     ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -394,7 +388,7 @@ public class SourceViewModel extends ViewModel {
                     }
                 }
             };
-            execute(waitResponse);
+            execute(runn);
         } else if (type == 0 || type == 1) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag("detail")
@@ -444,7 +438,7 @@ public class SourceViewModel extends ViewModel {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
-            execute(new Runnable() {
+            runn = new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -486,7 +480,8 @@ public class SourceViewModel extends ViewModel {
                         th.printStackTrace();
                     }
                 }
-            });
+            }
+            execute(runn);
         } else if (type == 0 || type == 1|| type == 4) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag("detail")
@@ -692,7 +687,7 @@ public class SourceViewModel extends ViewModel {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
-            execute(new Runnable() {
+            runn = new Runnable() {
                 @Override
                 public void run() {
                     Spider sp = ApiConfig.get().getCSP(sourceBean);
@@ -710,7 +705,8 @@ public class SourceViewModel extends ViewModel {
                         playResult.postValue(null);
                     }
                 }
-            });
+            }
+            execute(runn);
         } else if (type == 0 || type == 1) {
             JSONObject result = new JSONObject();
             try {

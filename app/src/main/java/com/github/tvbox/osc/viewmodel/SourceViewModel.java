@@ -469,7 +469,7 @@ public class SourceViewModel extends ViewModel {
                         th.printStackTrace();
                     }
                 }
-            }
+            };
             spThreadPool.execute(waitResponse);
         } else if (type == 0 || type == 1|| type == 4) {
             OkGo.<String>get(sourceBean.getApi())
@@ -694,7 +694,7 @@ public class SourceViewModel extends ViewModel {
                         playResult.postValue(null);
                     }
                 }
-            }
+            };
             spThreadPool.execute(waitResponse);
         } else if (type == 0 || type == 1) {
             JSONObject result = new JSONObject();

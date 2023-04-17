@@ -161,7 +161,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     public static void start(Context context, String key, String id, String name) {
-        start(context,key,id,name,"")
+        start(context,key,id,name,"");
     }
 
     public static void start(Context context, String key, String id, String name, String pic) {
@@ -542,8 +542,6 @@ public class DetailActivity extends BaseActivity {
             }
         });
         mGridView.setOnFocusChangeListener((view, b) -> onGridViewFocusChange(view, b));
-
-
         setLoadSir(llLayout);
     }
 

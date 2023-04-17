@@ -227,8 +227,7 @@ public class GridFragment extends BaseLazyFragment {
                 Movie.Video video = gridAdapter.getData().get(position);
                 if (video != null) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("id", video.id);
-                    bundle.putString("sourceKey", video.sourceKey);
+                    bundle.putString("pic", video.pic);
                     bundle.putString("title", video.name);
                     jumpActivity(FastSearchActivity.class, bundle);
                 }

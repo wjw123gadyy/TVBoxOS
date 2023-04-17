@@ -1106,6 +1106,7 @@ public class DetailActivity extends BaseActivity {
 
     private void insertVod(String sourceKey, VodInfo vodInfo) {
         try {
+            if(ApiConfig.isPic(wdPic))vodInfo.pic = wdPic;
             vodInfo.playNote = vodInfo.seriesMap.get(vodInfo.playFlag).get(vodInfo.playIndex).name;
         } catch (Throwable th) {
             vodInfo.playNote = "";

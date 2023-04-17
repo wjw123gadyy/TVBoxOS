@@ -282,7 +282,7 @@ public abstract class BaseLazyFragment extends Fragment implements CustomAdapt {
     }
 
     public void jumpActivity(Class<? extends BaseActivity> clazz) {
-        Intent intent = new Intent(, clazz);
+        Intent intent = new Intent(mContext, clazz);
         startActivity(intent);
     }
 

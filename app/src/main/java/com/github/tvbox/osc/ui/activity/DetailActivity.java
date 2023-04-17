@@ -134,6 +134,7 @@ public class DetailActivity extends BaseActivity {
     private boolean isReverse;
     private String preFlag="";
     private String wdName = "";
+    private String wdPic = "";
     private boolean firstReverse;
     private V7GridLayoutManager mGridViewLayoutMgr = null;
     private HashMap<String, String> mCheckSources = null;
@@ -160,10 +161,15 @@ public class DetailActivity extends BaseActivity {
     }
 
     public static void start(Context context, String key, String id, String name) {
+        start(context,key,id,name,"")
+    }
+
+    public static void start(Context context, String key, String id, String name, String pic) {
         Intent newIntent = new Intent(context, DetailActivity.class);
         newIntent.putExtra("wdName", name);
         newIntent.putExtra("sourceKey", key);
         newIntent.putExtra("id", id);
+        newIntent.putExtra("pic", pic);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(newIntent);
     }
@@ -285,32 +291,7 @@ public class DetailActivity extends BaseActivity {
         tvQuickSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startQuickSearch();
-                QuickSearchDialog quickSearchDialog = new QuickSearchDialog(DetailActivity.this);
-                EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_QUICK_SEARCH, quickSearchData));
-                EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_QUICK_SEARCH_WORD, quickSearchWord));
-                quickSearchDialog.show();
-                if (pauseRunnable != null && pauseRunnable.size() > 0) {
-                    searchExecutorService = Executors.newFixedThreadPool(5);
-                    for (Runnable runnable : pauseRunnable) {
-                        searchExecutorService.execute(runnable);
-                    }
-                    pauseRunnable.clear();
-                    pauseRunnable = null;
-                }
-                quickSearchDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        try {
-                            if (searchExecutorService != null) {
-                                pauseRunnable = searchExecutorService.shutdownNow();
-                                searchExecutorService = null;
-                            }
-                        } catch (Throwable th) {
-                            th.printStackTrace();
-                        }
-                    }
-                });
+                SearchActivity.start(mContext, vodInfo.name, vodInfo.pic);
             }
         });
 
@@ -828,6 +809,7 @@ public class DetailActivity extends BaseActivity {
                         vodInfo.setVideo(mVideo);
                         vodInfo.sourceKey = sourceKey;
                         tvName.setText(mVideo.name);
+                        if(ApiConfig.isPic(wdPic))vodInfo.pic = wdPic;
                         cuHome = ApiConfig.get().getSource(sourceKey);
                         setTextShow(tvSite, "来源：", cuHome.getName());
                         setTextShow(tvYear, "上映：", mVideo.year);
@@ -944,6 +926,7 @@ public class DetailActivity extends BaseActivity {
         if (intent != null && intent.getExtras() != null) {
             Bundle bundle = intent.getExtras();
             wdName = bundle.getString("wdName", "");
+            wdPic = bundle.getString("wdPic", "");
             spId = bundle.getString("id", null);
             sourceKey = bundle.getString("sourceKey", "");
             if(sourceKey.equals("push_agentqq")){

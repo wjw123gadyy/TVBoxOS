@@ -91,6 +91,10 @@ public class ApiConfig {
         return instance;
     }
 
+    public static boolean isPic(String wdPic){
+        if(!wdPic.isEmpty()&&!wdPic.contains(".xinjun58")&&!wdPic.contains("13263837859"))return true;
+        return false;
+    }
     public static Matcher matcher(String regx, String content) {
         Pattern pattern = Pattern.compile(regx);
         return pattern.matcher(content);

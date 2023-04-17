@@ -931,6 +931,10 @@ public class VodController extends BaseController {
                 if (isInPlayback) {
                     tvSlideStart(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT ? 1 : -1);
                     return true;
+                }else {
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
+                        listener.replay(false);
+                    }
                 }
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
                 if (isInPlayback) {
@@ -992,12 +996,12 @@ public class VodController extends BaseController {
                 }else{
                     fromLongPress = true;
                     if (speed2 != 3.0f) {
-                    speed_old = speed2;
-                    float speed = 3.0f;
-                    mPlayerConfig.put("sp", speed);
-                    updatePlayerCfgView();
-                    listener.updatePlayerCfg();
-                    mControlWrapper.setSpeed(speed);
+                        speed_old = speed2;
+                        float speed = 3.0f;
+                        mPlayerConfig.put("sp", speed);
+                        updatePlayerCfgView();
+                        listener.updatePlayerCfg();
+                        mControlWrapper.setSpeed(speed);
                     }
                 }       
             } catch (JSONException f) {

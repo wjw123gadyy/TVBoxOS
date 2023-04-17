@@ -375,7 +375,7 @@ public class DetailActivity extends BaseActivity {
                 if (!ApiConfig.pushKey.isEmpty()) {
                     String wname = wdName;
                     if(wname.isEmpty())wname = vodInfo.name;
-                    start(DetailActivity.this, ApiConfig.pushKey, spId, wname);
+                    start(DetailActivity.this, ApiConfig.pushKey, spId, wname,wdPic);
                 }else alert("pushKey没有");
             }
         });
@@ -799,14 +799,6 @@ public class DetailActivity extends BaseActivity {
                             CacheManager.save(mVideo.name, mvo);
                         }
                         spflag = mVideo.director==null||mVideo.director.isEmpty();
-                        if (mVideo.pic != null) {
-                            if (mVideo.pic.contains("xinjun")||mVideo.pic.contains("inews.gtimg.com/newsapp_bt/0/13263837859/1000")) {
-                                spPic = "";
-                            }else {
-                                spPic=mVideo.pic.split("\\$\\$\\$")[0];
-                            }
-                        }
-
                         String tagInfo = "";
                         if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
                             String[] tagArr = mVideo.tag.split(";");
@@ -817,6 +809,11 @@ public class DetailActivity extends BaseActivity {
                         vodInfo.sourceKey = sourceKey;
                         tvName.setText(mVideo.name);
                         if(ApiConfig.isPic(wdPic))vodInfo.pic = wdPic;
+                        else if (mVideo.pic != null) {
+                            if(ApiConfig.isPic(mVideo.pic)){
+                                spPic=mVideo.pic.split("\\$\\$\\$")[0];
+                            }else spPic = "";
+                        }
                         cuHome = ApiConfig.get().getSource(sourceKey);
                         setTextShow(tvSite, "来源：", cuHome.getName());
                         setTextShow(tvYear, "上映：", mVideo.year);

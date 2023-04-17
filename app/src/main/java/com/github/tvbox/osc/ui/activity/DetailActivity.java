@@ -160,9 +160,6 @@ public class DetailActivity extends BaseActivity {
         initData();
     }
 
-    public static void start(Context context, String key, String id, String name) {
-        start(context,key,id,name,"");
-    }
     public static void start(Activity activity, String key, String id, String name, String pic) {
         Intent newIntent = new Intent(activity, DetailActivity.class);
         newIntent.putExtra("wdName", name);
@@ -172,6 +169,10 @@ public class DetailActivity extends BaseActivity {
         newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(newIntent);
     }
+
+   /* public static void start(Context context, String key, String id, String name) {
+        start(context,key,id,name,"");
+    }
     public static void start(Context context, String key, String id, String name, String pic) {
         Intent newIntent = new Intent(context, DetailActivity.class);
         newIntent.putExtra("wdName", name);
@@ -180,7 +181,7 @@ public class DetailActivity extends BaseActivity {
         newIntent.putExtra("pic", pic);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(newIntent);
-    }
+    }*/
 
     private void initView() {
         llLayout = findViewById(R.id.llLayout);

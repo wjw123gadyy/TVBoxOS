@@ -135,7 +135,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
                     bundle.putString("id", vod.id);
                     bundle.putString("sourceKey", vod.sourceKey);
                     if(Hawk.get(HawkConfig.HOME_REC, 0)==1 && Hawk.get(HawkConfig.FAST_SEARCH_MODE, false)){
-                        bundle.putExtra("pic", vod.pic);
+                        bundle.putString("pic", vod.pic);
                         bundle.putString("title", vod.name);
                         jumpActivity(FastSearchActivity.class, bundle);
                     }else {

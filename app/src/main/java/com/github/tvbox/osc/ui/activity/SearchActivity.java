@@ -211,7 +211,7 @@ public class SearchActivity extends BaseActivity {
 
                     String key = video.sourceKey;
                     //if(!ApiConfig._api.contains("63")&&ApiConfig.isAli(video.id))key = ApiConfig.pushKey;
-                    DetailActivity.start(this, key, video.id, searchTitle,wdPic);
+                    DetailActivity.start(SearchActivity.this, key, video.id, searchTitle,wdPic);
                 }
             }
         });

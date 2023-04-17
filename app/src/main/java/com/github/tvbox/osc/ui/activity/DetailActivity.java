@@ -300,7 +300,7 @@ public class DetailActivity extends BaseActivity {
         tvQuickSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SearchActivity.start(mContext, vodInfo.name, vodInfo.pic);
+                SearchActivity.start(DetailActivity.this, vodInfo.name, vodInfo.pic);
             }
         });
 
@@ -375,7 +375,7 @@ public class DetailActivity extends BaseActivity {
                 if (!ApiConfig.pushKey.isEmpty()) {
                     String wname = wdName;
                     if(wname.isEmpty())wname = vodInfo.name;
-                    start(mContext,ApiConfig.pushKey,spId,wname);
+                    start(DetailActivity.this, ApiConfig.pushKey, spId, wname);
                 }else alert("pushKey没有");
             }
         });

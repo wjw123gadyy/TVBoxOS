@@ -93,12 +93,12 @@ public class SearchActivity extends BaseActivity {
         return R.layout.activity_search;
     }
 
-    public static void start(Context context, String name, String pic) {
-        Intent newIntent = new Intent(context, SearchActivity.class);
+    public static void start(Activity activity, String name, String pic) {
+        Intent newIntent = new Intent(activity, SearchActivity.class);
         newIntent.putExtra("title", name);
         newIntent.putExtra("pic", pic);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(newIntent);
+        activity.startActivity(newIntent);
     }
 
     private static Boolean hasKeyBoard;

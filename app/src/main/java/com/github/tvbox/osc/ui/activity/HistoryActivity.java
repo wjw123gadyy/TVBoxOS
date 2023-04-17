@@ -144,7 +144,7 @@ public class HistoryActivity extends BaseActivity {
                 VodInfo vodInfo = historyAdapter.getData().get(position);
                 /*historyAdapter.remove(position);
                 RoomDataManger.deleteVodRecord(vodInfo.sourceKey, vodInfo);*/
-                SearchActivity.start(mContext, vodInfo.name, vodInfo.pic);
+                SearchActivity.start(HistoryActivity.this, vodInfo.name, vodInfo.pic);
                 return true;
             }
         });

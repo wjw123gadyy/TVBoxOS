@@ -160,14 +160,14 @@ public class DetailActivity extends BaseActivity {
         initData();
     }
 
-    public static void start(Context mContext, String key, String id, String name, String pic,boolean clear) {
-        Intent newIntent = new Intent(mContext, DetailActivity.class);
+    public static void start(Context context, String key, String id, String name, String pic,boolean clear) {
+        Intent newIntent = new Intent(DetailActivity.class);
         newIntent.putExtra("wdName", name);
         newIntent.putExtra("sourceKey", key);
         newIntent.putExtra("id", id);
         newIntent.putExtra("pic", pic);
         if(clear)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        DetailActivity.this.startActivity(newIntent);
+        context.startActivity(newIntent);
     }
 
     public static void start(Context mContext, String key, String id, String name, String pic) {

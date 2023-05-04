@@ -222,10 +222,10 @@ public class SearchActivity extends BaseActivity {
                 String isname = Hawk.get(HawkConfig.MY_NAME,"");
                 if (isname.isEmpty()) {
                     Hawk.put(HawkConfig.MY_NAME, "yes");
-                    Toast.makeText(mContext, "开启搜索标题", Toast.LENGTH_SHORT).show();
+                    DetailActivity.alert("开启搜索标题");
                 }else {
                     Hawk.put(HawkConfig.MY_NAME, "");
-                    Toast.makeText(mContext, "关闭搜索标题", Toast.LENGTH_SHORT).show();
+                    DetailActivity.alert("关闭搜索标题");
                 }
                 return true;
             }
@@ -241,11 +241,11 @@ public class SearchActivity extends BaseActivity {
                     if (wd.startsWith("pwd")) {
                         String s = wd.replace("pwd", "");
                         Hawk.put(HawkConfig.MY_PWD, s);
-                        Toast.makeText(mContext, "密码设置为："+s, Toast.LENGTH_SHORT).show();
+                        DetailActivity.alert("密码设置为："+s);
                     }else
                     search(wd);
                 } else {
-                    Toast.makeText(mContext, "输入内容不能为空", Toast.LENGTH_SHORT).show();
+                    DetailActivity.alert("输入内容不能为空");
                 }
             }
         });
@@ -256,10 +256,10 @@ public class SearchActivity extends BaseActivity {
                 String vd = Hawk.get(HawkConfig.MY_VIDEO_DETAIL,"");
                 if (vd.isEmpty()) {
                     Hawk.put(HawkConfig.MY_VIDEO_DETAIL, "yes");
-                    Toast.makeText(mContext, "开启视频详情", Toast.LENGTH_SHORT).show();
+                    DetailActivity.alert("开启视频详情");
                 }else {
                     Hawk.put(HawkConfig.MY_VIDEO_DETAIL, "");
-                    Toast.makeText(mContext, "关闭视频详情", Toast.LENGTH_SHORT).show();
+                    DetailActivity.alert("关闭视频详情");
                 }
                 return true;
             }
@@ -517,7 +517,7 @@ public class SearchActivity extends BaseActivity {
             allRunCount.incrementAndGet();
         }
         if (siteKey.size() <= 0) {
-            Toast.makeText(mContext, "没有指定搜索源", Toast.LENGTH_SHORT).show();
+            DetailActivity.alert("没有指定搜索源");
             showEmpty();
             return;
         }

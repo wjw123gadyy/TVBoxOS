@@ -160,8 +160,8 @@ public class DetailActivity extends BaseActivity {
         initData();
     }
 
-    public static void start(Activity activity, String key, String id, String name, String pic,boolean clear) {
-        Intent newIntent = new Intent(activity, DetailActivity.class);
+    public static void start(Context mContext, String key, String id, String name, String pic,boolean clear) {
+        Intent newIntent = new Intent(mContext, DetailActivity.class);
         newIntent.putExtra("wdName", name);
         newIntent.putExtra("sourceKey", key);
         newIntent.putExtra("id", id);
@@ -169,7 +169,8 @@ public class DetailActivity extends BaseActivity {
         if(clear)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(newIntent);
     }
-    public static void start(Activity activity, String key, String id, String name, String pic) {
+
+    public static void start(Context mContext, String key, String id, String name, String pic) {
         start(activity,key,id,name,pic,false);
     }
 
@@ -290,7 +291,7 @@ public class DetailActivity extends BaseActivity {
         tvQuickSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SearchActivity.start(DetailActivity.this, vodInfo.name, vodInfo.pic);
+                SearchActivity.start(mContext, vodInfo.name, vodInfo.pic);
             }
         });
 

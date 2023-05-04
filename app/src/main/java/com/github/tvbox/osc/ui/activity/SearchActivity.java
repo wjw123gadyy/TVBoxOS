@@ -93,8 +93,8 @@ public class SearchActivity extends BaseActivity {
         return R.layout.activity_search;
     }
 
-    public static void start(Activity activity, String name, String pic) {
-        Intent newIntent = new Intent(activity, SearchActivity.class);
+    public static void start(Context mContext, String name, String pic) {
+        Intent newIntent = new Intent(mContext, SearchActivity.class);
         newIntent.putExtra("title", name);
         newIntent.putExtra("pic", pic);
         activity.startActivity(newIntent);
@@ -210,7 +210,7 @@ public class SearchActivity extends BaseActivity {
 
                     String key = video.sourceKey;
                     //if(!ApiConfig._api.contains("63")&&ApiConfig.isAli(video.id))key = ApiConfig.pushKey;
-                    DetailActivity.start(SearchActivity.this, key, video.id, searchTitle,wdPic);
+                    DetailActivity.start(mContext, key, video.id, searchTitle,wdPic);
                 }
             }
         });

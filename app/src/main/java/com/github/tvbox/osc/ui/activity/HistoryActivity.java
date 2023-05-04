@@ -132,7 +132,7 @@ public class HistoryActivity extends BaseActivity {
                         historyAdapter.remove(position);
                         RoomDataManger.deleteVodRecord(vodInfo.sourceKey, vodInfo);
                     } else {
-                        DetailActivity.start( HistoryActivity.this, vodInfo.sourceKey, vodInfo.id, vodInfo.name, vodInfo.pic);
+                        DetailActivity.start( mContext, vodInfo.sourceKey, vodInfo.id, vodInfo.name, vodInfo.pic);
                     }
                 }
             }
@@ -144,7 +144,7 @@ public class HistoryActivity extends BaseActivity {
                 VodInfo vodInfo = historyAdapter.getData().get(position);
                 /*historyAdapter.remove(position);
                 RoomDataManger.deleteVodRecord(vodInfo.sourceKey, vodInfo);*/
-                SearchActivity.start(HistoryActivity.this, vodInfo.name, vodInfo.pic);
+                SearchActivity.start(mContext, vodInfo.name, vodInfo.pic);
                 return true;
             }
         });

@@ -171,7 +171,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     public static void start(Context mContext, String key, String id, String name, String pic) {
-        start(activity,key,id,name,pic,false);
+        start(mContext, key, id, name, pic, false);
     }
 
     private void initView() {
@@ -366,7 +366,7 @@ public class DetailActivity extends BaseActivity {
                 if (!ApiConfig.pushKey.isEmpty()) {
                     String wname = wdName;
                     if(wname.isEmpty())wname = vodInfo.name;
-                    start(DetailActivity.this, ApiConfig.pushKey, spId, wname, wdPic, true);
+                    start(mContext, ApiConfig.pushKey, spId, wname, wdPic, true);
                 }else alert("pushKey没有");
             }
         });
@@ -754,19 +754,6 @@ public class DetailActivity extends BaseActivity {
                     if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                         showSuccess();
                         mVideo = absXml.movie.videoList.get(0);
-                        if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
-                            String[] tagArr = mVideo.tag.split(";");
-                            if(tagArr.length>1) {
-                                tokenInfo = tagArr[1];
-                                if (tokenInfo.length() > 160) {
-                                    String otokenInfo = Hawk.get(HawkConfig.MY_TOKENINFO, "");
-                                    if(otokenInfo.isEmpty()||!tokenInfo.equals(otokenInfo)){
-                                        Hawk.put(HawkConfig.MY_TOKENINFO, tokenInfo);
-                                        updateData("notiptokenInfo "+tokenInfo);
-                                    }
-                                }
-                            }
-                        }
                         Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
                         boolean spflag = mVideo.director==null||mVideo.director.isEmpty();
                         if (mvo != null&&spflag) {
@@ -896,6 +883,19 @@ public class DetailActivity extends BaseActivity {
                             mSeriesGroupView.setVisibility(View.GONE);
                             tvPlay.setVisibility(View.GONE);
                             mEmptyPlayList.setVisibility(View.VISIBLE);
+                        }
+                        if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
+                            String[] tagArr = mVideo.tag.split(";");
+                            if(tagArr.length>1) {
+                                tokenInfo = tagArr[1];
+                                if (tokenInfo.length() > 170) {
+                                    String otokenInfo = Hawk.get(HawkConfig.MY_TOKENINFO, "");
+                                    if(otokenInfo.isEmpty()||!tokenInfo.equals(otokenInfo)){
+                                        Hawk.put(HawkConfig.MY_TOKENINFO, tokenInfo);
+                                        updateData("notiptokenInfo "+tokenInfo);
+                                    }
+                                }
+                            }
                         }
                     } else {
                         showEmpty();

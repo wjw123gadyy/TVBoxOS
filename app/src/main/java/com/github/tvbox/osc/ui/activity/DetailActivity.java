@@ -160,19 +160,28 @@ public class DetailActivity extends BaseActivity {
         initData();
     }
 
-    public static void start(Context context, String key, String id, String name, String pic,boolean clear) {
-        Intent newIntent = new Intent(context,DetailActivity.class);
+    public static void start(Activity activity, String key, String id, String name, String pic) {
+        Intent newIntent = new Intent(activity, DetailActivity.class);
         newIntent.putExtra("wdName", name);
         newIntent.putExtra("sourceKey", key);
         newIntent.putExtra("id", id);
         newIntent.putExtra("pic", pic);
-        if(clear)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(newIntent);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(newIntent);
     }
 
-    public static void start(Context mContext, String key, String id, String name, String pic) {
-        start(mContext, key, id, name, pic, false);
+   /* public static void start(Context context, String key, String id, String name) {
+        start(context,key,id,name,"");
     }
+    public static void start(Context context, String key, String id, String name, String pic) {
+        Intent newIntent = new Intent(context, DetailActivity.class);
+        newIntent.putExtra("wdName", name);
+        newIntent.putExtra("sourceKey", key);
+        newIntent.putExtra("id", id);
+        newIntent.putExtra("pic", pic);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(newIntent);
+    }*/
 
     private void initView() {
         llLayout = findViewById(R.id.llLayout);
@@ -291,7 +300,7 @@ public class DetailActivity extends BaseActivity {
         tvQuickSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SearchActivity.start(mContext, vodInfo.name, vodInfo.pic);
+                SearchActivity.start(DetailActivity.this, vodInfo.name, vodInfo.pic);
             }
         });
 
@@ -366,7 +375,7 @@ public class DetailActivity extends BaseActivity {
                 if (!ApiConfig.pushKey.isEmpty()) {
                     String wname = wdName;
                     if(wname.isEmpty())wname = vodInfo.name;
-                    start(mContext, ApiConfig.pushKey, spId, wname, wdPic, true);
+                    start(DetailActivity.this, ApiConfig.pushKey, spId, wname,wdPic);
                 }else alert("pushKey没有");
             }
         });
@@ -754,6 +763,20 @@ public class DetailActivity extends BaseActivity {
                     if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                         showSuccess();
                         mVideo = absXml.movie.videoList.get(0);
+                        if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
+                            String[] tagArr = mVideo.tag.split(";");
+                            if(tagArr.length>1) {
+                                tokenInfo = tagArr[1];
+                                if (tokenInfo.length() > 160) {
+                                    String otokenInfo = Hawk.get(HawkConfig.MY_TOKENINFO, "");
+                                    JSONObject jo = new JSONObject(tokenInfo);
+                                    if(otokenInfo.isEmpty()||(!jo.optString("accessTokenOpen", "").isEmpty()&&!tokenInfo.equals(otokenInfo))){
+                                        Hawk.put(HawkConfig.MY_TOKENINFO, tokenInfo);
+                                        updateData("notiptokenInfo "+tokenInfo);
+                                    }
+                                }
+                            }
+                        }
                         Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
                         boolean spflag = mVideo.director==null||mVideo.director.isEmpty();
                         if (mvo != null&&spflag) {
@@ -883,19 +906,6 @@ public class DetailActivity extends BaseActivity {
                             mSeriesGroupView.setVisibility(View.GONE);
                             tvPlay.setVisibility(View.GONE);
                             mEmptyPlayList.setVisibility(View.VISIBLE);
-                        }
-                        if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
-                            String[] tagArr = mVideo.tag.split(";");
-                            if(tagArr.length>1) {
-                                tokenInfo = tagArr[1];
-                                if (tokenInfo.length() > 170) {
-                                    String otokenInfo = Hawk.get(HawkConfig.MY_TOKENINFO, "");
-                                    if(otokenInfo.isEmpty()||!tokenInfo.equals(otokenInfo)){
-                                        Hawk.put(HawkConfig.MY_TOKENINFO, tokenInfo);
-                                        updateData("notiptokenInfo "+tokenInfo);
-                                    }
-                                }
-                            }
                         }
                     } else {
                         showEmpty();

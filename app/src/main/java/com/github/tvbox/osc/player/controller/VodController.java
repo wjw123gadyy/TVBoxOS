@@ -2,7 +2,6 @@ package com.github.tvbox.osc.player.controller;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import com.github.tvbox.osc.ui.activity.*;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
@@ -318,7 +319,7 @@ public class VodController extends BaseController {
                 Hawk.put(HawkConfig.TIME_FLAG, timeFlag);
                 String tip = "关闭";
                 if(timeFlag) tip = "开启";
-                DetailActivity.alert("播放进度已"+tip);
+                Toast.makeText(getContext(), "播放进度已"+tip, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -364,7 +365,7 @@ public class VodController extends BaseController {
                 Hawk.put(HawkConfig.TIME_FLAG, timeFlag);
                 String tip = "关闭";
                 if(timeFlag) tip = "开启";
-                DetailActivity.alert("播放进度已"+tip);
+                Toast.makeText(getContext(), "播放进度已"+tip, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -629,7 +630,7 @@ public class VodController extends BaseController {
                 mSubtitleView.clearSubtitleCache();
                 mSubtitleView.isInternal = false;
                 hideBottom();
-                DetailActivity.alert("字幕已关闭");
+                Toast.makeText(getContext(), "字幕已关闭", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });

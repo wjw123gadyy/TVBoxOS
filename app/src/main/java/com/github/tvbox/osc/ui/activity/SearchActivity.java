@@ -93,11 +93,12 @@ public class SearchActivity extends BaseActivity {
         return R.layout.activity_search;
     }
 
-    public static void start(Context context, String name, String pic) {
-        Intent newIntent = new Intent(context,SearchActivity.class);
+    public static void start(Activity activity, String name, String pic) {
+        Intent newIntent = new Intent(activity, SearchActivity.class);
         newIntent.putExtra("title", name);
         newIntent.putExtra("pic", pic);
-        context.startActivity(newIntent);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(newIntent);
     }
 
     private static Boolean hasKeyBoard;
@@ -210,7 +211,7 @@ public class SearchActivity extends BaseActivity {
 
                     String key = video.sourceKey;
                     //if(!ApiConfig._api.contains("63")&&ApiConfig.isAli(video.id))key = ApiConfig.pushKey;
-                    DetailActivity.start(mContext, key, video.id, searchTitle,wdPic);
+                    DetailActivity.start(SearchActivity.this, key, video.id, searchTitle,wdPic);
                 }
             }
         });
@@ -221,10 +222,10 @@ public class SearchActivity extends BaseActivity {
                 String isname = Hawk.get(HawkConfig.MY_NAME,"");
                 if (isname.isEmpty()) {
                     Hawk.put(HawkConfig.MY_NAME, "yes");
-                    DetailActivity.alert("开启搜索标题");
+                    Toast.makeText(mContext, "开启搜索标题", Toast.LENGTH_SHORT).show();
                 }else {
                     Hawk.put(HawkConfig.MY_NAME, "");
-                    DetailActivity.alert("关闭搜索标题");
+                    Toast.makeText(mContext, "关闭搜索标题", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
@@ -240,11 +241,11 @@ public class SearchActivity extends BaseActivity {
                     if (wd.startsWith("pwd")) {
                         String s = wd.replace("pwd", "");
                         Hawk.put(HawkConfig.MY_PWD, s);
-                        DetailActivity.alert("密码设置为："+s);
+                        Toast.makeText(mContext, "密码设置为："+s, Toast.LENGTH_SHORT).show();
                     }else
                     search(wd);
                 } else {
-                    DetailActivity.alert("输入内容不能为空");
+                    Toast.makeText(mContext, "输入内容不能为空", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -255,10 +256,10 @@ public class SearchActivity extends BaseActivity {
                 String vd = Hawk.get(HawkConfig.MY_VIDEO_DETAIL,"");
                 if (vd.isEmpty()) {
                     Hawk.put(HawkConfig.MY_VIDEO_DETAIL, "yes");
-                    DetailActivity.alert("开启视频详情");
+                    Toast.makeText(mContext, "开启视频详情", Toast.LENGTH_SHORT).show();
                 }else {
                     Hawk.put(HawkConfig.MY_VIDEO_DETAIL, "");
-                    DetailActivity.alert("关闭视频详情");
+                    Toast.makeText(mContext, "关闭视频详情", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
@@ -516,7 +517,7 @@ public class SearchActivity extends BaseActivity {
             allRunCount.incrementAndGet();
         }
         if (siteKey.size() <= 0) {
-            DetailActivity.alert("没有指定搜索源");
+            Toast.makeText(mContext, "没有指定搜索源", Toast.LENGTH_SHORT).show();
             showEmpty();
             return;
         }

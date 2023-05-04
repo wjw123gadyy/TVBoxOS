@@ -160,28 +160,18 @@ public class DetailActivity extends BaseActivity {
         initData();
     }
 
-    public static void start(Activity activity, String key, String id, String name, String pic) {
+    public static void start(Activity activity, String key, String id, String name, String pic,boolean clear) {
         Intent newIntent = new Intent(activity, DetailActivity.class);
         newIntent.putExtra("wdName", name);
         newIntent.putExtra("sourceKey", key);
         newIntent.putExtra("id", id);
         newIntent.putExtra("pic", pic);
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if(clear)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(newIntent);
     }
-
-   /* public static void start(Context context, String key, String id, String name) {
-        start(context,key,id,name,"");
+    public static void start(Activity activity, String key, String id, String name, String pic) {
+        start(activity,key,id,name,pic,false);
     }
-    public static void start(Context context, String key, String id, String name, String pic) {
-        Intent newIntent = new Intent(context, DetailActivity.class);
-        newIntent.putExtra("wdName", name);
-        newIntent.putExtra("sourceKey", key);
-        newIntent.putExtra("id", id);
-        newIntent.putExtra("pic", pic);
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(newIntent);
-    }*/
 
     private void initView() {
         llLayout = findViewById(R.id.llLayout);
@@ -375,7 +365,7 @@ public class DetailActivity extends BaseActivity {
                 if (!ApiConfig.pushKey.isEmpty()) {
                     String wname = wdName;
                     if(wname.isEmpty())wname = vodInfo.name;
-                    start(DetailActivity.this, ApiConfig.pushKey, spId, wname,wdPic);
+                    start(DetailActivity.this, ApiConfig.pushKey, spId, wname, wdPic, true);
                 }else alert("pushKey没有");
             }
         });

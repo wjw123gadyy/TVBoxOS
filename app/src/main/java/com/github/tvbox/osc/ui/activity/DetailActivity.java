@@ -763,7 +763,7 @@ public class DetailActivity extends BaseActivity {
                     if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                         showSuccess();
                         mVideo = absXml.movie.videoList.get(0);
-                        if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
+                        if(mVideo!=null&&mVideo.tag!=null&&!mVideo.tag.isEmpty()){
                             String[] tagArr = mVideo.tag.split(";");
                             if(tagArr.length>1) {
                                 tokenInfo = tagArr[1];

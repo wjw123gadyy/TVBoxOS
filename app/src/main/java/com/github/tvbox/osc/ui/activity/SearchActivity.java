@@ -97,7 +97,7 @@ public class SearchActivity extends BaseActivity {
         Intent newIntent = new Intent(mContext, SearchActivity.class);
         newIntent.putExtra("title", name);
         newIntent.putExtra("pic", pic);
-        activity.startActivity(newIntent);
+        SearchActivity.startActivity(newIntent);
     }
 
     private static Boolean hasKeyBoard;

@@ -161,7 +161,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     public static void start(Context context, String key, String id, String name, String pic,boolean clear) {
-        Intent newIntent = new Intent(DetailActivity.class);
+        Intent newIntent = new Intent(context,DetailActivity.class);
         newIntent.putExtra("wdName", name);
         newIntent.putExtra("sourceKey", key);
         newIntent.putExtra("id", id);

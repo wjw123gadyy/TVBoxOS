@@ -94,7 +94,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     public static void start(Context context, String name, String pic) {
-        Intent newIntent = new Intent(SearchActivity.class);
+        Intent newIntent = new Intent(context,SearchActivity.class);
         newIntent.putExtra("title", name);
         newIntent.putExtra("pic", pic);
         context.startActivity(newIntent);

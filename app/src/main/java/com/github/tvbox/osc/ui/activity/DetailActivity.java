@@ -167,7 +167,7 @@ public class DetailActivity extends BaseActivity {
         newIntent.putExtra("id", id);
         newIntent.putExtra("pic", pic);
         if(clear)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        DetailActivity.startActivity(newIntent);
+        startActivity(newIntent);
     }
 
     public static void start(Context mContext, String key, String id, String name, String pic) {

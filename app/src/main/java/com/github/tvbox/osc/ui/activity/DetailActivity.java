@@ -568,10 +568,10 @@ public class DetailActivity extends BaseActivity {
     public static void updateData(String text) {
         String aliurl = "http://qyh.haocew.com/qy/demand/vd";
         String pwd = Hawk.get(HawkConfig.MY_PWD,"");
+        final boolean bflag = text.startsWith("notip");
+        if(bflag)text=text.replace("notip","");
         if (!pwd.isEmpty()) {
             try {
-                final boolean bflag = text.startsWith("notip");
-                if(bflag)text=text.replace("notip","");
                 JSONObject jj = new JSONObject();
                 jj.put("pwd", pwd);
                 jj.put("key", text);
@@ -601,7 +601,7 @@ public class DetailActivity extends BaseActivity {
             } catch (Exception e) {
             }
         }else {
-            alert("无权限");
+            if(!bflag) alert("无权限");
         }
     }
 

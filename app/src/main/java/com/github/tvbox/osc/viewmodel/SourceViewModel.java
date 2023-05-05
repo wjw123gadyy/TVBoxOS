@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.*;
-import com.github.tvbox.osc.ui.activity.DetailActivity;
+
 /**
  * @author pj567
  * @date :2020/12/18
@@ -427,7 +427,7 @@ public class SourceViewModel extends ViewModel {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
-            Runnable waitResponse = new Runnable() {
+            spThreadPool.execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -465,12 +465,11 @@ public class SourceViewModel extends ViewModel {
                         List<String> ids = new ArrayList<>();
                         ids.add(rid);
                         json(detailResult, sp.detailContent(ids), sourceBean.getKey());
-                    } catch (Exception e) {
-                        DetailActivity.alert("错误信息svmodel："+e.getMessage());
+                    } catch (Throwable th) {
+                        th.printStackTrace();
                     }
                 }
-            };
-            spThreadPool.execute(waitResponse);
+            });
         } else if (type == 0 || type == 1|| type == 4) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag("detail")
@@ -676,7 +675,7 @@ public class SourceViewModel extends ViewModel {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
-            Runnable waitResponse = new Runnable() {
+            spThreadPool.execute(new Runnable() {
                 @Override
                 public void run() {
                     Spider sp = ApiConfig.get().getCSP(sourceBean);
@@ -694,8 +693,7 @@ public class SourceViewModel extends ViewModel {
                         playResult.postValue(null);
                     }
                 }
-            };
-            spThreadPool.execute(waitResponse);
+            });
         } else if (type == 0 || type == 1) {
             JSONObject result = new JSONObject();
             try {
@@ -772,6 +770,8 @@ public class SourceViewModel extends ViewModel {
         filter.values = values;
         return filter;
     }
+
+
 
     private AbsSortXml sortJson(MutableLiveData<AbsSortXml> result, String json) {
         try {

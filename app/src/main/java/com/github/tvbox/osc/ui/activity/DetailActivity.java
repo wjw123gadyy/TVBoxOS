@@ -160,17 +160,13 @@ public class DetailActivity extends BaseActivity {
         initData();
     }
 
-    public static void start(Activity activity, String key, String id, String name, String pic,boolean clear) {
-        Intent newIntent = new Intent(activity, DetailActivity.class);
+    public static void start(Context context, String key, String id, String name) {
+        Intent newIntent = new Intent(context, DetailActivity.class);
         newIntent.putExtra("wdName", name);
         newIntent.putExtra("sourceKey", key);
         newIntent.putExtra("id", id);
-        newIntent.putExtra("wdPic", pic);
-        if(clear)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        activity.startActivity(newIntent);
-    }
-    public static void start(Activity activity, String key, String id, String name, String pic) {
-        start(activity,key,id,name,pic,false);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(newIntent);
     }
 
     private void initView() {
@@ -290,7 +286,32 @@ public class DetailActivity extends BaseActivity {
         tvQuickSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SearchActivity.start(DetailActivity.this, vodInfo.name, vodInfo.pic);
+                startQuickSearch();
+                QuickSearchDialog quickSearchDialog = new QuickSearchDialog(DetailActivity.this);
+                EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_QUICK_SEARCH, quickSearchData));
+                EventBus.getDefault().post(new RefreshEvent(RefreshEvent.TYPE_QUICK_SEARCH_WORD, quickSearchWord));
+                quickSearchDialog.show();
+                if (pauseRunnable != null && pauseRunnable.size() > 0) {
+                    searchExecutorService = Executors.newFixedThreadPool(5);
+                    for (Runnable runnable : pauseRunnable) {
+                        searchExecutorService.execute(runnable);
+                    }
+                    pauseRunnable.clear();
+                    pauseRunnable = null;
+                }
+                quickSearchDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        try {
+                            if (searchExecutorService != null) {
+                                pauseRunnable = searchExecutorService.shutdownNow();
+                                searchExecutorService = null;
+                            }
+                        } catch (Throwable th) {
+                            th.printStackTrace();
+                        }
+                    }
+                });
             }
         });
 
@@ -365,7 +386,7 @@ public class DetailActivity extends BaseActivity {
                 if (!ApiConfig.pushKey.isEmpty()) {
                     String wname = wdName;
                     if(wname.isEmpty())wname = vodInfo.name;
-                    start(DetailActivity.this, ApiConfig.pushKey, spId, wname,wdPic);
+                    start(mContext,ApiConfig.pushKey,spId,wname);
                 }else alert("pushKey没有");
             }
         });
@@ -541,6 +562,8 @@ public class DetailActivity extends BaseActivity {
             }
         });
         mGridView.setOnFocusChangeListener((view, b) -> onGridViewFocusChange(view, b));
+
+
         setLoadSir(llLayout);
     }
 
@@ -753,7 +776,7 @@ public class DetailActivity extends BaseActivity {
                     if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                         showSuccess();
                         mVideo = absXml.movie.videoList.get(0);
-                        if(mVideo!=null&&mVideo.tag!=null&&!mVideo.tag.isEmpty()){
+                        if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
                             String[] tagArr = mVideo.tag.split(";");
                             if(tagArr.length>1) {
                                 tokenInfo = tagArr[1];
@@ -790,6 +813,14 @@ public class DetailActivity extends BaseActivity {
                             CacheManager.save(mVideo.name, mvo);
                         }
                         spflag = mVideo.director==null||mVideo.director.isEmpty();
+                        if (mVideo.pic != null) {
+                            if (mVideo.pic.contains("xinjun")||mVideo.pic.contains("inews.gtimg.com/newsapp_bt/0/13263837859/1000")) {
+                                spPic = "";
+                            }else {
+                                spPic=mVideo.pic.split("\\$\\$\\$")[0];
+                            }
+                        }
+
                         String tagInfo = "";
                         if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
                             String[] tagArr = mVideo.tag.split(";");
@@ -799,14 +830,6 @@ public class DetailActivity extends BaseActivity {
                         vodInfo.setVideo(mVideo);
                         vodInfo.sourceKey = sourceKey;
                         tvName.setText(mVideo.name);
-                        if(ApiConfig.isPic(wdPic)){
-                            vodInfo.pic = wdPic;
-                            spPic = wdPic;
-                        } else if (mVideo.pic != null) {
-                            if(ApiConfig.isPic(mVideo.pic)){
-                                spPic=mVideo.pic.split("\\$\\$\\$")[0];
-                            }else spPic = "";
-                        }
                         cuHome = ApiConfig.get().getSource(sourceKey);
                         setTextShow(tvSite, "来源：", cuHome.getName());
                         setTextShow(tvYear, "上映：", mVideo.year);
@@ -905,7 +928,7 @@ public class DetailActivity extends BaseActivity {
                         llPlayerFragmentContainerBlock.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
-                    alert("错误信息de："+e.getMessage());
+                    alert("错误信息："+e.getMessage());
                 }
             }
         });
@@ -923,7 +946,6 @@ public class DetailActivity extends BaseActivity {
         if (intent != null && intent.getExtras() != null) {
             Bundle bundle = intent.getExtras();
             wdName = bundle.getString("wdName", "");
-            wdPic = bundle.getString("wdPic", "");
             spId = bundle.getString("id", null);
             sourceKey = bundle.getString("sourceKey", "");
             if(sourceKey.equals("push_agentqq")){
@@ -1105,7 +1127,6 @@ public class DetailActivity extends BaseActivity {
 
     private void insertVod(String sourceKey, VodInfo vodInfo) {
         try {
-            if(ApiConfig.isPic(wdPic))vodInfo.pic = wdPic;
             vodInfo.playNote = vodInfo.seriesMap.get(vodInfo.playFlag).get(vodInfo.playIndex).name;
         } catch (Throwable th) {
             vodInfo.playNote = "";

@@ -82,7 +82,6 @@ public class SearchActivity extends BaseActivity {
     private SearchAdapter searchAdapter;
     private PinyinAdapter wordAdapter;
     private String searchTitle = "";
-    private String wdPic = "";
     private TextView tvSearchCheckboxBtn;
 
     private static HashMap<String, String> mCheckSources = null;
@@ -93,13 +92,6 @@ public class SearchActivity extends BaseActivity {
         return R.layout.activity_search;
     }
 
-    public static void start(Activity activity, String name, String pic) {
-        Intent newIntent = new Intent(activity, SearchActivity.class);
-        newIntent.putExtra("title", name);
-        newIntent.putExtra("pic", pic);
-        //newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        activity.startActivity(newIntent);
-    }
 
     private static Boolean hasKeyBoard;
     private static Boolean isSearchBack;
@@ -210,8 +202,8 @@ public class SearchActivity extends BaseActivity {
                     isSearchBack = true;
 
                     String key = video.sourceKey;
-                    //if(!ApiConfig._api.contains("63")&&ApiConfig.isAli(video.id))key = ApiConfig.pushKey;
-                    DetailActivity.start(SearchActivity.this, key, video.id, searchTitle,wdPic);
+                    if(!ApiConfig._api.contains("63")&&ApiConfig.isAli(video.id))key = ApiConfig.pushKey;
+                    DetailActivity.start(mContext, key, video.id, searchTitle);
                 }
             }
         });
@@ -402,7 +394,6 @@ public class SearchActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("title")) {
             String title = intent.getStringExtra("title");
-            wdPic = intent.getStringExtra("pic");
             etSearch.setText(title);
             showLoading();
             search(title);

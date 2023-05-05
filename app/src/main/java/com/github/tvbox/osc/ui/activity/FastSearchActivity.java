@@ -75,6 +75,7 @@ public class FastSearchActivity extends BaseActivity {
     private FastSearchAdapter searchAdapterFilter;
     private FastListAdapter spListAdapter;
     private String searchTitle = "";
+    private String wdPic = "";
     private HashMap<String, String> spNames;
     private boolean isFilterMode = false;
     private String searchFilterKey = "";    // 过滤的key
@@ -202,8 +203,8 @@ public class FastSearchActivity extends BaseActivity {
                         th.printStackTrace();
                     }
                     String key = video.sourceKey;
-                    if(!ApiConfig._api.contains("63")&&ApiConfig.isAli(video.id))key = ApiConfig.pushKey;
-                    DetailActivity.start(mContext, key, video.id, searchTitle);
+                    //if(!ApiConfig._api.contains("63")&&ApiConfig.isAli(video.id))key = ApiConfig.pushKey;
+                    DetailActivity.start( FastSearchActivity.this, key, video.id, searchTitle,wdPic);
                 }
             }
         });
@@ -317,6 +318,7 @@ public class FastSearchActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("title")) {
             String title = intent.getStringExtra("title");
+            wdPic = intent.getStringExtra("pic");
             showLoading();
             search(title);
         }
@@ -467,11 +469,13 @@ public class FastSearchActivity extends BaseActivity {
 
     private void searchData(AbsXml absXml) {
         String lastSourceKey = "";
-
         if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
             List<Movie.Video> data = new ArrayList<>();
+            boolean isPic = ApiConfig.isPic(wdPic);
             for (Movie.Video video : absXml.movie.videoList) {
                 if (!matchSearchResult(video.name, searchTitle)) continue;
+                if(isPic)video.pic = wdPic;
+                if(!searchTitle.isEmpty())video.name = searchTitle;
                 data.add(video);
                 if (!resultVods.containsKey(video.sourceKey)) {
                     resultVods.put(video.sourceKey, new ArrayList<Movie.Video>());

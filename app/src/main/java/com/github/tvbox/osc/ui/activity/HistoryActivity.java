@@ -132,7 +132,7 @@ public class HistoryActivity extends BaseActivity {
                         historyAdapter.remove(position);
                         RoomDataManger.deleteVodRecord(vodInfo.sourceKey, vodInfo);
                     } else {
-                        DetailActivity.start(mContext, vodInfo.sourceKey, vodInfo.id, vodInfo.name);
+                        DetailActivity.start( HistoryActivity.this, vodInfo.sourceKey, vodInfo.id, vodInfo.name, vodInfo.pic);
                     }
                 }
             }
@@ -144,12 +144,7 @@ public class HistoryActivity extends BaseActivity {
                 VodInfo vodInfo = historyAdapter.getData().get(position);
                 /*historyAdapter.remove(position);
                 RoomDataManger.deleteVodRecord(vodInfo.sourceKey, vodInfo);*/
-                Intent intent = new Intent(mContext, SearchActivity.class);
-                Bundle bundle = new Bundle();
-                intent.putExtras(bundle);
-                intent.putExtra("title", vodInfo.name);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                SearchActivity.start(HistoryActivity.this, vodInfo.name, vodInfo.pic);
                 return true;
             }
         });

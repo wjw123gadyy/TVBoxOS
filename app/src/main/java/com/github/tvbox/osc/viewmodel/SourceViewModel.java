@@ -464,7 +464,9 @@ public class SourceViewModel extends ViewModel {
                         Spider sp = ApiConfig.get().getCSP(sourceBean);
                         List<String> ids = new ArrayList<>();
                         ids.add(rid);
-                        json(detailResult, sp.detailContent(ids), sourceBean.getKey());
+                        String jstr = sp.detailContent(ids);
+                        if(jstr!=null&&!jstr.isEmpty())
+                        json(detailResult, jstr, sourceBean.getKey());
                     } catch (Exception e) {
                         DetailActivity.alert("错误信息svmodel："+e.getMessage());
                     }

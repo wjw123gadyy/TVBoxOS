@@ -122,29 +122,32 @@ public class AbsJson implements Serializable {
             } catch (Throwable th) {
                 video.year = "";
             }
-            video.state = vod_state;
-            video.note = vod_remarks;
-            video.actor = vod_actor;
-            video.director = vod_director;
-            Movie.Video.UrlBean urlBean = new Movie.Video.UrlBean();
-            if (vod_play_from != null && vod_play_url != null && !vod_play_url.contains("无数据")) {
-                if(video.id.contains("aliyundrive.com")&&!vod_play_from.contains("i"))vod_play_url = ApiConfig.getBx(vod_play_url);
-                String[] playFlags = vod_play_from.split("\\$\\$\\$");
-                String[] playUrls = vod_play_url.split("\\$\\$\\$");
-                List<Movie.Video.UrlBean.UrlInfo> infoList = new ArrayList<>();
-                for (int i = 0; i < playFlags.length; i++) {
-                    Movie.Video.UrlBean.UrlInfo urlInfo = new Movie.Video.UrlBean.UrlInfo();
-                    urlInfo.flag = playFlags[i];
-                    if (i < playUrls.length)
-                        urlInfo.urls = playUrls[i];
-                    else
-                        urlInfo.urls = "";
-                    infoList.add(urlInfo);
+            try {
+                video.state = vod_state;
+                video.note = vod_remarks;
+                video.actor = vod_actor;
+                video.director = vod_director;
+                Movie.Video.UrlBean urlBean = new Movie.Video.UrlBean();
+                if (vod_play_from != null && vod_play_url != null && !vod_play_url.contains("无数据")) {
+                    if(video.id.contains("aliyundrive.com")&&!vod_play_from.contains("i"))vod_play_url = ApiConfig.getBx(vod_play_url);
+                    String[] playFlags = vod_play_from.split("\\$\\$\\$");
+                    String[] playUrls = vod_play_url.split("\\$\\$\\$");
+                    List<Movie.Video.UrlBean.UrlInfo> infoList = new ArrayList<>();
+                    for (int i = 0; i < playFlags.length; i++) {
+                        Movie.Video.UrlBean.UrlInfo urlInfo = new Movie.Video.UrlBean.UrlInfo();
+                        urlInfo.flag = playFlags[i];
+                        if (i < playUrls.length)
+                            urlInfo.urls = playUrls[i];
+                        else
+                            urlInfo.urls = "";
+                        infoList.add(urlInfo);
+                    }
+                    urlBean.infoList = infoList;
                 }
-                urlBean.infoList = infoList;
+                video.urlBean = urlBean;
+                video.des = vod_content;// <![CDATA[权来]
+            } catch (Exception e) {
             }
-            video.urlBean = urlBean;
-            video.des = vod_content;// <![CDATA[权来]
             return video;
         }
     }

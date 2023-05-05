@@ -161,17 +161,13 @@ public class DetailActivity extends BaseActivity {
     }
 
     public static void start(Activity activity, String key, String id, String name, String pic,boolean clear) {
-        try {
-            Intent newIntent = new Intent(activity, DetailActivity.class);
-            newIntent.putExtra("wdName", name);
-            newIntent.putExtra("sourceKey", key);
-            newIntent.putExtra("id", id);
-            newIntent.putExtra("pic", pic);
-            if(clear)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            activity.startActivity(newIntent);
-        } catch (Exception e) {
-            alert("错误信息dstart："+e.getMessage());
-        }
+        Intent newIntent = new Intent(activity, DetailActivity.class);
+        newIntent.putExtra("wdName", name);
+        newIntent.putExtra("sourceKey", key);
+        newIntent.putExtra("id", id);
+        newIntent.putExtra("wdPic", pic);
+        if(clear)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(newIntent);
     }
     public static void start(Activity activity, String key, String id, String name, String pic) {
         start(activity,key,id,name,pic,false);
@@ -803,8 +799,10 @@ public class DetailActivity extends BaseActivity {
                         vodInfo.setVideo(mVideo);
                         vodInfo.sourceKey = sourceKey;
                         tvName.setText(mVideo.name);
-                        if(ApiConfig.isPic(wdPic))vodInfo.pic = wdPic;
-                        else if (mVideo.pic != null) {
+                        if(ApiConfig.isPic(wdPic)){
+                            vodInfo.pic = wdPic;
+                            spPic = wdPic;
+                        } else if (mVideo.pic != null) {
                             if(ApiConfig.isPic(mVideo.pic)){
                                 spPic=mVideo.pic.split("\\$\\$\\$")[0];
                             }else spPic = "";

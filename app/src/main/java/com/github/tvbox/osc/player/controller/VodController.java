@@ -170,14 +170,13 @@ public class VodController extends BaseController {
                 if(mPlayLoadNetSpeed.getVisibility()==VISIBLE){
                     if (v==GONE)speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                     mPlayLoadNetSpeed.setText(speed);
-                    if(ApiConfig.loadTime>5){
-                        ApiConfig.loadTime = 0;
+                    if(PlayerUtils.getLoadTime()>5){
+                        PlayerUtils.setLoadTime();
                         listener.replay(false);
                     }
-                    ApiConfig.loadTime++;
-                }else ApiConfig.loadTime = 0;
+                }else PlayerUtils.setLoadTime();
             } catch (Exception e) {
-                DetailActivity.alert("错误信息Vod："+e.getMessage());
+                DetailActivity.alert("错误信息Vod2："+e.getMessage());
             }
             mHandler.postDelayed(this, 1000);
         }
@@ -223,7 +222,7 @@ public class VodController extends BaseController {
         mLandscapePortraitBtn = findViewById(R.id.landscape_portrait);
 
         initSubtitleInfo();
-        ApiConfig.loadTime = 0;
+        PlayerUtils.setLoadTime();
         myHandle = new Handler();
         myRunnable = new Runnable() {
             @Override

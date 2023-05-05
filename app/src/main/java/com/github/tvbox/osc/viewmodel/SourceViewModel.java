@@ -432,7 +432,7 @@ public class SourceViewModel extends ViewModel {
                 public void run() {
                     try {
                         String rid = id,sid="";
-                        String isname = Hawk.get(HawkConfig.MY_NAME,"");
+                        String isname = Hawk.get(HawkConfig.MY_NAME,"yes");
                         if (!isname.isEmpty()) {
                             if((sourceKey.startsWith("ali_")||ApiConfig.isAli(id))&&!wdName.isEmpty()){
                                 String[] idInfo = id.split("\\$\\$\\$");

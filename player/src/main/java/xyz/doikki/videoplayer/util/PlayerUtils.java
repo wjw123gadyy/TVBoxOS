@@ -173,7 +173,7 @@ public final class PlayerUtils {
     public static final int NETWORK_MOBILE = 4;
     public static final int NETWORK_UNKNOWN = -1;
 
-    public static int setLoadTime() {
+    public static void setLoadTime() {
         loadTime = 0;
     }
     public static int getLoadTime() {

@@ -97,7 +97,7 @@ public class SearchActivity extends BaseActivity {
         Intent newIntent = new Intent(activity, SearchActivity.class);
         newIntent.putExtra("title", name);
         newIntent.putExtra("pic", pic);
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(newIntent);
     }
 

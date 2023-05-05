@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.*;
-
+import com.github.tvbox.osc.ui.activity.DetailActivity;
 /**
  * @author pj567
  * @date :2020/12/18
@@ -465,8 +465,8 @@ public class SourceViewModel extends ViewModel {
                         List<String> ids = new ArrayList<>();
                         ids.add(rid);
                         json(detailResult, sp.detailContent(ids), sourceBean.getKey());
-                    } catch (Throwable th) {
-                        th.printStackTrace();
+                    } catch (Exception e) {
+                        DetailActivity.alert("错误信息svmodel："+e.getMessage());
                     }
                 }
             };

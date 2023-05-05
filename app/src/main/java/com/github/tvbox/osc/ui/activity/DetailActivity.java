@@ -161,13 +161,17 @@ public class DetailActivity extends BaseActivity {
     }
 
     public static void start(Activity activity, String key, String id, String name, String pic,boolean clear) {
-        Intent newIntent = new Intent(activity, DetailActivity.class);
-        newIntent.putExtra("wdName", name);
-        newIntent.putExtra("sourceKey", key);
-        newIntent.putExtra("id", id);
-        newIntent.putExtra("pic", pic);
-        if(clear)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        activity.startActivity(newIntent);
+        try {
+            Intent newIntent = new Intent(activity, DetailActivity.class);
+            newIntent.putExtra("wdName", name);
+            newIntent.putExtra("sourceKey", key);
+            newIntent.putExtra("id", id);
+            newIntent.putExtra("pic", pic);
+            if(clear)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            activity.startActivity(newIntent);
+        } catch (Exception e) {
+            alert("错误信息dstart："+e.getMessage());
+        }
     }
     public static void start(Activity activity, String key, String id, String name, String pic) {
         start(activity,key,id,name,pic,false);
@@ -903,7 +907,7 @@ public class DetailActivity extends BaseActivity {
                         llPlayerFragmentContainerBlock.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
-                    alert("错误信息："+e.getMessage());
+                    alert("错误信息de："+e.getMessage());
                 }
             }
         });

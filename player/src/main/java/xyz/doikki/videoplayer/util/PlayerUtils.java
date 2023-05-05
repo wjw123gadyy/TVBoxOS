@@ -165,21 +165,13 @@ public final class PlayerUtils {
                 || e.getRawY() > getScreenHeight(context, true) - edgeSize;
     }
 
-    private static int loadTime = 0;
+
     public static final int NO_NETWORK = 0;
     public static final int NETWORK_CLOSED = 1;
     public static final int NETWORK_ETHERNET = 2;
     public static final int NETWORK_WIFI = 3;
     public static final int NETWORK_MOBILE = 4;
     public static final int NETWORK_UNKNOWN = -1;
-
-    public static void setLoadTime() {
-        loadTime = 0;
-    }
-    public static int getLoadTime() {
-        loadTime++;
-        return loadTime;
-    }
 
     /**
      * 判断当前网络类型

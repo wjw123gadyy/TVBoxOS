@@ -2,7 +2,6 @@ package com.github.tvbox.osc.player.controller;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import com.github.tvbox.osc.ui.activity.*;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
@@ -33,16 +34,22 @@ import com.github.tvbox.osc.util.SubtitleHelper;
 import com.orhanobut.hawk.Hawk;
 import com.owen.tvrecyclerview.widget.TvRecyclerView;
 import com.owen.tvrecyclerview.widget.V7LinearLayoutManager;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.Date;
+
 import xyz.doikki.videoplayer.player.VideoView;
 import xyz.doikki.videoplayer.util.PlayerUtils;
+
 import static xyz.doikki.videoplayer.util.PlayerUtils.stringForTime;
+
 public class VodController extends BaseController {
     public VodController(@NonNull @NotNull Context context) {
         super(context);
@@ -130,7 +137,6 @@ public class VodController extends BaseController {
     Runnable myRunnable;
     int myHandleSeconds = 10000;//闲置多少毫秒秒关闭底栏  默认6秒
     int videoPlayState = 0;
-    int loadTime = 0;
     private boolean timeFlag;
     private boolean fromLongPress;
     private float speed_old = 1.0f;
@@ -170,12 +176,7 @@ public class VodController extends BaseController {
             if(mPlayLoadNetSpeed.getVisibility()==VISIBLE){
                 if (v==GONE)speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                 mPlayLoadNetSpeed.setText(speed);
-                if(loadTime>5){
-                    loadTime = 0;
-                    listener.replay(false);
-                }
-                loadTime++;
-            }else loadTime = 0;
+            }
             mHandler.postDelayed(this, 1000);
         }
     };
@@ -312,7 +313,7 @@ public class VodController extends BaseController {
                 Hawk.put(HawkConfig.TIME_FLAG, timeFlag);
                 String tip = "关闭";
                 if(timeFlag) tip = "开启";
-                DetailActivity.alert("播放进度已"+tip);
+                Toast.makeText(getContext(), "播放进度已"+tip, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -358,7 +359,7 @@ public class VodController extends BaseController {
                 Hawk.put(HawkConfig.TIME_FLAG, timeFlag);
                 String tip = "关闭";
                 if(timeFlag) tip = "开启";
-                DetailActivity.alert("播放进度已"+tip);
+                Toast.makeText(getContext(), "播放进度已"+tip, Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -544,7 +545,19 @@ public class VodController extends BaseController {
         mPlayerTimeStartEndText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                sdrest();
+                myHandle.removeCallbacks(myRunnable);
+                myHandle.postDelayed(myRunnable, myHandleSeconds);
+                try {
+                    mPlayerConfig.put("sp", 1.5f);
+                    mPlayerConfig.put("st", 110);
+                    mPlayerConfig.put("et", 150);
+                    updatePlayerCfgView();
+                    listener.replay(false);
+                    listener.updatePlayerCfg();
+                    mControlWrapper.setSpeed(1.5f);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         mPlayerTimeStartBtn.setOnClickListener(new OnClickListener() {
@@ -623,7 +636,7 @@ public class VodController extends BaseController {
                 mSubtitleView.clearSubtitleCache();
                 mSubtitleView.isInternal = false;
                 hideBottom();
-                DetailActivity.alert("字幕已关闭");
+                Toast.makeText(getContext(), "字幕已关闭", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -924,10 +937,6 @@ public class VodController extends BaseController {
                 if (isInPlayback) {
                     tvSlideStart(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT ? 1 : -1);
                     return true;
-                }else {
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-                        listener.replay(false);
-                    }
                 }
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
                 if (isInPlayback) {
@@ -963,39 +972,18 @@ public class VodController extends BaseController {
         can();
     }
 
-    public void sdrest() {
-        myHandle.removeCallbacks(myRunnable);
-        myHandle.postDelayed(myRunnable, myHandleSeconds);
-        try {
-            mPlayerConfig.put("sp", 1.5f);
-            mPlayerConfig.put("st", 110);
-            mPlayerConfig.put("et", 150);
-            updatePlayerCfgView();
-            listener.replay(false);
-            listener.updatePlayerCfg();
-            mControlWrapper.setSpeed(1.5f);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void can(){
         if (videoPlayState!=VideoView.STATE_PAUSED) {
+            fromLongPress = true;
             try {
                 float speed2 = (float) mPlayerConfig.getDouble("sp");
-                int current = mPlayerConfig.getInt("st");
-                if (speed2 == 1.0f&&current==0) {
-                    sdrest();
-                }else{
-                    fromLongPress = true;
-                    if (speed2 != 3.0f) {
-                        speed_old = speed2;
-                        float speed = 3.0f;
-                        mPlayerConfig.put("sp", speed);
-                        updatePlayerCfgView();
-                        listener.updatePlayerCfg();
-                        mControlWrapper.setSpeed(speed);
-                    }
+                if (speed2 != 3.0f) {
+                    speed_old = speed2;
+                    float speed = 3.0f;
+                    mPlayerConfig.put("sp", speed);
+                    updatePlayerCfgView();
+                    listener.updatePlayerCfg();
+                    mControlWrapper.setSpeed(speed);
                 }
             } catch (JSONException f) {
                 f.printStackTrace();

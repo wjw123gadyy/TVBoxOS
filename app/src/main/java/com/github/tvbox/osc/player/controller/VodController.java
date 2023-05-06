@@ -174,9 +174,9 @@ public class VodController extends BaseController {
                         mControlWrapper.setLoadTime();
                         listener.replay(false);
                     }
-                }else mControlWrapper.setLoadTime();
+                }
             } catch (Exception e) {
-                DetailActivity.alert("错误信息Vodrun:"+e.getMessage());
+                //DetailActivity.alert("错误信息Vodrun:"+e.getMessage());
             }
             mHandler.postDelayed(this, 1000);
         }

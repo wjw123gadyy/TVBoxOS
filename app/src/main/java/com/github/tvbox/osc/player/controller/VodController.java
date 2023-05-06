@@ -2,7 +2,7 @@ package com.github.tvbox.osc.player.controller;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import com.github.tvbox.osc.ui.activity.*;
+import com.github.tvbox.osc.ui.activity.DetailActivity;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Message;

@@ -165,7 +165,7 @@ public class DetailActivity extends BaseActivity {
         newIntent.putExtra("wdName", name);
         newIntent.putExtra("sourceKey", key);
         newIntent.putExtra("id", id);
-        newIntent.putExtra("pic", pic);
+        newIntent.putExtra("wdPic", pic);
         if(clean)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(newIntent);
     }

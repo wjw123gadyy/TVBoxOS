@@ -401,8 +401,9 @@ public class SearchActivity extends BaseActivity {
         initCheckedSourcesForSearch();
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("title")) {
-            String title = intent.getStringExtra("title");
-            wdPic = intent.getString("pic", "");
+            Bundle bundle = intent.getExtras();
+            String title = bundle.getString("title", "");
+            wdPic = bundle.getString("pic", "");
             etSearch.setText(title);
             showLoading();
             search(title);

@@ -140,6 +140,14 @@ public class ControlWrapper implements MediaPlayerControl, IVideoController {
         return mPlayerControl.isTinyScreen();
     }
 
+    private int loadTime = 0;
+    public void setLoadTime() {
+        loadTime = 0;
+    }
+    public int getLoadTime() {
+        loadTime++;
+        return loadTime;
+    }
     /**
      * 播放和暂停
      */

@@ -130,7 +130,6 @@ public class VodController extends BaseController {
     Runnable myRunnable;
     int myHandleSeconds = 10000;//闲置多少毫秒秒关闭底栏  默认6秒
     int videoPlayState = 0;
-    int loadTime = 0;
     private boolean timeFlag;
     private boolean fromLongPress;
     private float speed_old = 1.0f;
@@ -170,7 +169,10 @@ public class VodController extends BaseController {
             if(mPlayLoadNetSpeed.getVisibility()==VISIBLE){
                 if (v==GONE)speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                 mPlayLoadNetSpeed.setText(speed);
-            }
+                if(mControlWrapper.getLoadTime()>5){
+                    listener.replay(false);
+                }
+            }else mControlWrapper.setLoadTime();
             mHandler.postDelayed(this, 1000);
         }
     };

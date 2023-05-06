@@ -235,8 +235,9 @@ public class HomeActivity extends BaseActivity {
 
     public static void setTvName(){
         String text = tvName.getText();
+        text = text.replace("D.", "");
         String pre = "";
-        if(ApiConfig.delsp)pre = "D."
+        if(ApiConfig.delsp)pre = "D.";
         tvName.setText(pre + text);
     }
     public static boolean reHome(Context appContext){

@@ -1,6 +1,7 @@
 package com.github.tvbox.osc.ui.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.IntEvaluator;

@@ -238,7 +238,7 @@ public class HomeActivity extends BaseActivity {
                 /*Bundle bundle = new Bundle();
                 bundle.putBoolean("useCache", true);
                 intent.putExtras(bundle);*/
-        HomeActivity.this.startActivity(intent);
+        appContext.startActivity(intent);
         return true;
     }
 

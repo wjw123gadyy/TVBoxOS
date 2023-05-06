@@ -135,7 +135,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvHistory.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                return reHome(mContext.getApplicationContext());
+                return HomeActivity.reHome(mContext.getApplicationContext());
             }
         });
 

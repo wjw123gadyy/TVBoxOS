@@ -176,7 +176,7 @@ public class VodController extends BaseController {
                     }
                 }else mControlWrapper.setLoadTime();
             } catch (Exception e) {
-                DetailActivity.alert("错误信息Vodrun："+e.getMessage());
+                DetailActivity.alert("错误信息Vodrun:"+e.getMessage());
             }
             mHandler.postDelayed(this, 1000);
         }
@@ -977,7 +977,7 @@ public class VodController extends BaseController {
             listener.updatePlayerCfg();
             mControlWrapper.setSpeed(1.5f);
         } catch (Exception e) {
-            DetailActivity.alert("错误信息Vodsdrest："+e.getMessage());
+            DetailActivity.alert("错误信息Vodsdrest:"+e.getMessage());
         }
     }
 
@@ -999,8 +999,8 @@ public class VodController extends BaseController {
                         mControlWrapper.setSpeed(speed);
                     }
                 }
-            } catch (Exception f) {
-                DetailActivity.alert("错误信息Vodcan："+e.getMessage());
+            } catch (Exception e) {
+                DetailActivity.alert("错误信息Vodcan:"+e.getMessage());
             }
         }
     }

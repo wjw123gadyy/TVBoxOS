@@ -167,16 +167,10 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
             public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
                 if (ApiConfig.get().getSourceBeanList().isEmpty()) return true;
                 Movie.Video vod = ((Movie.Video) adapter.getItem(position));
-                if(ApiConfig.delsp&&vod.sourceKey.contains("push_agentqq")){
-                    String id = vod.id.split("\\$\\$\\$")[0];
-                    String kv = vod.name + " " + id;
-                    DetailActivity.updateData(kv);
-                }else {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title", vod.name);
-                    bundle.putString("pic", vod.pic);
-                    jumpActivity(FastSearchActivity.class, bundle);
-                }
+                Bundle bundle = new Bundle();
+                bundle.putString("title", vod.name);
+                bundle.putString("pic", vod.pic);
+                jumpActivity(FastSearchActivity.class, bundle);
                 return true;
             }
         });

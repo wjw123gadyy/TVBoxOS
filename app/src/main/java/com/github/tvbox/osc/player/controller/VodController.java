@@ -171,6 +171,7 @@ public class VodController extends BaseController {
                     if (v==GONE)speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                     mPlayLoadNetSpeed.setText(speed);
                     if(mControlWrapper.getLoadTime()>5){
+                        mControlWrapper.setLoadTime();
                         listener.replay(false);
                     }
                 }else mControlWrapper.setLoadTime();

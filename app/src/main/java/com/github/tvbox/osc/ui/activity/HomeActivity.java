@@ -225,7 +225,7 @@ public class HomeActivity extends BaseActivity {
         tvName.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                return reHome(getApplicationContext());
+                return reHome(this.mContext);
             }
         });
         setLoadSir(this.contentLayout);

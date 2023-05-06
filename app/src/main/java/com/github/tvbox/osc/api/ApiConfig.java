@@ -63,6 +63,7 @@ public class ApiConfig {
     private String spider = null;
     public String wallpaper = "";
     public static String pushKey = "";
+    public static boolean delsp = false;
     public static String _api = "http://test.xinjun58.com/qq/api/q2.json";
 
     private SourceBean emptyHome = new SourceBean();

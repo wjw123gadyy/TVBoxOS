@@ -232,7 +232,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     public static boolean reHome(Context appContext){
-        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        Intent intent = new Intent(appContext, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 /*Bundle bundle = new Bundle();
                 bundle.putBoolean("useCache", true);

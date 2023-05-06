@@ -127,7 +127,12 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvLive.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                DetailActivity.alert("直播长按");
+                ApiConfig.delsp = !ApiConfig.delsp;
+                if(ApiConfig.delsp){
+                    DetailActivity.alert("开启删除视频");
+                }else {
+                    DetailActivity.alert("关闭删除视频");
+                }
                 return true;
             }
         });
@@ -135,7 +140,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvHistory.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                return HomeActivity.reHome(mContext.getApplicationContext());
+                return HomeActivity.reHome(mContext);
             }
         });
 
@@ -162,10 +167,16 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
             public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
                 if (ApiConfig.get().getSourceBeanList().isEmpty()) return true;
                 Movie.Video vod = ((Movie.Video) adapter.getItem(position));
-                Bundle bundle = new Bundle();
-                bundle.putString("title", vod.name);
-                bundle.putString("pic", vod.pic);
-                jumpActivity(FastSearchActivity.class, bundle);
+                if(ApiConfig.delsp&&vod.sourceKey.contains("push_agentqq")){
+                    String id = vod.id.split("\\$\\$\\$")[0];
+                    String kv = vod.name + " " + id;
+                    DetailActivity.updateData(kv);
+                }else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", vod.name);
+                    bundle.putString("pic", vod.pic);
+                    jumpActivity(FastSearchActivity.class, bundle);
+                }
                 return true;
             }
         });

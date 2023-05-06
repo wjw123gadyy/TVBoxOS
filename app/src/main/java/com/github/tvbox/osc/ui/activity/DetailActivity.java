@@ -170,7 +170,7 @@ public class DetailActivity extends BaseActivity {
         activity.startActivity(newIntent);
     }
     public static void start(Activity activity, String key, String id, String name, String pic) {
-        start(activity,key,id,name,pic,false);
+        start(activity,key,id,name,pic,true);
     }
     private void initView() {
         llLayout = findViewById(R.id.llLayout);

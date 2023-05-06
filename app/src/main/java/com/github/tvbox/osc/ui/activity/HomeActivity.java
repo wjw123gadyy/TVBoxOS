@@ -231,15 +231,6 @@ public class HomeActivity extends BaseActivity {
         setLoadSir(this.contentLayout);
         //mHandler.postDelayed(mFindFocus, 500);
     }
-
-
-    public static void setTvName(){
-        String text = tvName.getText();
-        text = text.replace("D.", "");
-        String pre = "";
-        if(ApiConfig.delsp)pre = "D.";
-        tvName.setText(pre + text);
-    }
     public static boolean reHome(Context appContext){
         Intent intent = new Intent(appContext, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -271,8 +262,13 @@ public class HomeActivity extends BaseActivity {
 
     private void initData() {
         SourceBean home = ApiConfig.get().getHomeSourceBean();
-        if (home != null && home.getName() != null && !home.getName().isEmpty())
-            tvName.setText(home.getName());
+        if (home != null && home.getName() != null && !home.getName().isEmpty()){
+            String text = home.getName();
+            String pre = "";
+            if(ApiConfig.delsp)pre = "D.";
+            tvName.setText(pre+text);
+        }
+
         if (dataInitOk && jarInitOk) {
             showLoading();
             sourceViewModel.getSort(home.getKey());

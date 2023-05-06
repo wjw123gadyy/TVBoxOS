@@ -128,13 +128,12 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
             @Override
             public boolean onLongClick(View v) {
                 ApiConfig.delsp = !ApiConfig.delsp;
-                HomeActivity.setTvName();
                 if(ApiConfig.delsp){
                     DetailActivity.alert("开启删除视频");
                 }else {
                     DetailActivity.alert("关闭删除视频");
                 }
-                return true;
+                return HomeActivity.reHome(mContext);
             }
         });
 
@@ -155,7 +154,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
                     if(Hawk.get(HawkConfig.HOME_REC, 0)==1 && Hawk.get(HawkConfig.FAST_SEARCH_MODE, false)){
                         SearchActivity.start(mActivity, vod.name, vod.pic);
                     }else {
-                        DetailActivity.start( mActivity, vod.sourceKey, vod.id, vod.name, vod.pic, true);
+                        DetailActivity.start( mActivity, vod.sourceKey, vod.id, vod.name, vod.pic,false);
                     }
                 } else {
                     SearchActivity.start(mActivity, vod.name, vod.pic);

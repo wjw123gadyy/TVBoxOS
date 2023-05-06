@@ -128,6 +128,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
             @Override
             public boolean onLongClick(View v) {
                 ApiConfig.delsp = !ApiConfig.delsp;
+                HomeActivity.setTvName();
                 if(ApiConfig.delsp){
                     DetailActivity.alert("开启删除视频");
                 }else {

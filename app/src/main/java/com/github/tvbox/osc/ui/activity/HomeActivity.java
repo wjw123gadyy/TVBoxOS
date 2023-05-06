@@ -232,6 +232,13 @@ public class HomeActivity extends BaseActivity {
         //mHandler.postDelayed(mFindFocus, 500);
     }
 
+
+    public static void setTvName(){
+        String text = tvName.getText();
+        String pre = "";
+        if(ApiConfig.delsp)pre = "D."
+        tvName.setText(pre + text);
+    }
     public static boolean reHome(Context appContext){
         Intent intent = new Intent(appContext, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

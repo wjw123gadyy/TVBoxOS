@@ -202,6 +202,8 @@ public class GridFragment extends BaseLazyFragment {
                     bundle.putString("sourceKey", video.sourceKey);
                     bundle.putString("title", video.name);
                     bundle.putString("pic", video.pic);
+                    bundle.putString("wdName", video.name);
+                    bundle.putString("wdPic", video.pic);
                     SourceBean homeSourceBean = ApiConfig.get().getHomeSourceBean();
                     if(("12".indexOf(getUITag()) != -1) && video.tag.equals("folder")){
                         focusedView = view;

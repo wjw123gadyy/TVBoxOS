@@ -402,7 +402,7 @@ public class SearchActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("title")) {
             String title = intent.getStringExtra("title");
-            wdPic = intent.getStringExtra("pic");
+            wdPic = intent.getString("pic", "");
             etSearch.setText(title);
             showLoading();
             search(title);

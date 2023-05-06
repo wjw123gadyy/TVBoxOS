@@ -228,10 +228,7 @@ public class FastSearchActivity extends BaseActivity {
                     } catch (Throwable th) {
                         th.printStackTrace();
                     }
-                    Bundle bundle = new Bundle();
-                    bundle.putString("id", video.id);
-                    bundle.putString("sourceKey", video.sourceKey);
-                    jumpActivity(DetailActivity.class, bundle);
+                    DetailActivity.start(FastSearchActivity.this, video.sourceKey, video.id, searchTitle,video.pic);
                 }
             }
         });
@@ -318,7 +315,7 @@ public class FastSearchActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("title")) {
             String title = intent.getStringExtra("title");
-            wdPic = intent.getStringExtra("pic");
+            wdPic = intent.getString("pic", "");
             showLoading();
             search(title);
         }
@@ -474,7 +471,7 @@ public class FastSearchActivity extends BaseActivity {
             boolean isPic = ApiConfig.isPic(wdPic);
             for (Movie.Video video : absXml.movie.videoList) {
                 if (!matchSearchResult(video.name, searchTitle)) continue;
-                if(isPic)video.pic = wdPic;
+                if(isPic&&!ApiConfig.isPic(video.pic))video.pic = wdPic;
                 if(!searchTitle.isEmpty())video.name = searchTitle;
                 data.add(video);
                 if (!resultVods.containsKey(video.sourceKey)) {

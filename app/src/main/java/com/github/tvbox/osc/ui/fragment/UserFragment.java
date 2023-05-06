@@ -124,12 +124,18 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvHotList1 = findViewById(R.id.tvHotList1);
         tvHotList2 = findViewById(R.id.tvHotList2);
         homeHotVodAdapter = new HomeHotVodAdapter();
+        tvLive.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                DetailActivity.alert("直播长按");
+                return true;
+            }
+        });
 
         tvHistory.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                DetailActivity.alert("历史长按");
-                return true;
+                return HomeActivity.rehome();
             }
         });
 

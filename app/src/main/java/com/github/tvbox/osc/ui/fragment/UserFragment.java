@@ -135,6 +135,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
                     bundle.putString("id", vod.id);
                     bundle.putString("sourceKey", vod.sourceKey);
                     if(Hawk.get(HawkConfig.HOME_REC, 0)==1 && Hawk.get(HawkConfig.FAST_SEARCH_MODE, false)){
+                        bundle.putString("pic", vod.pic);
                         bundle.putString("title", vod.name);
                         jumpActivity(FastSearchActivity.class, bundle);
                     }else {
@@ -147,6 +148,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
                     }else {
                         newIntent = new Intent(mContext, SearchActivity.class);
                     }
+                    newIntent.putExtra("pic", vod.pic);
                     newIntent.putExtra("title", vod.name);
                     newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     mActivity.startActivity(newIntent);
@@ -161,6 +163,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
                 Movie.Video vod = ((Movie.Video) adapter.getItem(position));
                 Bundle bundle = new Bundle();
                 bundle.putString("title", vod.name);
+                bundle.putString("pic", vod.pic);
                 jumpActivity(FastSearchActivity.class, bundle);
                 return true;
             }

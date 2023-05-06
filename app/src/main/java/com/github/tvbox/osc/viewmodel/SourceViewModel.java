@@ -427,7 +427,7 @@ public class SourceViewModel extends ViewModel {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
-            spThreadPool.execute(new Runnable() {
+            Runnable waitResponse = new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -469,7 +469,8 @@ public class SourceViewModel extends ViewModel {
                         th.printStackTrace();
                     }
                 }
-            });
+            };
+            spThreadPool.execute(waitResponse);
         } else if (type == 0 || type == 1|| type == 4) {
             OkGo.<String>get(sourceBean.getApi())
                     .tag("detail")
@@ -675,7 +676,7 @@ public class SourceViewModel extends ViewModel {
         SourceBean sourceBean = ApiConfig.get().getSource(sourceKey);
         int type = sourceBean.getType();
         if (type == 3) {
-            spThreadPool.execute(new Runnable() {
+            Runnable waitResponse = new Runnable() {
                 @Override
                 public void run() {
                     Spider sp = ApiConfig.get().getCSP(sourceBean);
@@ -693,7 +694,8 @@ public class SourceViewModel extends ViewModel {
                         playResult.postValue(null);
                     }
                 }
-            });
+            };
+            spThreadPool.execute(waitResponse);
         } else if (type == 0 || type == 1) {
             JSONObject result = new JSONObject();
             try {
@@ -770,8 +772,6 @@ public class SourceViewModel extends ViewModel {
         filter.values = values;
         return filter;
     }
-
-
 
     private AbsSortXml sortJson(MutableLiveData<AbsSortXml> result, String json) {
         try {

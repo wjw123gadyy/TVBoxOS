@@ -166,13 +166,17 @@ public class VodController extends BaseController {
 
             mVideoSize.setVisibility(v);
             mPlayLoadNetSpeedRightTop.setVisibility(v);
-            if(mPlayLoadNetSpeed.getVisibility()==VISIBLE){
-                if (v==GONE)speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
-                mPlayLoadNetSpeed.setText(speed);
-                if(mControlWrapper.getLoadTime()>5){
-                    listener.replay(false);
-                }
-            }else mControlWrapper.setLoadTime();
+            try {
+                if(mPlayLoadNetSpeed.getVisibility()==VISIBLE){
+                    if (v==GONE)speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
+                    mPlayLoadNetSpeed.setText(speed);
+                    if(mControlWrapper.getLoadTime()>5){
+                        listener.replay(false);
+                    }
+                }else mControlWrapper.setLoadTime();
+            } catch (Exception e) {
+                DetailActivity.alert("错误信息Vodrun："+e.getMessage());
+            }
             mHandler.postDelayed(this, 1000);
         }
     };
@@ -961,9 +965,9 @@ public class VodController extends BaseController {
     }
 
     public void sdrest() {
-        myHandle.removeCallbacks(myRunnable);
-        myHandle.postDelayed(myRunnable, myHandleSeconds);
         try {
+            myHandle.removeCallbacks(myRunnable);
+            myHandle.postDelayed(myRunnable, myHandleSeconds);
             mPlayerConfig.put("sp", 1.5f);
             mPlayerConfig.put("st", 110);
             mPlayerConfig.put("et", 150);
@@ -971,8 +975,8 @@ public class VodController extends BaseController {
             listener.replay(false);
             listener.updatePlayerCfg();
             mControlWrapper.setSpeed(1.5f);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            DetailActivity.alert("错误信息Vodsdrest："+e.getMessage());
         }
     }
 
@@ -994,8 +998,8 @@ public class VodController extends BaseController {
                         mControlWrapper.setSpeed(speed);
                     }
                 }
-            } catch (JSONException f) {
-                f.printStackTrace();
+            } catch (Exception f) {
+                DetailActivity.alert("错误信息Vodcan："+e.getMessage());
             }
         }
     }

@@ -224,14 +224,14 @@ public class HomeActivity extends BaseActivity {
         tvName.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                return reHome();
+                return reHome(getApplicationContext());
             }
         });
         setLoadSir(this.contentLayout);
         //mHandler.postDelayed(mFindFocus, 500);
     }
 
-    public static boolean reHome(){
+    public static boolean reHome(Context appContext){
         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 /*Bundle bundle = new Bundle();

@@ -917,12 +917,14 @@ public class DetailActivity extends BaseActivity {
         if (vodInfoRecord == null&& info.id.contains("aliyundrive")) {
             List<VodInfo> allVodRecord = RoomDataManger.getAllVodRecord(100);
             List<VodInfo> vodInfoList = new ArrayList<>();
+            VodInfo sinfo = null;
             for (VodInfo vInfo : allVodRecord) {
                 if (vInfo.name.equals(info.name)) {
-                    return vInfo;
+                    sinfo = vInfo;
+                    break;
                 }
             }
-
+            return sinfo;
         }else return vodInfoRecord;
     }
 

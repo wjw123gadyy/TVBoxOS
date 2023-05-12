@@ -856,6 +856,7 @@ public class DetailActivity extends BaseActivity {
 
                             // 读取历史记录
                             if (vodInfoRecord != null) {
+                                vodInfo.oid = vodInfoRecord.oid;
                                 vodInfo.playIndex = Math.max(vodInfoRecord.playIndex, 0);
                                 vodInfo.playFlag = vodInfoRecord.playFlag;
                                 vodInfo.playerCfg = vodInfoRecord.playerCfg;
@@ -921,11 +922,15 @@ public class DetailActivity extends BaseActivity {
             for (VodInfo vInfo : allVodRecord) {
                 if (vInfo.name.equals(info.name)) {
                     sinfo = vInfo;
+                    sinfo.oid = vInfo.id;
                     break;
                 }
             }
             return sinfo;
-        }else return vodInfoRecord;
+        }else {
+            vodInfoRecord.oid=null;
+            return vodInfoRecord;
+        }
     }
 
     private String getHtml(String label, String content) {

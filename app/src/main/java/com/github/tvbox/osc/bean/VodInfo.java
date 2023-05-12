@@ -19,6 +19,7 @@ public class VodInfo implements Serializable {
     public String last;//时间
     //内容id
     public String id;
+    public String oid;//原ID记录
     //父级id
     public int tid;
     //影片名称 <![CDATA[老爸当家]]>

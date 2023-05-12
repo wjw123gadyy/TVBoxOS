@@ -861,6 +861,7 @@ public class DetailActivity extends BaseActivity {
                                 vodInfo.playFlag = vodInfoRecord.playFlag;
                                 vodInfo.playerCfg = vodInfoRecord.playerCfg;
                                 vodInfo.reverseSort = vodInfoRecord.reverseSort;
+                                App.getInstance().setVodInfo(vodInfo);
                             } else {
                                 vodInfo.playIndex = 0;
                                 vodInfo.playFlag = null;

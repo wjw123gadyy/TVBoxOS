@@ -841,6 +841,7 @@ public class DetailActivity extends BaseActivity {
                                     bfurl = vodInfo.name+" "+_bfurl;
                                 }
                                 spId = _bfurl;
+                                vodInfo.id = spId;
                                 if(bfurl.isEmpty())bfurl = vodInfo.name+" "+_bfurl;
                                 spName = bfurl;
                                 //设置播放地址
@@ -851,7 +852,8 @@ public class DetailActivity extends BaseActivity {
                             mGridView.setVisibility(View.VISIBLE);
                             tvPlay.setVisibility(View.VISIBLE);
                             mEmptyPlayList.setVisibility(View.GONE);
-                            VodInfo vodInfoRecord = RoomDataManger.getVodInfo(sourceKey, vodId);
+                            VodInfo vodInfoRecord = getRoomData(vodInfo);
+
                             // 读取历史记录
                             if (vodInfoRecord != null) {
                                 vodInfo.playIndex = Math.max(vodInfoRecord.playIndex, 0);
@@ -908,6 +910,20 @@ public class DetailActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    public VodInfo getRoomData(VodInfo info){
+        VodInfo vodInfoRecord = RoomDataManger.getVodInfo(info.sourceKey, info.id);
+        if (vodInfoRecord == null&& info.id.contains("aliyundrive")) {
+            List<VodInfo> allVodRecord = RoomDataManger.getAllVodRecord(100);
+            List<VodInfo> vodInfoList = new ArrayList<>();
+            for (VodInfo vInfo : allVodRecord) {
+                if (vInfo.name.equals(info.name)) {
+                    return vInfo;
+                }
+            }
+
+        }else return vodInfoRecord;
     }
 
     private String getHtml(String label, String content) {

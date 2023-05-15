@@ -445,7 +445,7 @@ public class ApiConfig {
     }
 
     public static String getProgressKey(VodInfo mVodInfo){
-        String subtitleCacheKey = mVodInfo.sourceKey + "-" + id + "-" + mVodInfo.playFlag + "-" + mVodInfo.playIndex;
+        String subtitleCacheKey = mVodInfo.sourceKey + "-" + mVodInfo.id + "-" + mVodInfo.playFlag + "-" + mVodInfo.playIndex;
         return subtitleCacheKey;
     }
 

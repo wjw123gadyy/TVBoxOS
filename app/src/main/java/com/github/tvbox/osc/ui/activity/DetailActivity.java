@@ -929,7 +929,7 @@ public class DetailActivity extends BaseActivity {
             }
             return sinfo;
         }else {
-            vodInfoRecord.oid=null;
+            vodInfoRecord.progressKey=null;
             return vodInfoRecord;
         }
     }

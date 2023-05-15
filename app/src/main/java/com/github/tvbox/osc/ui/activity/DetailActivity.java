@@ -856,7 +856,6 @@ public class DetailActivity extends BaseActivity {
 
                             // 读取历史记录
                             if (vodInfoRecord != null) {
-                                vodInfo.oid = vodInfoRecord.oid;
                                 vodInfo.playIndex = Math.max(vodInfoRecord.playIndex, 0);
                                 vodInfo.playFlag = vodInfoRecord.playFlag;
                                 vodInfo.playerCfg = vodInfoRecord.playerCfg;

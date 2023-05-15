@@ -855,10 +855,10 @@ public class PlayFragment extends BaseLazyFragment {
         stopParse();
         initParseLoadFound();
         if(mVideoView!=null) mVideoView.release();
-        String id= mVodInfo.id;
-        if(mVodInfo.oid!=null)id= mVodInfo.oid;
-        String subtitleCacheKey = mVodInfo.sourceKey + "-" + id + "-" + mVodInfo.playFlag + "-" + mVodInfo.playIndex+ "-" + vs.name + "-subt";
-        String progressKey = mVodInfo.sourceKey + id + mVodInfo.playFlag + mVodInfo.playIndex + vs.name;
+        String subKey = ApiConfig.getProgressKey(mVodInfo);
+        if(mVodInfo.progressKey!=null)subKey= mVodInfo.progressKey;
+        String subtitleCacheKey = subKey+ "-" + vs.name + "-subt";
+        String progressKey = subKey.repalce("-","") + vs.name;
         //重新播放清除现有进度
         if (reset) {
             CacheManager.delete(MD5.string2MD5(progressKey), 0);

@@ -923,7 +923,7 @@ public class DetailActivity extends BaseActivity {
             for (VodInfo vInfo : allVodRecord) {
                 if (vInfo.name.equals(info.name)) {
                     sinfo = vInfo;
-                    sinfo.oid = vInfo.id;
+                    sinfo.progressKey = ApiConfig.getProgressKey(sinfo);
                     break;
                 }
             }

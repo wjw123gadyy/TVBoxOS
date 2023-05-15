@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Base64;
-
+import com.github.tvbox.osc.bean.VodInfo;
 import com.github.catvod.crawler.JarLoader;
 import com.github.catvod.crawler.JsLoader;
 import com.github.catvod.crawler.Spider;
@@ -442,6 +442,11 @@ public class ApiConfig {
             return true;
         }
         return false;
+    }
+
+    public static String getProgressKey(VodInfo mVodInfo){
+        String subtitleCacheKey = mVodInfo.sourceKey + "-" + id + "-" + mVodInfo.playFlag + "-" + mVodInfo.playIndex;
+        return subtitleCacheKey;
     }
 
     private void parseJson(String apiUrl, String jsonStr) {

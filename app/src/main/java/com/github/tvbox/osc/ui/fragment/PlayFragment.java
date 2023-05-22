@@ -38,7 +38,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DiffUtil;
-import com.github.tvbox.osc.ui.activity.DetailActivity;
 import com.github.catvod.crawler.Spider;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
@@ -859,7 +858,6 @@ public class PlayFragment extends BaseLazyFragment {
         if(mVodInfo.progressKey!=null)subKey= mVodInfo.progressKey;
         String subtitleCacheKey = subKey+ "-" + vs.name + "-subt";
         String progressKey = subKey.replace("-","") + vs.name;
-        DetailActivity.alert("PlayFragment：key"+subtitleCacheKey);
         //重新播放清除现有进度
         if (reset) {
             CacheManager.delete(MD5.string2MD5(progressKey), 0);

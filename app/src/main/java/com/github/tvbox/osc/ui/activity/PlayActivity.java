@@ -840,6 +840,7 @@ public class PlayActivity extends BaseActivity {
         if(mVodInfo.progressKey!=null)subKey= mVodInfo.progressKey;
         String subtitleCacheKey = subKey+ "-" + vs.name + "-subt";
         String progressKey = subKey.replace("-","") + vs.name;
+        DetailActivity.alert("PlayActivity：key"+subtitleCacheKey);
         //重新播放清除现有进度
         if (reset) {
             CacheManager.delete(MD5.string2MD5(progressKey), 0);

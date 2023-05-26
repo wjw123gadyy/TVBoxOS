@@ -142,7 +142,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
             @Override
             public boolean onLongClick(View v) {
                 DetailActivity.updateData("stoken");
-                return true;
+                return HomeActivity.reHome(mContext);
             }
         });
 

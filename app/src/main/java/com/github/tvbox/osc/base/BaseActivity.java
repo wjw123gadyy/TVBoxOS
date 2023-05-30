@@ -22,7 +22,7 @@ import com.github.tvbox.osc.util.AppManager;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
-
+import android.app.Activity;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;

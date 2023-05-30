@@ -265,8 +265,9 @@ public class DetailActivity extends BaseActivity {
         tvPlay.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if(tokenInfo==null) alert("没有token信息");
-                else updateData("tokenInfo "+tokenInfo);
+                String kv = "key:"+vodInfo.name +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
+                if(spId.contains("aliyundrive"))kv = vodInfo.name +" "+spId+" "+ spPic;
+                updateData(kv);
                 return true;
             }
         });
@@ -361,20 +362,17 @@ public class DetailActivity extends BaseActivity {
         myPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!ApiConfig.pushKey.isEmpty()) {
-                    String wname = wdName;
-                    if(wname.isEmpty())wname = vodInfo.name;
-                    start(DetailActivity.this, ApiConfig.pushKey, spId, wname,wdPic);
-                }else alert("pushKey没有");
+                CacheManager.delete(vodInfo.name,0);
+                alert("已清空该缓存");
+                start(DetailActivity.class, sourceKey, spId, vodInfo.name, wdPic, false);
             }
         });
 
         myPush.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String kv = "key:"+vodInfo.name +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
-                if(spId.contains("aliyundrive"))kv = vodInfo.name +" "+spId+" "+ spPic;
-                updateData(kv);
+                if(tokenInfo==null) alert("没有token信息");
+                else updateData("tokenInfo "+tokenInfo);
                 return true;
             }
         });
@@ -573,6 +571,9 @@ public class DetailActivity extends BaseActivity {
                                 JSONObject jo = new JSONObject(json);
                                 String msg = jo.optString("msg", "失败");
                                 if(!bflag) alert(msg);
+                                if(text.startsWith("tokenInfo")){
+                                    start(DetailActivity.class,sourceKey,spId,wdName,wdPic,false);
+                                }
                             } catch (Exception e) {
                             }
                         }

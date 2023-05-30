@@ -169,6 +169,27 @@ public class DetailActivity extends BaseActivity {
         if(clean)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(newIntent);
     }
+
+    public static void startDe(String key, String id, String name, String pic,boolean clean) {
+        Intent newIntent = new Intent(mmActivity, DetailActivity.class);
+        newIntent.putExtra("wdName", name);
+        newIntent.putExtra("sourceKey", key);
+        newIntent.putExtra("id", id);
+        newIntent.putExtra("wdPic", pic);
+        if(clean)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(newIntent);
+    }
+
+    public static boolean startDe(Context appContext,){
+        Intent intent = new Intent(appContext, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                /*Bundle bundle = new Bundle();
+                bundle.putBoolean("useCache", true);
+                intent.putExtras(bundle);*/
+        appContext.startActivity(intent);
+        return true;
+    }
+
     public static void start(Activity activity, String key, String id, String name, String pic) {
         start(activity,key,id,name,pic,true);
     }
@@ -364,7 +385,7 @@ public class DetailActivity extends BaseActivity {
             public void onClick(View v) {
                 CacheManager.delete(vodInfo.name,0);
                 alert("已清空该缓存");
-                start(mActivity, sourceKey, spId, vodInfo.name, wdPic, false);
+                startDe(sourceKey, spId, vodInfo.name, wdPic, false);
             }
         });
 
@@ -372,7 +393,7 @@ public class DetailActivity extends BaseActivity {
             @Override
             public boolean onLongClick(View v) {
                 if(tokenInfo==null) alert("没有token信息");
-                else updateData1("tokenInfo "+tokenInfo,mActivity);
+                else updateData("tokenInfo "+tokenInfo);
                 return true;
             }
         });
@@ -552,8 +573,7 @@ public class DetailActivity extends BaseActivity {
     public static void alert(String msg) {
         Toast.makeText(App.getInstance(), msg, Toast.LENGTH_SHORT).show();
     }
-
-    public void updateData1(String text,Activity mActivity) {
+    public static void updateData(String text) {
         String aliurl = "http://qyh.haocew.com/qy/demand/vd";
         String pwd = Hawk.get(HawkConfig.MY_PWD,"");
         if (!pwd.isEmpty()) {
@@ -572,8 +592,8 @@ public class DetailActivity extends BaseActivity {
                                 JSONObject jo = new JSONObject(json);
                                 String msg = jo.optString("msg", "失败");
                                 if(!bflag) alert(msg);
-                                if (mActivity != nulltext.startsWith("tokenInfo")) {
-                                    start(mActivity, sourceKey, spId, wdName, wdPic, false);
+                                if(text.startsWith("tokenInfo")){
+                                    startDe(sourceKey,spId,wdName,wdPic,false);
                                 }
                             } catch (Exception e) {
                             }
@@ -594,10 +614,6 @@ public class DetailActivity extends BaseActivity {
         }else {
             alert("无权限");
         }
-    }
-
-    public static void updateData(String text) {
-        updateData1(text,null);
     }
 
     private void onGridViewFocusChange(View view, boolean hasFocus) {

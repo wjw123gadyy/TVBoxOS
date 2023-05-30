@@ -146,6 +146,7 @@ public class DetailActivity extends BaseActivity {
     private String spPic;
     private String spId;
     private String tokenInfo;
+    protected static Activity mmActivity;
 
     @Override
     protected int getLayoutResID() {
@@ -154,6 +155,7 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        mmActivity = mActivity;
         EventBus.getDefault().register(this);
         initView();
         initViewModel();
@@ -178,16 +180,6 @@ public class DetailActivity extends BaseActivity {
         newIntent.putExtra("wdPic", pic);
         if(clean)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mmActivity.startActivity(newIntent);
-    }
-
-    public static boolean startDe(Context appContext,){
-        Intent intent = new Intent(appContext, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                /*Bundle bundle = new Bundle();
-                bundle.putBoolean("useCache", true);
-                intent.putExtras(bundle);*/
-        appContext.startActivity(intent);
-        return true;
     }
 
     public static void start(Activity activity, String key, String id, String name, String pic) {

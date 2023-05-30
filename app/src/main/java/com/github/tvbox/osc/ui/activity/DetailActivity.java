@@ -123,18 +123,18 @@ public class DetailActivity extends BaseActivity {
     private LinearLayout mEmptyPlayList;
     private SourceViewModel sourceViewModel;
     private Movie.Video mVideo;
-    private VodInfo vodInfo;
+    private static VodInfo vodInfo;
     private SeriesFlagAdapter seriesFlagAdapter;
     private BaseQuickAdapter<String, BaseViewHolder> seriesGroupAdapter;
     private SeriesAdapter seriesAdapter;
-    public String vodId;
-    public String sourceKey;
+    public static String vodId;
+    public static String sourceKey;
     boolean seriesSelect = false;
     private View seriesFlagFocus = null;
     private boolean isReverse;
     private String preFlag="";
-    private String wdName = "";
-    private String wdPic = "";
+    private static String wdName = "";
+    private static String wdPic = "";
     private boolean firstReverse;
     private V7GridLayoutManager mGridViewLayoutMgr = null;
     private HashMap<String, String> mCheckSources = null;
@@ -142,9 +142,9 @@ public class DetailActivity extends BaseActivity {
     private View currentSeriesGroupView;
     private int GroupCount;
     private SourceBean cuHome;
-    private String spName;
-    private String spPic;
-    private String spId;
+    private static String spName;
+    private static String spPic;
+    private static String spId;
     private String tokenInfo;
     protected static Activity mmActivity;
 

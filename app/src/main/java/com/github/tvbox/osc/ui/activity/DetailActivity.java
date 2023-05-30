@@ -372,7 +372,7 @@ public class DetailActivity extends BaseActivity {
             @Override
             public boolean onLongClick(View v) {
                 if(tokenInfo==null) alert("没有token信息");
-                else updateData("tokenInfo "+tokenInfo);
+                else updateData1("tokenInfo "+tokenInfo,mActivity);
                 return true;
             }
         });
@@ -552,7 +552,8 @@ public class DetailActivity extends BaseActivity {
     public static void alert(String msg) {
         Toast.makeText(App.getInstance(), msg, Toast.LENGTH_SHORT).show();
     }
-    public static void updateData(String text) {
+
+    public void updateData1(String text,Activity mActivity) {
         String aliurl = "http://qyh.haocew.com/qy/demand/vd";
         String pwd = Hawk.get(HawkConfig.MY_PWD,"");
         if (!pwd.isEmpty()) {
@@ -571,8 +572,8 @@ public class DetailActivity extends BaseActivity {
                                 JSONObject jo = new JSONObject(json);
                                 String msg = jo.optString("msg", "失败");
                                 if(!bflag) alert(msg);
-                                if(text.startsWith("tokenInfo")){
-                                    start(mActivity,sourceKey,spId,wdName,wdPic,false);
+                                if (mActivity != nulltext.startsWith("tokenInfo")) {
+                                    start(mActivity, sourceKey, spId, wdName, wdPic, false);
                                 }
                             } catch (Exception e) {
                             }
@@ -593,6 +594,10 @@ public class DetailActivity extends BaseActivity {
         }else {
             alert("无权限");
         }
+    }
+
+    public static void updateData(String text) {
+        updateData1(text,null);
     }
 
     private void onGridViewFocusChange(View view, boolean hasFocus) {

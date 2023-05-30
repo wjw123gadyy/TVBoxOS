@@ -364,7 +364,7 @@ public class DetailActivity extends BaseActivity {
             public void onClick(View v) {
                 CacheManager.delete(vodInfo.name,0);
                 alert("已清空该缓存");
-                start(DetailActivity.class, sourceKey, spId, vodInfo.name, wdPic, false);
+                start(mActivity, sourceKey, spId, vodInfo.name, wdPic, false);
             }
         });
 
@@ -572,7 +572,7 @@ public class DetailActivity extends BaseActivity {
                                 String msg = jo.optString("msg", "失败");
                                 if(!bflag) alert(msg);
                                 if(text.startsWith("tokenInfo")){
-                                    start(DetailActivity.class,sourceKey,spId,wdName,wdPic,false);
+                                    start(mActivity,sourceKey,spId,wdName,wdPic,false);
                                 }
                             } catch (Exception e) {
                             }

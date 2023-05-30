@@ -39,6 +39,7 @@ import xyz.doikki.videoplayer.util.CutoutUtil;
  */
 public abstract class BaseActivity extends AppCompatActivity implements CustomAdapt {
     protected Context mContext;
+    protected Activity mActivity;
     private LoadService mLoadService;
 
     private static float screenRatio = -100.0f;
@@ -58,6 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomAd
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResID());
         mContext = this;
+        mActivity = (Activity) mContext;
         CutoutUtil.adaptCutoutAboveAndroidP(mContext, true);//设置刘海
         AppManager.getInstance().addActivity(this);
         init();

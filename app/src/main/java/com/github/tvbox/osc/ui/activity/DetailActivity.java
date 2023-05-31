@@ -802,7 +802,7 @@ public class DetailActivity extends BaseActivity {
                             String tagArr = tagInfo.split("：")[1];
                             String [] spArr = s.split(" ");
                             score = spArr[0];
-                            if(tagArr.length>1) jsnum = spArr[1];
+                            if(spArr.length>1) jsnum = spArr[1];
                             setTextShow(tvArea, "评分：", score);
                             setTextShow(tvLang, "集数：", jsnum);
                             mvo.note=score+" / "+jsnum;

@@ -114,11 +114,13 @@
                         android:orientation="horizontal">
                     <TextView
                             android:id="@+id/tvTag"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/vs_5"
+                            android:layout_marginEnd="@dimen/vs_10"
+                            android:layout_marginRight="@dimen/vs_10"
                             android:ellipsize="end"
                             android:singleLine="true"
+                            android:maxLines="1"
                             android:textColor="@color/color_CCFFFFFF"
                             android:textSize="@dimen/ts_20" />
                     <TextView

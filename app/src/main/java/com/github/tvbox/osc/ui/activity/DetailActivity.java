@@ -364,7 +364,7 @@ public class DetailActivity extends BaseActivity {
             public void onClick(View v) {
                 CacheManager.delete(vodInfo.name,0);
                 alert("已清空该缓存");
-                start(mActivity, sourceKey, spId, vodInfo.name, wdPic, false);
+                start(mActivity, sourceKey, spId, vodInfo.name, wdPic);
             }
         });
 

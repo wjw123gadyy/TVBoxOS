@@ -775,6 +775,11 @@ public class DetailActivity extends BaseActivity {
                             mVideo.actor = mvo.actor;
                             mVideo.des = mvo.des;
                         }
+                        String tagInfo = "";
+                        if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
+                            String[] tagArr = mVideo.tag.split(";");
+                            tagInfo = tagArr[0];
+                        }
                         if (mvo == null&&!spflag) {
                             mvo = new Movie.Video();
                             mvo.pic = mVideo.pic;
@@ -784,24 +789,30 @@ public class DetailActivity extends BaseActivity {
                             mvo.director = mVideo.director;
                             mvo.actor = mVideo.actor;
                             mvo.des = mVideo.des;
-                            CacheManager.save(mVideo.name, mvo);
+                            if (!tagInfo.contains("分")) CacheManager.save(mVideo.name, mvo);
                         }
                         spflag = mVideo.director==null||mVideo.director.isEmpty();
-                        String tagInfo = "";
-                        if(mVideo.tag!=null&&!mVideo.tag.isEmpty()){
-                            String[] tagArr = mVideo.tag.split(";");
-                            tagInfo = tagArr[0];
-                        }
-
                         vodInfo = new VodInfo();
                         vodInfo.setVideo(mVideo);
                         vodInfo.sourceKey = sourceKey;
                         tvName.setText(mVideo.name);
                         cuHome = ApiConfig.get().getSource(sourceKey);
+                        String score,jsnum;
+                        if (!tagInfo.isEmpty()&&tagInfo.contains("分")) {
+                            String[] tagArr = tagInfo.split(" ");
+                            tagInfo = tagArr[0];
+                            score = tagArr[1].replace("评分：","");
+                            if(tagArr.length>2) jsnum = tagArr[2];
+                            setTextShow(tvArea, "评分：", score);
+                            setTextShow(tvLang, "集数：", jsnum);
+                            mvo.note=score+" / "+jsnum;
+                            CacheManager.save(mVideo.name, mvo);
+                        }else {
+                            setTextShow(tvArea, "地区：", mVideo.area);
+                            setTextShow(tvLang, "语言：", mVideo.lang);
+                        }
                         setTextShow(tvSite, "来源：", cuHome.getName());
                         setTextShow(tvYear, "上映：", mVideo.year);
-                        setTextShow(tvArea, "地区：", mVideo.area);
-                        setTextShow(tvLang, "语言：", mVideo.lang);
                         setTextShow(tvType, "类型：", mVideo.type);
                         setTextShow(tvTag, "标签：", tagInfo);
                         setTextShow(tvActor, "演员：", mVideo.actor);

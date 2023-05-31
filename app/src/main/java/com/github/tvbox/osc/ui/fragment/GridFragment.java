@@ -6,7 +6,7 @@ import android.view.animation.BounceInterpolator;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
+import com.github.tvbox.osc.cache.CacheManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.api.ApiConfig;
@@ -254,6 +254,10 @@ public class GridFragment extends BaseLazyFragment {
             public void onChanged(AbsXml absXml) {
 //                if(mGridView != null) mGridView.requestFocus();
                 if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
+                    for(Movie.Video mVideo :absXml.movie.videoList){
+                        Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
+                        if (mvo != null) mVideo.note = mvo.note;
+                    }
                     if (page == 1) {
                         showSuccess();
                         isLoad = true;

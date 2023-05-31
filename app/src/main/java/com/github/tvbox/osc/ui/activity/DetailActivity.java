@@ -857,7 +857,7 @@ public class DetailActivity extends BaseActivity {
                                 if (ApiConfig.isPic(mVideo.pic)) {
                                     spPic = mVideo.pic;
                                     if(!wdPic.equals(spPic)&&sourceKey.equals("push_agentqq")){
-                                        updateData("。" + spId + " " + spPic);
+                                        updateData("notip" + spId + " " + spPic);
                                     }
                                     wdPic = spPic;
                                 }

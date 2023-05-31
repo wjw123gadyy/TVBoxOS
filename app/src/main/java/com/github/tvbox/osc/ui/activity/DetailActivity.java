@@ -797,8 +797,8 @@ public class DetailActivity extends BaseActivity {
                         vodInfo.sourceKey = sourceKey;
                         tvName.setText(mVideo.name);
                         cuHome = ApiConfig.get().getSource(sourceKey);
-                        String score,jsnum;
                         if (!tagInfo.isEmpty()&&tagInfo.contains("分")) {
+                            String score = null, jsnum = null;
                             String[] tagArr = tagInfo.split(" ");
                             tagInfo = tagArr[0];
                             score = tagArr[1].replace("评分：","");

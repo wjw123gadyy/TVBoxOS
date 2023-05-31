@@ -123,18 +123,18 @@ public class DetailActivity extends BaseActivity {
     private LinearLayout mEmptyPlayList;
     private SourceViewModel sourceViewModel;
     private Movie.Video mVideo;
-    private static VodInfo vodInfo;
+    private VodInfo vodInfo;
     private SeriesFlagAdapter seriesFlagAdapter;
     private BaseQuickAdapter<String, BaseViewHolder> seriesGroupAdapter;
     private SeriesAdapter seriesAdapter;
-    public static String vodId;
-    public static String sourceKey;
+    public String vodId;
+    public String sourceKey;
     boolean seriesSelect = false;
     private View seriesFlagFocus = null;
     private boolean isReverse;
     private String preFlag="";
-    private static String wdName = "";
-    private static String wdPic = "";
+    private String wdName = "";
+    private String wdPic = "";
     private boolean firstReverse;
     private V7GridLayoutManager mGridViewLayoutMgr = null;
     private HashMap<String, String> mCheckSources = null;
@@ -142,11 +142,10 @@ public class DetailActivity extends BaseActivity {
     private View currentSeriesGroupView;
     private int GroupCount;
     private SourceBean cuHome;
-    private static String spName;
-    private static String spPic;
-    private static String spId;
+    private String spName;
+    private String spPic;
+    private String spId;
     private String tokenInfo;
-    protected static Activity mmActivity;
 
     @Override
     protected int getLayoutResID() {
@@ -155,7 +154,6 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        mmActivity = mActivity;
         EventBus.getDefault().register(this);
         initView();
         initViewModel();
@@ -171,17 +169,6 @@ public class DetailActivity extends BaseActivity {
         if(clean)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(newIntent);
     }
-
-    public static void startDe(String key, String id, String name, String pic,boolean clean) {
-        Intent newIntent = new Intent(mmActivity, DetailActivity.class);
-        newIntent.putExtra("wdName", name);
-        newIntent.putExtra("sourceKey", key);
-        newIntent.putExtra("id", id);
-        newIntent.putExtra("wdPic", pic);
-        if(clean)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        mmActivity.startActivity(newIntent);
-    }
-
     public static void start(Activity activity, String key, String id, String name, String pic) {
         start(activity,key,id,name,pic,true);
     }
@@ -377,7 +364,7 @@ public class DetailActivity extends BaseActivity {
             public void onClick(View v) {
                 CacheManager.delete(vodInfo.name,0);
                 alert("已清空该缓存");
-                startDe(sourceKey, spId, vodInfo.name, wdPic, false);
+                start(DetailActivity.class, sourceKey, spId, vodInfo.name, wdPic, false);
             }
         });
 
@@ -584,9 +571,6 @@ public class DetailActivity extends BaseActivity {
                                 JSONObject jo = new JSONObject(json);
                                 String msg = jo.optString("msg", "失败");
                                 if(!bflag) alert(msg);
-                                if(text.startsWith("tokenInfo")){
-                                    startDe(sourceKey,spId,wdName,wdPic,false);
-                                }
                             } catch (Exception e) {
                             }
                         }
@@ -808,18 +792,11 @@ public class DetailActivity extends BaseActivity {
                             String[] tagArr = mVideo.tag.split(";");
                             tagInfo = tagArr[0];
                         }
+
                         vodInfo = new VodInfo();
                         vodInfo.setVideo(mVideo);
                         vodInfo.sourceKey = sourceKey;
                         tvName.setText(mVideo.name);
-                        if(ApiConfig.isPic(wdPic)){
-                            vodInfo.pic = wdPic;
-                            spPic = wdPic;
-                        } else if (mVideo.pic != null) {
-                            if(ApiConfig.isPic(mVideo.pic)){
-                                spPic=mVideo.pic.split("\\$\\$\\$")[0];
-                            }else spPic = "";
-                        }
                         cuHome = ApiConfig.get().getSource(sourceKey);
                         setTextShow(tvSite, "来源：", cuHome.getName());
                         setTextShow(tvYear, "上映：", mVideo.year);
@@ -862,6 +839,20 @@ public class DetailActivity extends BaseActivity {
                                 if(spflag)setTextShow(tvPlayUrl, "视频信息：", bfurl);
                                 else setTextShow(tvPlayUrl, null, null);
                             }
+
+                            if (mVideo.pic != null) {
+                                if (ApiConfig.isPic(mVideo.pic)) {
+                                    spPic = mVideo.pic;
+                                    if(!wdPic.equals(spPic)&&sourceKey.equals("push_agentqq")){
+                                        updateData("。" + spId + " " + spPic);
+                                    }
+                                    wdPic = spPic;
+                                }
+                            }else {
+                                vodInfo.pic = wdPic;
+                                spPic = wdPic;
+                            }
+
                             mGridViewFlag.setVisibility(View.VISIBLE);
                             mGridView.setVisibility(View.VISIBLE);
                             tvPlay.setVisibility(View.VISIBLE);
@@ -1141,7 +1132,7 @@ public class DetailActivity extends BaseActivity {
 
     private void insertVod(String sourceKey, VodInfo vodInfo) {
         try {
-            if(ApiConfig.isPic(wdPic))vodInfo.pic = wdPic;
+            //if(ApiConfig.isPic(wdPic)&&!sourceKey.equals("push_agentqq"))vodInfo.pic = wdPic;
             vodInfo.playNote = vodInfo.seriesMap.get(vodInfo.playFlag).get(vodInfo.playIndex).name;
         } catch (Throwable th) {
             vodInfo.playNote = "";

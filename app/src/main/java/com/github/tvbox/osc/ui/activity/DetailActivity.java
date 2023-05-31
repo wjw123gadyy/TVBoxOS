@@ -799,7 +799,7 @@ public class DetailActivity extends BaseActivity {
                         cuHome = ApiConfig.get().getSource(sourceKey);
                         if (!tagInfo.isEmpty()&&tagInfo.contains("分")) {
                             String score = null, jsnum = null;
-                            String [] tagArr = tagInfo.split("：");
+                            String [] tagArr = tagInfo.split("评分：");
                             tagInfo = tagArr[0];
                             String tags = tagArr[1];
                             String [] spArr = tags.split(" ");

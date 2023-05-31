@@ -256,7 +256,7 @@ public class GridFragment extends BaseLazyFragment {
                 if (absXml != null && absXml.movie != null && absXml.movie.videoList != null && absXml.movie.videoList.size() > 0) {
                     for(Movie.Video mVideo :absXml.movie.videoList){
                         Movie.Video mvo=(Movie.Video)CacheManager.getCache(mVideo.name);
-                        if (mvo != null) mVideo.note = mvo.note;
+                        if (mvo != null&&null!=mvo.note&&!mvo.note.isEmpty()) mVideo.note = mvo.note;
                     }
                     if (page == 1) {
                         showSuccess();

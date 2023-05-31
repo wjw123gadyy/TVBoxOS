@@ -799,8 +799,8 @@ public class DetailActivity extends BaseActivity {
                         cuHome = ApiConfig.get().getSource(sourceKey);
                         if (!tagInfo.isEmpty()&&tagInfo.contains("分")) {
                             String score = null, jsnum = null;
-                            String tagArr = tagInfo.split("：")[1];
-                            String [] spArr = s.split(" ");
+                            String tags = tagInfo.split("：")[1];
+                            String [] spArr = tags.split(" ");
                             score = spArr[0];
                             if(spArr.length>1) jsnum = spArr[1];
                             setTextShow(tvArea, "评分：", score);

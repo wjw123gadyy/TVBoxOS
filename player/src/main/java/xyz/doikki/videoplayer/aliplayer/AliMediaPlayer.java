@@ -132,9 +132,12 @@ public class AliMediaPlayer extends AbstractPlayer implements Player.Listener {
 
     @Override
     public void seekTo(long time) {
-        aliPlayer.seekTo(time);
-        currentPos = time;
-
+        try {
+            aliPlayer.seekTo((int)time);
+            currentPos = time;
+        } catch (IllegalStateException e) {
+            mPlayerEventListener.onError();
+        }
     }
 
     @Override

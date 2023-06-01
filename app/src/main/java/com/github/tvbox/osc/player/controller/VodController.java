@@ -738,8 +738,8 @@ public class VodController extends BaseController {
     void updatePlayerCfgView() {
         try {
             int playerType = mPlayerConfig.getInt("pl");
-            mRenderBtn.setText(PlayerHelper.getRenderName(mPlayerConfig.getInt("pr")));
             mPlayerBtn.setText(PlayerHelper.getPlayerName(playerType));
+            mRenderBtn.setText(PlayerHelper.getRenderName1(mPlayerConfig.getInt("pr")));
             mPlayerScaleBtn.setText(PlayerHelper.getScaleName(mPlayerConfig.getInt("sc")));
             mPlayerIJKBtn.setText(mPlayerConfig.getString("ijk"));
             mPlayerIJKBtn.setVisibility(playerType == 1 ? VISIBLE : GONE);

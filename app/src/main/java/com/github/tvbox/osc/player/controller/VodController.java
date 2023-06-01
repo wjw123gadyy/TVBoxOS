@@ -206,6 +206,7 @@ public class VodController extends BaseController {
         mPreBtn = findViewById(R.id.play_pre);
         mPlayerScaleBtn = findViewById(R.id.play_scale);
         mPlayerSpeedBtn = findViewById(R.id.play_speed);
+        mRenderBtn = findViewById(R.id.play_render);
         mPlayerBtn = findViewById(R.id.play_player);
         mPlayerIJKBtn = findViewById(R.id.play_ijk);
         mPlayerTimeStartEndText = findViewById(R.id.play_time_start_end_text);
@@ -401,6 +402,29 @@ public class VodController extends BaseController {
                 return true;
             }
         });
+
+        mRenderBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myHandle.removeCallbacks(myRunnable);
+                myHandle.postDelayed(myRunnable, myHandleSeconds);
+                try {
+                    int renderType = mPlayerConfig.getInt("pr");
+                    if(renderType==0)renderType=1;
+                    else renderType=0;
+                    mPlayerConfig.put("pr", renderType);
+                    updatePlayerCfgView();
+                    listener.updatePlayerCfg();
+                    listener.replay(false);
+//                    hideBottom();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mPlayerIJKBtn.requestFocus();
+                mPlayerIJKBtn.requestFocusFromTouch();
+            }
+        });
+
         mPlayerBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -713,6 +737,7 @@ public class VodController extends BaseController {
     void updatePlayerCfgView() {
         try {
             int playerType = mPlayerConfig.getInt("pl");
+            mRenderBtn.setText(PlayerHelper.getRenderName(mPlayerConfig.getInt("pr")));
             mPlayerBtn.setText(PlayerHelper.getPlayerName(playerType));
             mPlayerScaleBtn.setText(PlayerHelper.getScaleName(mPlayerConfig.getInt("sc")));
             mPlayerIJKBtn.setText(mPlayerConfig.getString("ijk"));

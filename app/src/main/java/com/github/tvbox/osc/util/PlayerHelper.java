@@ -36,7 +36,7 @@ public class PlayerHelper {
         try {
             playerType = playerCfg.getInt("pl");
             renderType = playerCfg.getInt("pr");
-            ijkCode = playerCfg.getString("ijk");
+            //ijkCode = playerCfg.getString("ijk");
             scale = playerCfg.getInt("sc");
         } catch (JSONException e) {
             e.printStackTrace();

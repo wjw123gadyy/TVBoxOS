@@ -35,8 +35,8 @@ public class PlayerHelper {
         int scale = Hawk.get(HawkConfig.PLAY_SCALE, 0);
         try {
             playerType = playerCfg.getInt("pl");
-            renderType = playerCfg.getInt("pr");
-            //ijkCode = playerCfg.getString("ijk");
+            //renderType = playerCfg.getInt("pr");
+            ijkCode = playerCfg.getString("ijk");
             scale = playerCfg.getInt("sc");
         } catch (JSONException e) {
             e.printStackTrace();

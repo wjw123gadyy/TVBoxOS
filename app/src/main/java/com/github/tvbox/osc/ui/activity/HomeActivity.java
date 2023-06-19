@@ -262,11 +262,13 @@ public class HomeActivity extends BaseActivity {
 
     private void initData() {
         SourceBean home = ApiConfig.get().getHomeSourceBean();
-        String homeName = home.getName();
-        if (home != null && homeName != null && !homeName.isEmpty()){
-            String pre = "";
-            if(ApiConfig.delsp)pre = "D.";
-            tvName.setText(pre + homeName);
+        if (home != null) {
+            String homeName = home.getName();
+            if (homeName != null && !homeName.isEmpty()){
+                String pre = "";
+                if(ApiConfig.delsp)pre = "D.";
+                tvName.setText(pre + homeName);
+            }
         }
         if (dataInitOk && jarInitOk) {
             showLoading();
@@ -303,7 +305,7 @@ public class HomeActivity extends BaseActivity {
 
                     @Override
                     public void error(String msg) {
-                        jarInitOk = true;
+                        jarInitOk = false;
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -350,7 +352,7 @@ public class HomeActivity extends BaseActivity {
                         @Override
                         public void run() {
                             dataInitOk = true;
-                            jarInitOk = true;
+                            jarInitOk = false;
                             initData();
                         }
                     });
@@ -375,7 +377,7 @@ public class HomeActivity extends BaseActivity {
                                 @Override
                                 public void right() {
                                     dataInitOk = true;
-                                    jarInitOk = true;
+                                    jarInitOk = false;
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -388,7 +390,7 @@ public class HomeActivity extends BaseActivity {
                                 @Override
                                 public void cancel() {
                                     dataInitOk = true;
-                                    jarInitOk = true;
+                                    jarInitOk = false;
                                     mHandler.post(new Runnable() {
                                         @Override
                                         public void run() {

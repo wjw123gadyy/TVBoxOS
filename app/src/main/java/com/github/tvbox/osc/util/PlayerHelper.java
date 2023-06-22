@@ -153,15 +153,14 @@ public class PlayerHelper {
         if (playersInfo.containsKey(playType)) {
             return playersInfo.get(playType);
         } else {
-            return "系统播放器";
+            return "IJK播放器";
         }
     }
 
     private static HashMap<Integer, String> mPlayersInfo = null;
     public static HashMap<Integer, String> getPlayersInfo() {
         if (mPlayersInfo == null) {
-            HashMap<Integer, String> playersInfo = new HashMap<>();
-            playersInfo.put(0, "系统播放器");
+            HashMap<Integer, String> playersInfo = new HashMap<>();      
             playersInfo.put(1, "IJK播放器");
             playersInfo.put(2, "Exo播放器");
             playersInfo.put(3, "阿里播放器");

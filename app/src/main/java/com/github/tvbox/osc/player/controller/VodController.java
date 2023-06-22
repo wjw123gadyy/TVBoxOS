@@ -150,7 +150,6 @@ public class VodController extends BaseController {
                 tvTime.setVisibility(VISIBLE);
             }else tvTime.setVisibility(GONE);
             if (v==VISIBLE) {
-                mProgressRoot.setVisibility(GONE);
                 if(date==null) date = new Date();
                 speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                 mPlayLoadNetSpeedRightTop.setText(speed);
@@ -971,7 +970,7 @@ public class VodController extends BaseController {
                     tvSlideStart(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT ? 1 : -1);
                     return true;
                 }else {
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT &&mPlayLoadNetSpeed.getVisibility()==VISIBLE ){
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
                         listener.replay(false);
                     }
                 }
@@ -981,11 +980,11 @@ public class VodController extends BaseController {
                     return true;
                 }
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode== KeyEvent.KEYCODE_MENU) {
-                 if (!isBottomVisible()) {
+                if (!isBottomVisible()) {
                     showBottom();
                     myHandle.postDelayed(myRunnable, myHandleSeconds);
                     return true;
-                }else bfq();
+                }
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
                 can();
                 return true;
@@ -1008,28 +1007,7 @@ public class VodController extends BaseController {
     public void onLongPress(MotionEvent e) {
         can();
     }
-    public void bfq() {
-        myHandle.removeCallbacks(myRunnable);
-        myHandle.postDelayed(myRunnable, myHandleSeconds);       
-        int playerType = mPlayerConfig.getInt("pl");
-        if（ playerType!=1&& playerType!=3 ）playerType=1;
-        else{
-            if( playerType==3 )playerType=1;
-            else playerType=3;
-        }
-        
-        try {                 
-                                mPlayerConfig.put("pl", playerType);
-                                updatePlayerCfgView();
-                                listener.updatePlayerCfg();
-                                listener.replay(false);
-//                                    hideBottom();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            mPlayerBtn.requestFocus();
-                            mPlayerBtn.requestFocusFromTouch();
-    }
+
     public void sdrest() {
         try {
             myHandle.removeCallbacks(myRunnable);

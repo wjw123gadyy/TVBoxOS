@@ -149,8 +149,7 @@ public class VodController extends BaseController {
                 tvTime.setText(ctime+"/"+etime);
                 tvTime.setVisibility(VISIBLE);
             }else tvTime.setVisibility(GONE);
-            if (v==VISIBLE) {
-                mProgressRoot.setVisibility(GONE);
+            if (v==VISIBLE) {                
                 if(date==null) date = new Date();
                 speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                 mPlayLoadNetSpeedRightTop.setText(speed);
@@ -987,6 +986,7 @@ public class VodController extends BaseController {
                     return true;
                 }else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN){
                     bfq();
+                    return true;
                 }
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
                 can();

@@ -162,8 +162,8 @@ public class PlayerHelper {
         if (mPlayersInfo == null) {
             HashMap<Integer, String> playersInfo = new HashMap<>();      
             playersInfo.put(1, "IJK播放器");
-            playersInfo.put(2, "Exo播放器");
             playersInfo.put(3, "阿里播放器");
+            playersInfo.put(2, "Exo播放器");
             playersInfo.put(10, "MX播放器");
             playersInfo.put(11, "Reex播放器");
             playersInfo.put(12, "Kodi播放器");
@@ -178,8 +178,8 @@ public class PlayerHelper {
         if (mPlayersExistInfo == null) {
             HashMap<Integer, Boolean> playersExist = new HashMap<>();
             playersExist.put(1, true);
-            playersExist.put(2, true);
             playersExist.put(3, true);
+            playersExist.put(2, true);
             playersExist.put(10, MXPlayer.getPackageInfo() != null);
             playersExist.put(11, ReexPlayer.getPackageInfo() != null);
             playersExist.put(12, Kodi.getPackageInfo() != null);

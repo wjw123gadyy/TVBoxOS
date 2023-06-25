@@ -150,6 +150,7 @@ public class VodController extends BaseController {
                 tvTime.setVisibility(VISIBLE);
             }else tvTime.setVisibility(GONE);
             if (v==VISIBLE) {
+                mProgressRoot.setVisibility(GONE);
                 if(date==null) date = new Date();
                 speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                 mPlayLoadNetSpeedRightTop.setText(speed);
@@ -506,7 +507,7 @@ public class VodController extends BaseController {
                                     updatePlayerCfgView();
                                     listener.updatePlayerCfg();
                                     listener.replay(false);
-//                                    hideBottom();
+                                    hideBottom();
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -984,6 +985,8 @@ public class VodController extends BaseController {
                     showBottom();
                     myHandle.postDelayed(myRunnable, myHandleSeconds);
                     return true;
+                }else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN){
+                    bfq();
                 }
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
                 can();
@@ -1006,6 +1009,28 @@ public class VodController extends BaseController {
     @Override
     public void onLongPress(MotionEvent e) {
         can();
+    }
+
+    public void bfq() {
+        myHandle.removeCallbacks(myRunnable);
+        myHandle.postDelayed(myRunnable, myHandleSeconds);
+        int playerType = mPlayerConfig.getInt("pl");
+        if(playerType!=1&& playerType!=3)playerType=1;
+        else{
+            if( playerType==3 )playerType=1;
+            else playerType=3;
+        }
+        try {
+            mPlayerConfig.put("pl", playerType);
+            updatePlayerCfgView();
+            listener.updatePlayerCfg();
+            listener.replay(false);
+            hideBottom();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mPlayerBtn.requestFocus();
+        mPlayerBtn.requestFocusFromTouch();
     }
 
     public void sdrest() {

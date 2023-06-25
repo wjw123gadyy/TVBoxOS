@@ -237,14 +237,6 @@ public class DetailActivity extends BaseActivity {
 
         llPlayerFragmentContainerBlock.setOnClickListener((view -> toggleFullPreview()));
 
-        tvName.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onClick(View v) {
-                copyInfo("已复制标题",vodInfo.name);
-            }
-        });
-
         tvSort.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -298,7 +290,7 @@ public class DetailActivity extends BaseActivity {
         tvQuickSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SearchActivity.start(DetailActivity.this, vodInfo.name, vodInfo.pic,false);
+                SearchActivity.start(DetailActivity.this, vodInfo.name, vodInfo.pic);
             }
         });
 
@@ -735,7 +727,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void setTextShow(TextView view, String tag, String info) {
-        if (info == null || info.trim().isEmpty()) {
+        if (info == null || info.trim().isEmpty()|| info.equals("无")) {
             view.setVisibility(View.GONE);
             return;
         }

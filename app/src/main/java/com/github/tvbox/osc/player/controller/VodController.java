@@ -1014,13 +1014,13 @@ public class VodController extends BaseController {
     public void bfq() {
         myHandle.removeCallbacks(myRunnable);
         myHandle.postDelayed(myRunnable, myHandleSeconds);
-        int playerType = mPlayerConfig.getInt("pl");
-        if(playerType!=1&& playerType!=3)playerType=1;
-        else{
-            if( playerType==3 )playerType=1;
-            else playerType=3;
-        }
         try {
+            int playerType = mPlayerConfig.getInt("pl");
+            if(playerType!=1&& playerType!=3)playerType=1;
+            else{
+                if( playerType==3 )playerType=1;
+                else playerType=3;
+            }
             mPlayerConfig.put("pl", playerType);
             updatePlayerCfgView();
             listener.updatePlayerCfg();
@@ -1029,8 +1029,8 @@ public class VodController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mPlayerBtn.requestFocus();
-        mPlayerBtn.requestFocusFromTouch();
+     /*   mPlayerBtn.requestFocus();
+        mPlayerBtn.requestFocusFromTouch();*/
     }
 
     public void sdrest() {

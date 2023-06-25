@@ -727,7 +727,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void setTextShow(TextView view, String tag, String info) {
-        if (info == null || info.trim().isEmpty()) {
+        if (info == null || info.trim().isEmpty()|| info.equals("无")) {
             view.setVisibility(View.GONE);
             return;
         }

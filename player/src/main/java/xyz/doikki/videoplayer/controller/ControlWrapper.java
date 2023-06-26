@@ -141,10 +141,10 @@ public class ControlWrapper implements MediaPlayerControl, IVideoController {
     }
 
     private int loadTime = 0;
-    public void setLoadTime() {
+    public synchronized void setLoadTime() {
         loadTime = 0;
     }
-    public int getLoadTime() {
+    public synchronized int getLoadTime() {
         loadTime++;
         return loadTime;
     }

@@ -444,7 +444,7 @@ public class SourceViewModel extends ViewModel {
                                 }
                                 idInfo = rid.split("\\$\\$\\$");
                                 if (idInfo.length >2) {
-                                    String vd = Hawk.get(HawkConfig.MY_VIDEO_DETAIL,"");
+                                    String vd = Hawk.get(HawkConfig.MY_VIDEO_DETAIL,"yes");
                                     int index = 1;//开启视频详情
                                     if (vd.isEmpty()) {
                                         index = 0;

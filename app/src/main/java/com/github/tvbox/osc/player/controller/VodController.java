@@ -109,6 +109,7 @@ public class VodController extends BaseController {
     TextView mPlayerScaleBtn;
     public TextView mPlayerSpeedBtn;
     TextView mPlayerBtn;
+    TextView mRenderBtn;
     TextView mPlayerIJKBtn;
     TextView mPlayerRetry;
     TextView playSp;
@@ -148,7 +149,7 @@ public class VodController extends BaseController {
                 tvTime.setText(ctime+"/"+etime);
                 tvTime.setVisibility(VISIBLE);
             }else tvTime.setVisibility(GONE);
-            if (v==VISIBLE) {
+            if (v==VISIBLE) {                
                 if(date==null) date = new Date();
                 speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                 mPlayLoadNetSpeedRightTop.setText(speed);
@@ -170,7 +171,7 @@ public class VodController extends BaseController {
                 if(mPlayLoadNetSpeed.getVisibility()==VISIBLE){
                     if (v==GONE)speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                     mPlayLoadNetSpeed.setText(speed);
-                    if (mControlWrapper.getLoadTime() > 6) {
+                    if (v==GONE&&mControlWrapper.getLoadTime() > 6) {
                         mControlWrapper.setLoadTime();
                         listener.replay(false);
                     }
@@ -206,6 +207,7 @@ public class VodController extends BaseController {
         mPreBtn = findViewById(R.id.play_pre);
         mPlayerScaleBtn = findViewById(R.id.play_scale);
         mPlayerSpeedBtn = findViewById(R.id.play_speed);
+        mRenderBtn = findViewById(R.id.play_render);
         mPlayerBtn = findViewById(R.id.play_player);
         mPlayerIJKBtn = findViewById(R.id.play_ijk);
         mPlayerTimeStartEndText = findViewById(R.id.play_time_start_end_text);
@@ -332,6 +334,23 @@ public class VodController extends BaseController {
                 hideBottom();
             }
         });
+        mPlayerScaleBtn.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                myHandle.removeCallbacks(myRunnable);
+                myHandle.postDelayed(myRunnable, myHandleSeconds);
+                try {
+                    int scaleType = 0;
+                    mPlayerConfig.put("sc", scaleType);
+                    updatePlayerCfgView();
+                    listener.updatePlayerCfg();
+                    mControlWrapper.setScreenScaleType(scaleType);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            }
+        });
         mPlayerScaleBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -401,6 +420,29 @@ public class VodController extends BaseController {
                 return true;
             }
         });
+
+        mRenderBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myHandle.removeCallbacks(myRunnable);
+                myHandle.postDelayed(myRunnable, myHandleSeconds);
+                try {
+                    int renderType = mPlayerConfig.getInt("pr");
+                    if(renderType==0)renderType=1;
+                    else renderType=0;
+                    mPlayerConfig.put("pr", renderType);
+                    updatePlayerCfgView();
+                    listener.updatePlayerCfg();
+                    listener.replay(false);
+//                    hideBottom();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mPlayerIJKBtn.requestFocus();
+                mPlayerIJKBtn.requestFocusFromTouch();
+            }
+        });
+
         mPlayerBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -464,7 +506,7 @@ public class VodController extends BaseController {
                                     updatePlayerCfgView();
                                     listener.updatePlayerCfg();
                                     listener.replay(false);
-//                                    hideBottom();
+                                    hideBottom();
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -714,6 +756,7 @@ public class VodController extends BaseController {
         try {
             int playerType = mPlayerConfig.getInt("pl");
             mPlayerBtn.setText(PlayerHelper.getPlayerName(playerType));
+            mRenderBtn.setText(PlayerHelper.getRenderName1(mPlayerConfig.getInt("pr")));
             mPlayerScaleBtn.setText(PlayerHelper.getScaleName(mPlayerConfig.getInt("sc")));
             mPlayerIJKBtn.setText(mPlayerConfig.getString("ijk"));
             mPlayerIJKBtn.setVisibility(playerType == 1 ? VISIBLE : GONE);
@@ -941,6 +984,9 @@ public class VodController extends BaseController {
                     showBottom();
                     myHandle.postDelayed(myRunnable, myHandleSeconds);
                     return true;
+                }else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN){
+                    bfq();
+                    return true;
                 }
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
                 can();
@@ -963,6 +1009,26 @@ public class VodController extends BaseController {
     @Override
     public void onLongPress(MotionEvent e) {
         can();
+    }
+
+    public void bfq() {
+        try {
+            int playerType = mPlayerConfig.getInt("pl");
+            if(playerType!=1&& playerType!=3)playerType=1;
+            else{
+                if( playerType==3 )playerType=1;
+                else playerType=3;
+            }
+            mPlayerConfig.put("pl", playerType);
+            updatePlayerCfgView();
+            listener.replay(false);
+            listener.updatePlayerCfg();
+            hideBottom();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+     /*   mPlayerBtn.requestFocus();
+        mPlayerBtn.requestFocusFromTouch();*/
     }
 
     public void sdrest() {

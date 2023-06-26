@@ -20,13 +20,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.text.DecimalFormat;
 import tv.danmaku.ijk.media.player.IjkLibLoader;
+import xyz.doikki.videoplayer.aliplayer.AliyunMediaPlayerFactory;
 import xyz.doikki.videoplayer.exo.ExoMediaPlayerFactory;
 import xyz.doikki.videoplayer.player.AndroidMediaPlayerFactory;
 import xyz.doikki.videoplayer.player.PlayerFactory;
 import xyz.doikki.videoplayer.player.VideoView;
 import xyz.doikki.videoplayer.render.RenderViewFactory;
 import xyz.doikki.videoplayer.render.TextureRenderViewFactory;
-
 public class PlayerHelper {
     public static void updateCfg(VideoView videoView, JSONObject playerCfg) {
         int playerType = Hawk.get(HawkConfig.PLAY_TYPE, 0);
@@ -66,6 +66,8 @@ public class PlayerHelper {
             }
         } else if (playerType == 2) {
             playerFactory = ExoMediaPlayerFactory.create();
+        } else if (playerType==3){
+            playerFactory = AliyunMediaPlayerFactory.create();
         } else {
             playerFactory = AndroidMediaPlayerFactory.create();
         }
@@ -151,16 +153,16 @@ public class PlayerHelper {
         if (playersInfo.containsKey(playType)) {
             return playersInfo.get(playType);
         } else {
-            return "系统播放器";
+            return "IJK播放器";
         }
     }
 
     private static HashMap<Integer, String> mPlayersInfo = null;
     public static HashMap<Integer, String> getPlayersInfo() {
         if (mPlayersInfo == null) {
-            HashMap<Integer, String> playersInfo = new HashMap<>();
-            playersInfo.put(0, "系统播放器");
+            HashMap<Integer, String> playersInfo = new HashMap<>();      
             playersInfo.put(1, "IJK播放器");
+            playersInfo.put(3, "阿里播放器");
             playersInfo.put(2, "Exo播放器");
             playersInfo.put(10, "MX播放器");
             playersInfo.put(11, "Reex播放器");
@@ -175,8 +177,8 @@ public class PlayerHelper {
     public static HashMap<Integer, Boolean> getPlayersExistInfo() {
         if (mPlayersExistInfo == null) {
             HashMap<Integer, Boolean> playersExist = new HashMap<>();
-            playersExist.put(0, true);
             playersExist.put(1, true);
+            playersExist.put(3, true);
             playersExist.put(2, true);
             playersExist.put(10, MXPlayer.getPackageInfo() != null);
             playersExist.put(11, ReexPlayer.getPackageInfo() != null);
@@ -235,6 +237,13 @@ public class PlayerHelper {
             return "SurfaceView";
         } else {
             return "TextureView";
+        }
+    }
+    public static String getRenderName1(int renderType) {
+        if (renderType == 1) {
+            return "S渲染";
+        } else {
+            return "T渲染";
         }
     }
 

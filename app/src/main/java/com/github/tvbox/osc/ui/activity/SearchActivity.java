@@ -92,13 +92,15 @@ public class SearchActivity extends BaseActivity {
     protected int getLayoutResID() {
         return R.layout.activity_search;
     }
-
-    public static void start(Activity activity, String name, String pic) {
+    public static void start(Activity activity, String name, String pic,boolean clean) {
         Intent newIntent = new Intent(activity, SearchActivity.class);
         newIntent.putExtra("title", name);
         newIntent.putExtra("pic", pic);
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if(clean)newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(newIntent);
+    }
+    public static void start(Activity activity, String name, String pic) {
+        start(activity,name,pic,true);
     }
 
     private static Boolean hasKeyBoard;

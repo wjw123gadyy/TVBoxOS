@@ -336,7 +336,8 @@ public class ApiConfig {
                             }
                         }
                         Hawk.put(HawkConfig.API_URL, _api);
-                        callback.error("拉取配置失败\n" + (response.getException() != null ? response.getException().getMessage() : ""));
+
+                        callback.error("拉取配置失败\n" + (response.getException() != null ? response.getException().getMessage()+"  "+apiUrl : ""));
                     }
 
                     public String convertResponse(okhttp3.Response response) throws Throwable {

@@ -991,6 +991,7 @@ public class DetailActivity extends BaseActivity {
             wdPic = bundle.getString("wdPic", "");
             spId = bundle.getString("id", null);
             sourceKey = bundle.getString("sourceKey", "");
+            if(!wdName.isEmpty())wdName = wdName.split("\\?")[0];
             if(sourceKey.equals("push_agentqq")){
                 String[] idInfo = spId.split(",");
                 if(idInfo.length>1){

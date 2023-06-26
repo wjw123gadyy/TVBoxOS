@@ -982,7 +982,9 @@ public class VodController extends BaseController {
                     showBottom();
                     myHandle.postDelayed(myRunnable, myHandleSeconds);
                 }else {
-                    bfq();
+                    if (action == KEYCODE_DPAD_DOWN) {
+                        bfq();
+                    }   
                 }
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
                 can();

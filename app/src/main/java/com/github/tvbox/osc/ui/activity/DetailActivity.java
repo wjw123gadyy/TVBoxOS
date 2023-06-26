@@ -989,6 +989,7 @@ public class DetailActivity extends BaseActivity {
             Bundle bundle = intent.getExtras();
             wdName = bundle.getString("wdName", "");
             wdPic = bundle.getString("wdPic", "");
+            if(!wdPic.isEmpty()) wdPic = wdPic.split("\\?")[0];
             spId = bundle.getString("id", null);
             sourceKey = bundle.getString("sourceKey", "");
             if(sourceKey.equals("push_agentqq")){

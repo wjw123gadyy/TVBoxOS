@@ -171,7 +171,7 @@ public class VodController extends BaseController {
                 if(mPlayLoadNetSpeed.getVisibility()==VISIBLE){
                     if (v==GONE)speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                     mPlayLoadNetSpeed.setText(speed);
-                    if (mControlWrapper.getLoadTime() > 6) {
+                    if (v==GONE&&mControlWrapper.getLoadTime() > 6) {
                         mControlWrapper.setLoadTime();
                         listener.replay(false);
                     }
@@ -968,6 +968,7 @@ public class VodController extends BaseController {
             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
                 if (isInPlayback) {
                     tvSlideStart(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT ? 1 : -1);
+                    return true;
                 }else {
                     if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
                         listener.replay(false);
@@ -976,18 +977,21 @@ public class VodController extends BaseController {
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
                 if (isInPlayback) {
                     togglePlay();
+                    return true;
                 }
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode== KeyEvent.KEYCODE_MENU) {
                 if (!isBottomVisible()) {
                     showBottom();
                     myHandle.postDelayed(myRunnable, myHandleSeconds);
-                }else {
+                    return true;
+                }else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN){
                     bfq();
+                    return true;
                 }
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
                 can();
+                return true;
             }
-            return true;
         } else if (action == KeyEvent.ACTION_UP) {//UP 松开按键事件
             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
                 if (isInPlayback) {
@@ -1021,7 +1025,7 @@ public class VodController extends BaseController {
             listener.updatePlayerCfg();
             hideBottom();
         } catch (Exception e) {
-            DetailActivity.alert("bfq:"+e.getMessage());
+            e.printStackTrace();
         }
      /*   mPlayerBtn.requestFocus();
         mPlayerBtn.requestFocusFromTouch();*/

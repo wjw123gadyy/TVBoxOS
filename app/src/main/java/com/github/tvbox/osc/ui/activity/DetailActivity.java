@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.ClipboardManager;
 import android.content.ClipData;
-
+import com.github.tvbox.osc.server.MyService;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -262,12 +262,11 @@ public class DetailActivity extends BaseActivity {
                 return true;
             }
         });
+        Intent intentService = new Intent(this,MyService.class);
         tvPlay.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String kv = "key:"+vodInfo.name +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
-                if(spId.contains("aliyundrive"))kv = vodInfo.name +" "+spId+" "+ spPic;
-                updateData(kv);
+                startService(intentService);
                 return true;
             }
         });
@@ -275,6 +274,11 @@ public class DetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 FastClickCheckUtil.check(v);
+                if(!MyService.serviceIsLive){
+                    Movie.Video.UrlBean.UrlInfo urlInfo = vodInfo.urlBean.infoList.get(0);
+                    if(urlInfo.name.contains(".mp3")||urlInfo.name.contains(".wma"))
+                    startService(intentService);
+                }
                 if (showPreview) {
                     toggleFullPreview();
                     if(firstReverse){
@@ -284,6 +288,15 @@ public class DetailActivity extends BaseActivity {
                 } else {
                     jumpToPlay();
                 }
+            }
+        });
+        tvQuickSearch.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String kv = "key:"+vodInfo.name +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
+                if(spId.contains("aliyundrive"))kv = vodInfo.name +" "+spId+" "+ spPic;
+                updateData(kv);
+                return true;
             }
         });
 

@@ -146,7 +146,7 @@ public class DetailActivity extends BaseActivity {
     private String spPic;
     private String spId;
     private String tokenInfo;
-
+    Intent intentService = new Intent(this,MyService.class);
     @Override
     protected int getLayoutResID() {
         return R.layout.activity_detail;
@@ -262,7 +262,6 @@ public class DetailActivity extends BaseActivity {
                 return true;
             }
         });
-        Intent intentService = new Intent(this,MyService.class);
         tvPlay.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -279,11 +278,6 @@ public class DetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 FastClickCheckUtil.check(v);
-                if(!MyService.serviceIsLive){
-                    Movie.Video.UrlBean.UrlInfo urlInfo = vodInfo.urlBean.infoList.get(0);
-                    if(urlInfo.name.contains(".mp3")||urlInfo.name.contains(".wma"))
-                    startService(intentService);
-                }
                 if (showPreview) {
                     toggleFullPreview();
                     if(firstReverse){
@@ -1259,6 +1253,11 @@ public class DetailActivity extends BaseActivity {
         }
         if (windowsFull == null) {
             windowsFull = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+        if(!MyService.serviceIsLive){
+            Movie.Video.UrlBean.UrlInfo urlInfo = vodInfo.urlBean.infoList.get(0);
+            if(urlInfo.name.contains(".mp3")||urlInfo.name.contains(".wma"))
+                startService(intentService);
         }
         fullWindows = !fullWindows;
         llPlayerFragmentContainer.setLayoutParams(fullWindows ? windowsFull : windowsPreview);

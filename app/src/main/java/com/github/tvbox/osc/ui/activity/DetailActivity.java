@@ -266,7 +266,12 @@ public class DetailActivity extends BaseActivity {
         tvPlay.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                startService(intentService);
+                if(!MyService.serviceIsLive) {
+                    startService(intentService);
+                }else {
+                    stopService(intentService);
+                }
+                MyService.serviceIsLive = !MyService.serviceIsLive;
                 return true;
             }
         });

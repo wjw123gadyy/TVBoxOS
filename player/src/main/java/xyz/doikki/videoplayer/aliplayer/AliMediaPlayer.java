@@ -217,7 +217,6 @@ public class AliMediaPlayer extends AbstractPlayer implements Player.Listener {
         public void onLoadingBegin() {
 //            mPlayerEventListener.onInfo(MEDIA_INFO_BUFFERING_START, getBufferedPercentage());
 //            notifyOnInfo(IMediaPlayer.MEDIA_INFO_BUFFERING_START, 0);
-            
         }
 
         @Override
@@ -349,11 +348,11 @@ public class AliMediaPlayer extends AbstractPlayer implements Player.Listener {
             String msg = infoBean.getExtraMsg();//信息内容。
             long value = infoBean.getExtraValue(); //信息值。
             Log.d("derek110", "onInfo: " + code + " msg " + msg + "value " + value);
-            if (infoBean.getCode() == InfoCode.CurrentDownloadSpeed) {
-                //当前下载速度
-                netSpeedLong = infoBean.getExtraValue();
-                //Log.e(TAG, "sourceVideoPlayerInfo CurrentDownloadSpeed = " + netSpeedLong);
-            }
+//            if (infoBean.getCode() == InfoCode.CurrentDownloadSpeed) {
+//                //当前下载速度
+//                netSpeedLong = infoBean.getExtraValue();
+//                //Log.e(TAG, "sourceVideoPlayerInfo CurrentDownloadSpeed = " + netSpeedLong);
+//            } else
             if (infoBean.getCode() == InfoCode.BufferedPosition) {
 //                //更新bufferedPosition
 //                mVideoBufferedPosition = infoBean.getExtraValue();

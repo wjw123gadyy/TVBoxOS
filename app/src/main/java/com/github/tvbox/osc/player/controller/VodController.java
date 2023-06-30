@@ -171,6 +171,7 @@ public class VodController extends BaseController {
                 if(mPlayLoadNetSpeed.getVisibility()==VISIBLE){
                     if (v==GONE)speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                     mPlayLoadNetSpeed.setText(speed);
+                    if()
                 }
             } catch (Exception e) {
                 //DetailActivity.alert("错误信息Vodrun:"+e.getMessage());
@@ -912,8 +913,12 @@ public class VodController extends BaseController {
                 mTopRoot2.setVisibility(GONE);
                 mPlayTitle.setVisibility(VISIBLE);
                 break;
+            case VideoView.STATE_START_ABORT:
+                listener.replay(false);
+                break;
             case VideoView.STATE_ERROR:
-                listener.errReplay();
+                //listener.errReplay();
+                listener.replay(false);
                 break;
             case VideoView.STATE_PREPARED:
                 mPlayLoadNetSpeed.setVisibility(GONE);

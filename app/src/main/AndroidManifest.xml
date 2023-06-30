@@ -8,7 +8,7 @@
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -31,7 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-
+        <service android:name="com.github.tvbox.osc.server.MyService"/>
         <activity
             android:name=".ui.activity.HomeActivity"
             android:screenOrientation="sensorLandscape">

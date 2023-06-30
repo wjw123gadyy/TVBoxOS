@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.ClipboardManager;
 import android.content.ClipData;
-
+import com.github.tvbox.osc.server.MyService;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -146,7 +146,7 @@ public class DetailActivity extends BaseActivity {
     private String spPic;
     private String spId;
     private String tokenInfo;
-
+    Intent intentService = new Intent(this,MyService.class);
     @Override
     protected int getLayoutResID() {
         return R.layout.activity_detail;
@@ -265,9 +265,12 @@ public class DetailActivity extends BaseActivity {
         tvPlay.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String kv = "key:"+vodInfo.name +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
-                if(spId.contains("aliyundrive"))kv = vodInfo.name +" "+spId+" "+ spPic;
-                updateData(kv);
+                if(!MyService.serviceIsLive) {
+                    startService(intentService);
+                }else {
+                    stopService(intentService);
+                }
+                MyService.serviceIsLive = !MyService.serviceIsLive;
                 return true;
             }
         });
@@ -284,6 +287,15 @@ public class DetailActivity extends BaseActivity {
                 } else {
                     jumpToPlay();
                 }
+            }
+        });
+        tvQuickSearch.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                String kv = "key:"+vodInfo.name +"$$$"+spId+"$$$"+ spPic+"$$$"+sourceKey;
+                if(spId.contains("aliyundrive"))kv = vodInfo.name +" "+spId+" "+ spPic;
+                updateData(kv);
+                return true;
             }
         });
 
@@ -992,6 +1004,7 @@ public class DetailActivity extends BaseActivity {
             if(!wdPic.isEmpty()) wdPic = wdPic.split("\\?")[0];
             spId = bundle.getString("id", null);
             sourceKey = bundle.getString("sourceKey", "");
+            if(!wdName.isEmpty())wdName = wdName.split("\\?")[0];
             if(sourceKey.equals("push_agentqq")){
                 String[] idInfo = spId.split(",");
                 if(idInfo.length>1){
@@ -1240,6 +1253,11 @@ public class DetailActivity extends BaseActivity {
         }
         if (windowsFull == null) {
             windowsFull = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+        if(!MyService.serviceIsLive){
+            Movie.Video.UrlBean.UrlInfo urlInfo = vodInfo.urlBean.infoList.get(0);
+            if(urlInfo.name.contains(".mp3")||urlInfo.name.contains(".wma"))
+                startService(intentService);
         }
         fullWindows = !fullWindows;
         llPlayerFragmentContainer.setLayoutParams(fullWindows ? windowsFull : windowsPreview);

@@ -44,7 +44,7 @@ public class MyService extends Service {
                     .setContentText("QQ影视视频播放中")             //通知的正文内容
                     .setWhen(System.currentTimeMillis())                //通知创建的时间
                     .setSmallIcon(R.drawable.app_icon)    //通知显示的小图标，只能用alpha图层的图片进行设置
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background));
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.app_banner));
 
             Notification notification = builder.build();
             startForeground(1, notification);

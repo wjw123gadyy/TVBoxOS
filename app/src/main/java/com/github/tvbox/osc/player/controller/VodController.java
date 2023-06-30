@@ -171,7 +171,6 @@ public class VodController extends BaseController {
                 if(mPlayLoadNetSpeed.getVisibility()==VISIBLE){
                     if (v==GONE)speed = PlayerHelper.getDisplaySpeed(mControlWrapper.getTcpSpeed());
                     mPlayLoadNetSpeed.setText(speed);
-                    if()
                 }
             } catch (Exception e) {
                 //DetailActivity.alert("错误信息Vodrun:"+e.getMessage());

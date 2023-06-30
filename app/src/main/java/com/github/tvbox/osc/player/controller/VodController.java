@@ -307,6 +307,13 @@ public class VodController extends BaseController {
         mNextBtn.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                 bfq();
+                return true;
+            }
+        });
+        mPreBtn.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
                 timeFlag = Hawk.get(HawkConfig.TIME_FLAG, false);
                 timeFlag = !timeFlag;
                 Hawk.put(HawkConfig.TIME_FLAG, timeFlag);
@@ -984,8 +991,6 @@ public class VodController extends BaseController {
                     showBottom();
                     myHandle.postDelayed(myRunnable, myHandleSeconds);
                     return true;
-                }else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN){
-                    bfq();
                 }
             } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
                 can();

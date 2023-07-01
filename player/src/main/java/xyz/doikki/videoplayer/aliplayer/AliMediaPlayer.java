@@ -408,6 +408,7 @@ public class AliMediaPlayer extends AbstractPlayer implements Player.Listener {
                 case 6:
                     mPlayerEventListener.onCompletion();
                     break;
+                case -1:    
                 case 8:
                     seekTo(currentPos+1L);    
                      break;

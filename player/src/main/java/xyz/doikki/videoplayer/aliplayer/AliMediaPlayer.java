@@ -300,6 +300,7 @@ public class AliMediaPlayer extends AbstractPlayer implements Player.Listener {
     private final IPlayer.OnSeekCompleteListener onSeekCompleteListener = new IPlayer.OnSeekCompleteListener() {
         @Override
         public void onSeekComplete() {
+             seekTo(currentPos+1L);    
             //Log.e(TAG, "onSeekCompleteListener onSeekComplete ");
         }
     };
@@ -410,8 +411,8 @@ public class AliMediaPlayer extends AbstractPlayer implements Player.Listener {
                     break;
                 case -1:    
                 case 8:
-                    seekTo(currentPos+1L);    
-                     break;
+                    mPlayerEventListener.onSeekComplete();   
+                    break;
             }
 
             //Log.e(TAG, "onStateChangedListener onStateChanged " + i);

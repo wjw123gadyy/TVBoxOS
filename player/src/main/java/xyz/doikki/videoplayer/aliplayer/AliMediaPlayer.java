@@ -62,10 +62,10 @@ public class AliMediaPlayer extends AbstractPlayer implements Player.Listener {
         aliPlayer.setOnCompletionListener(onCompletionListener);
         aliPlayer.setOnPreparedListener(onPreparedListener);
         aliPlayer.setOnInfoListener(onInfoListener);
-        aliPlayer.setOnStateChangedListener(onStateChangedListener);
+        //aliPlayer.setOnStateChangedListener(onStateChangedListener);
         aliPlayer.setOnLoadingStatusListener(onLoadingStatusListener);
         aliPlayer.setOnSeekCompleteListener(onSeekCompleteListener);
-        aliPlayer.setOnSubtitleDisplayListener(onSubtitleDisplayListener);
+        //aliPlayer.setOnSubtitleDisplayListener(onSubtitleDisplayListener);
     }
 
     @Override

@@ -231,12 +231,7 @@ public class AliMediaPlayer extends AbstractPlayer implements Player.Listener {
 //            notifyOnInfo(IMediaPlayer.MEDIA_INFO_BUFFERING_END, 0);
         }
     };
-
-    //视频播放状态
-    private int mPlayState = IPlayer.unknow;
-
-   
-
+ 
 
     /**
      * 根据TrackInfo.Type 获取对应的TrackInfo集合
@@ -379,6 +374,48 @@ public class AliMediaPlayer extends AbstractPlayer implements Player.Listener {
 //            Log.d("derek110", "onSubtitleHeader: " + s);
 //        }
 //    };
+
+    //视频播放状态
+    private int mPlayState = IPlayer.unknow;
+
+    private final IPlayer.OnStateChangedListener onStateChangedListener = new IPlayer.OnStateChangedListener() {
+        @Override
+        public void onStateChanged(int i) {
+            mPlayState = i;
+            //          int idle = 0;
+            //          int initalized = 1;
+            //          int prepared = 2;
+            //          int started = 3;
+            //          int paused = 4;
+            //          int stopped = 5;
+            //          int completion = 6;
+
+            switch (i) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    mPlayerEventListener.onPrepared();
+                    break;
+                case 3:
+                    mPlayerEventListener.onInfo(AbstractPlayer.MEDIA_INFO_RENDERING_START, 0);
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    mPlayerEventListener.onCompletion();
+                    break;
+                case 8:
+                    seekTo(currentPos+1L);    
+                     break;
+            }
+
+            //Log.e(TAG, "onStateChangedListener onStateChanged " + i);
+        }
+    };
 
     private final IPlayer.OnErrorListener onErrorListener = new IPlayer.OnErrorListener() {
         @Override

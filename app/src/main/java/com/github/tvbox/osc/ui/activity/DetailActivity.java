@@ -389,6 +389,8 @@ public class DetailActivity extends BaseActivity {
             public void onClick(View v) {
                 CacheManager.delete(vodInfo.name,0);
                 alert("已清空该缓存");
+                String kv = "notip"+spId +" pic";
+                updateData(kv);
                 start(mActivity, sourceKey, spId, vodInfo.name, wdPic);
             }
         });
@@ -613,7 +615,7 @@ public class DetailActivity extends BaseActivity {
             } catch (Exception e) {
             }
         }else {
-            alert("无权限");
+            //alert("无权限");
         }
     }
 
@@ -879,11 +881,11 @@ public class DetailActivity extends BaseActivity {
                             }
 
                             if (mVideo.pic != null) {
-                                if (ApiConfig.isPic(mVideo.pic)&&mVideo.pic.contains("doubanio")) {
+                                if (ApiConfig.isPic(mVideo.pic)) {//&&mVideo.pic.contains("doubanio")
                                     spPic = mVideo.pic;
-                                    if(sourceKey.equals("push_agentqq")&&!wdPic.equals(spPic)){
+                                    /*if(sourceKey.equals("push_agentqq")&&!wdPic.equals(spPic)){
                                         updateData("notip" + spId + " " + spPic);
-                                    }
+                                    }*/
                                     wdPic = spPic;
                                 }
                             }else {

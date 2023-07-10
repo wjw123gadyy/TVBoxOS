@@ -1,4 +1,4 @@
-package xyz.doikki.videoplayer.aliplayer;
+ package xyz.doikki.videoplayer.aliplayer;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
@@ -65,7 +65,7 @@ public class AliMediaPlayer extends AbstractPlayer implements Player.Listener {
         aliPlayer.setOnStateChangedListener(onStateChangedListener);
         aliPlayer.setOnLoadingStatusListener(onLoadingStatusListener);
         aliPlayer.setOnSeekCompleteListener(onSeekCompleteListener);
-//        aliPlayer.setOnSubtitleDisplayListener(onSubtitleDisplayListener);
+        //aliPlayer.setOnSubtitleDisplayListener(onSubtitleDisplayListener);
     }
 
     @Override
@@ -235,7 +235,7 @@ public class AliMediaPlayer extends AbstractPlayer implements Player.Listener {
     //视频播放状态
     private int mPlayState = IPlayer.unknow;
 
-    private final IPlayer.OnStateChangedListener onStateChangedListener = new IPlayer.OnStateChangedListener() {
+   private final IPlayer.OnStateChangedListener onStateChangedListener = new IPlayer.OnStateChangedListener() {
         @Override
         public void onStateChanged(int i) {
             mPlayState = i;
@@ -425,4 +425,3 @@ public class AliMediaPlayer extends AbstractPlayer implements Player.Listener {
         }
     };
 }
-

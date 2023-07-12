@@ -28,4 +28,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: com.github.tvbox.osc
-          path: ${{ github.workspace }}/apk/*
+          path: ${{ github.workspace }}/apk
